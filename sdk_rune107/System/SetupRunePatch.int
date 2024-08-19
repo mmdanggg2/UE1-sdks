@@ -1,0 +1,18 @@
+[Setup]
+LocalProduct=Rune
+DefaultFolder=C:\Rune
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Rune Setup
+AutoplayWindowTitle=Rune Options
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/versions.htm
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\Logo.bmp
+
+[RuneRequirement]
+LocalProduct=Rune
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/versions.htm
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/

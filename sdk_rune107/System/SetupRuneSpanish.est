@@ -1,0 +1,80 @@
+[Setup]
+LocalProduct=Rune
+DefaultFolder=C:\Rune
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Rune Setup
+AutoplayWindowTitle=Rune Options
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/support.php
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\RuneSetupLogo.bmp
+License=License.int
+
+[General]
+PlayLevelCommand=&Jugar este nivel de Rune
+OpenLinkCommand=&Abrir este enlace de Rune
+InstallModuleCommand=&Instalar este módulo de Rune
+EditLevelCommand=&Editar este nivel de Rune
+
+[RuneContentGroup]
+Caption=Contenido del juego
+Description=Instálalo para obtener un rendimiento mejor. Si lo deseleccionas, el contenido del juego se cargará del CD durante el juego, con menor rendimiento pero usando menos espacio en disco duro.
+
+[GameGroup]
+Caption=Juego de Rune
+Description=Requiere instalación.
+
+//[NetGamesGroup]
+//Caption=NetGames USA Stat Utils
+//Description=Estas herramientas pueden ser utilizadas para generar estadísticas HTML sobre los juegos Rune. ¡Tú también puedes ver tus rankings globales online!
+
+[DirectXGroup]
+Caption=DirectX
+Description=Controladores opcionales DirectX 7 de Microsoft para soporte mejorado de gráficos, sonido y joystick.
+
+[EditorGroup]
+Caption=Editor de Rune
+Description=Editor universal de Rune, para la creación de tus propios entornos 3D de Rune. Para usuarios avanzados; la instalación es opcional.
+
+[PlayShortcut]
+Caption=Jugar a Rune
+
+[SafeModeShortcut]
+Caption=Modo de Rune seguro
+
+[EditorShortcut]
+Caption=Editor de Rune
+
+[DocumentationShortcut]
+Caption=Documentación
+
+[WebShortcut]
+Caption=Página web de Rune
+
+[GameSpyShortcut]
+Caption=Instalar GameSpy Arcade
+
+[GameSpyWebShortcut]
+Caption=Jugar a Rune en línea con GameSpy Arcade
+
+[RPGShortcut]
+Caption=Rune RPG en el CD
+
+//[NetGamesShortcut]
+//Caption=NetGames USA
+
+//[LocalStatsShortcut]
+//Caption=Ver mis estadísticas UT. [ngStats]
+
+//[GlobalStatsShortcut]
+//Caption=Ver mis estadísticas UT. [ngWorldStats]
+
+//[MPlayerShortcut]
+//Caption=Jugar a Rune en mplayer.com
+
+//[HeatShortcut]
+//Caption=Jugar a Rune HEAT
+
+[UninstallShortcut]
+Caption=Desinstalar Rune

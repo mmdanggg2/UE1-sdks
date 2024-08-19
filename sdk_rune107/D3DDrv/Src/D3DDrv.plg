@@ -1,0 +1,145 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: D3DDrv - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\CRHINE~1\LOCALS~1\Temp\RSP29E5.tmp" with contents
+[
+/nologo /Zp4 /MTd /W4 /Gm /vd0 /GX /ZI /Od /I "..\..\Core\Inc" /I "..\..\Engine\Inc" /I "..\..\DirectX6\Inc" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "D3DDRV_EXPORTS" /D "xUNICODE" /D "x_UNICODE" /D "_DEBUG" /D "WIN32" /D "_REALLY_WANT_DEBUG" /Fr"Debug/" /Fp"Debug/D3DDrv.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Rune\D3DDrv\Src\D3DDrv.cpp"
+"C:\Rune\D3DDrv\Src\Direct3D7.cpp"
+"C:\Rune\D3DDrv\Src\und3d.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\CRHINE~1\LOCALS~1\Temp\RSP29E5.tmp" 
+Creating temporary file "C:\DOCUME~1\CRHINE~1\LOCALS~1\Temp\RSP29E6.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib advapi32.lib ole32.lib ..\..\DirectX7\Lib\DxGuid.lib ..\..\DirectX7\Lib\d3dim.lib ..\..\Engine\Lib\Engine.lib ..\..\Core\Lib\Core.lib /nologo /dll /incremental:yes /pdb:"Debug/D3DDrv.pdb" /debug /machine:I386 /out:"..\..\System\D3DDrv.dll" /implib:"Debug/D3DDrv.lib" /pdbtype:sept /libpath:"..\core\lib" /libpath:"..\engine\lib" 
+.\Debug\D3DDrv.obj
+.\Debug\Direct3D7.obj
+.\Debug\und3d.obj
+]
+Creating command line "xilink6.exe @C:\DOCUME~1\CRHINE~1\LOCALS~1\Temp\RSP29E6.tmp"
+<h3>Output Window</h3>
+Compiling...
+D3DDrv.cpp
+Direct3D7.cpp
+c:\rune\d3ddrv\src\direct3d7.cpp(105) : error C2143: syntax error : missing ';' before '*'
+        c:\rune\d3ddrv\src\direct3d7.cpp(108) : see reference to class template instantiation 'FVertexBufferWindow<T,BUFFERED_VERTS>' being compiled
+c:\rune\d3ddrv\src\direct3d7.cpp(105) : error C2501: 'IDirect3DVertexBuffer7' : missing storage-class or type specifiers
+        c:\rune\d3ddrv\src\direct3d7.cpp(108) : see reference to class template instantiation 'FVertexBufferWindow<T,BUFFERED_VERTS>' being compiled
+c:\rune\d3ddrv\src\direct3d7.cpp(105) : error C2501: 'VertexBuffer7' : missing storage-class or type specifiers
+        c:\rune\d3ddrv\src\direct3d7.cpp(108) : see reference to class template instantiation 'FVertexBufferWindow<T,BUFFERED_VERTS>' being compiled
+c:\rune\d3ddrv\src\direct3d7.cpp(130) : error C2065: 'IDirectDrawSurface7' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(130) : error C2059: syntax error : '>'
+c:\rune\d3ddrv\src\direct3d7.cpp(133) : error C2065: 'VSize' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(138) : error C2065: 'First' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(138) : error C2065: 'TexCount' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(138) : error C2065: 'UsedCount' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(139) : error C2143: syntax error : missing ',' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(139) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(140) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(142) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(163) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(164) : error C2065: 'pf' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(164) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(167) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(169) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(171) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(172) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(174) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(178) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2065: 'Tex' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2275: 'UD3DRenderDevice::FTexInfo' : illegal use of this type as an expression
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2146: syntax error : missing ',' before identifier 'Info'
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2065: 'Info' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2146: syntax error : missing ',' before identifier 'PolyFlags'
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2065: 'PolyFlags' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(179) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2275: 'UD3DRenderDevice::FTexInfo' : illegal use of this type as an expression
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2146: syntax error : missing ',' before identifier 'Dest'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2065: 'Dest' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2146: syntax error : missing ',' before identifier 'Stride'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2065: 'Stride' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2146: syntax error : missing ',' before identifier 'Info'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2146: syntax error : missing ',' before identifier 'MipIndex'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2065: 'MipIndex' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2146: syntax error : missing ',' before identifier 'PolyFlags'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(180) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(181) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(183) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(191) : error C2059: syntax error : '>'
+c:\rune\d3ddrv\src\direct3d7.cpp(198) : error C2065: 'VIndex' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(199) : error C2065: 'VScale' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(201) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(203) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(204) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2065: 'ti' : undeclared identifier
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2275: 'UD3DRenderDevice::FTexInfo' : illegal use of this type as an expression
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2146: syntax error : missing ',' before identifier 'Dest'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2146: syntax error : missing ',' before identifier 'Stride'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2146: syntax error : missing ',' before identifier 'Info'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2146: syntax error : missing ',' before identifier 'MipIndex'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2146: syntax error : missing ',' before identifier 'PolyFlags'
+c:\rune\d3ddrv\src\direct3d7.cpp(205) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(206) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(207) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2228: left of '.Mips' must have class/struct/union type
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2227: left of '->DataPtr' must point to class/struct/union
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2228: left of '.Mips' must have class/struct/union type
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2227: left of '->USize' must point to class/struct/union
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2228: left of '.Mips' must have class/struct/union type
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2227: left of '->VSize' must point to class/struct/union
+c:\rune\d3ddrv\src\direct3d7.cpp(208) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(209) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(210) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(211) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(213) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(216) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2275: 'UD3DRenderDevice::FTexInfo' : illegal use of this type as an expression
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2146: syntax error : missing ',' before identifier 'Dest'
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2146: syntax error : missing ',' before identifier 'Stride'
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2146: syntax error : missing ',' before identifier 'Info'
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2146: syntax error : missing ',' before identifier 'MipIndex'
+c:\rune\d3ddrv\src\direct3d7.cpp(217) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(218) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(219) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(221) : error C2143: syntax error : missing ')' before ';'
+c:\rune\d3ddrv\src\direct3d7.cpp(221) : error C2059: syntax error : ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(222) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(223) : error C2143: syntax error : missing ')' before ';'
+c:\rune\d3ddrv\src\direct3d7.cpp(223) : error C2059: syntax error : ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(226) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(227) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(228) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(229) : error C2143: syntax error : missing ';' before '}'
+c:\rune\d3ddrv\src\direct3d7.cpp(231) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(232) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2275: 'UD3DRenderDevice::FTexInfo' : illegal use of this type as an expression
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2146: syntax error : missing ',' before identifier 'Dest'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2146: syntax error : missing ',' before identifier 'Stride'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2146: syntax error : missing ',' before identifier 'Info'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2146: syntax error : missing ',' before identifier 'MipIndex'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2146: syntax error : missing ',' before identifier 'PolyFlags'
+c:\rune\d3ddrv\src\direct3d7.cpp(233) : error C2143: syntax error : missing ',' before ')'
+c:\rune\d3ddrv\src\direct3d7.cpp(234) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(235) : error C2143: syntax error : missing ';' before '{'
+c:\rune\d3ddrv\src\direct3d7.cpp(238) : error C2143: syntax error : missing ')' before ';'
+c:\rune\d3ddrv\src\direct3d7.cpp(238) : error C2228: left of '.PtrBYTE' must have class/struct/union type
+c:\rune\d3ddrv\src\direct3d7.cpp(238) : fatal error C1003: error count exceeds 100; stopping compilation
+und3d.cpp
+xicl6.exe: error: failed to open selection tool IDE key.
+xicl6.exe: error: failed to open selection tool IDE key.
+Error executing xicl6.exe.
+
+
+
+<h3>Results</h3>
+D3DDrv.dll - 104 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

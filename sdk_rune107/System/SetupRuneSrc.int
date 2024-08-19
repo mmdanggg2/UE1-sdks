@@ -1,0 +1,9 @@
+[Setup]
+LocalProduct=Rune Source
+DefaultFolder=C:\Rune
+ReadMe=Help\ReadMeSrc.htm
+SetupWindowTitle=Rune Source Setup
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/versions.htm
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/

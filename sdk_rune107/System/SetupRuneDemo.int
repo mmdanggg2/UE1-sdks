@@ -1,0 +1,54 @@
+[Setup]
+LocalProduct=Rune Demo
+DefaultFolder=C:\RuneDemo
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Rune Demo Setup
+AutoplayWindowTitle=Rune Demo Options
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/support.php
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\RuneSetupLogo.bmp
+License=License.int
+
+[General]
+PlayLevelCommand=&Play this Rune level
+OpenLinkCommand=&Open this Rune link
+InstallModuleCommand=&Install this Rune module
+EditLevelCommand=&Edit this Rune level
+
+[RuneContentGroup]
+Caption=Game Content
+Description=Install this for best performance. If you deselect it, the game content will be loaded from CD during play, degrading performance, but using less hard disk space.
+
+[GameGroup]
+Caption=Rune Game
+Description=Installation is required.
+
+//[NetGamesGroup]
+//Caption=NetGames USA Stat Utils
+//Description=These tools can be used to generate HTML statistics about your Unreal Tournament games. You can also view your global ranking online!
+
+[PlayShortcut]
+Caption=Play Rune Demo
+
+[SafeModeShortcut]
+Caption=Rune Demo Safe Mode
+
+[UninstallShortcut]
+Caption=Uninstall Rune Demo
+
+[DocumentationShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Rune Web Page
+
+//[NetGamesShortcut]
+//Caption=NetGames USA
+
+//[LocalStatsShortcut]
+//Caption=View my local UT stats. [ngStats]
+
+//[GlobalStatsShortcut]
+//Caption=View my global UT stats. [ngWorldStats]

@@ -1,0 +1,80 @@
+[Setup]
+LocalProduct=Rune
+DefaultFolder=C:\Rune
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Rune Setup
+AutoplayWindowTitle=Rune Options
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/support.php
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\RuneSetupLogo.bmp
+License=License.int
+
+[General]
+PlayLevelCommand=&Play this Rune level
+OpenLinkCommand=&Open this Rune link
+InstallModuleCommand=&Install this Rune module
+EditLevelCommand=&Edit this Rune level
+
+[RuneContentGroup]
+Caption=Game Content
+Description=Install this for best performance. If you deselect it, the game content will be loaded from CD during play, degrading performance, but using less hard disk space.
+
+[GameGroup]
+Caption=Rune Game
+Description=Installation is required.
+
+//[NetGamesGroup]
+//Caption=NetGames USA Stat Utils
+//Description=These tools can be used to generate HTML statistics about your Rune games. You can also view your global ranking online!
+
+[DirectXGroup]
+Caption=DirectX
+Description=Optional Microsoft DirectX 8 drivers for enhanced graphics, sound, and joystick support.
+
+[EditorGroup]
+Caption=Rune Editor
+Description=Rune world editor, for creating your own 3D Rune environments. For advanced users; installation is optional.
+
+[PlayShortcut]
+Caption=Play Rune
+
+[SafeModeShortcut]
+Caption=Rune Safe Mode
+
+[EditorShortcut]
+Caption=Rune Editor
+
+[DocumentationShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Rune Web Page
+
+[GameSpyShortcut]
+Caption=Install GameSpy Arcade
+
+[GameSpyWebShortcut]
+Caption=Play Rune Online with GameSpy Arcade
+
+[RPGShortcut]
+Caption=Rune RPG on the CD
+
+//[NetGamesShortcut]
+//Caption=NetGames USA
+
+//[LocalStatsShortcut]
+//Caption=View my local UT stats. [ngStats]
+
+//[GlobalStatsShortcut]
+//Caption=View my global UT stats. [ngWorldStats]
+
+//[MPlayerShortcut]
+//Caption=Play Rune on mplayer.com
+
+//[HeatShortcut]
+//Caption=Play Rune on HEAT
+
+[UninstallShortcut]
+Caption=Uninstall Rune

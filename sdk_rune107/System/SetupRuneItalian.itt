@@ -1,0 +1,80 @@
+[Setup]
+LocalProduct=Rune
+DefaultFolder=C:\Rune
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Setup di Rune
+AutoplayWindowTitle=Opzioni di Rune
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/support.php
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\RuneSetupLogo.bmp
+License=License.int
+
+[General]
+PlayLevelCommand=&Esegui questo livello di Rune
+OpenLinkCommand=&Apri questo link di Rune
+InstallModuleCommand=&Installa questo modulo di Rune
+EditLevelCommand=&Modifica questo livello di Rune
+
+[RuneContentGroup]
+Caption=Contenuto del gioco
+Description=Installare questo componente per ottimizzare le prestazioni. Se si deseleziona l'opzione, il contenuto verrà caricato dal CD durante il gioco, riducendo le prestazioni, ma utilizzando meno spazio sul disco.
+
+[GameGroup]
+Caption=Gioco Rune
+Description=Installazione richiesta.
+
+//[NetGamesGroup]
+//Caption=NetGames USA Stat Utils
+//Description=Questi strumenti consentono di generare statistiche HTML sui giochi di Rune e di visualizzare la propria posizione nella classifica online!
+
+[DirectXGroup]
+Caption=DirectX
+Description=Driver Microsoft DirectX 7 opzionali per ottimizzare la grafica, l'audio e il supporto joystick.
+
+[EditorGroup]
+Caption=Editor di Rune
+Description=Editor dell'ambiente di Rune, per creare i propri ambienti a 3D. Per utenti esperti; l'installazione è opzionale.
+
+[PlayShortcut]
+Caption=Esegui Rune
+
+[SafeModeShortcut]
+Caption=Modalità protetta di Rune
+
+[EditorShortcut]
+Caption=Editor di Rune
+
+[DocumentationShortcut]
+Caption=Documentazione
+
+[WebShortcut]
+Caption=Pagina Web di Rune
+
+[GameSpyShortcut]
+Caption=Installare GameSpy Arcade
+
+[GameSpyWebShortcut]
+Caption=Giocare Rune Online con GameSpy Arcade
+
+[RPGShortcut]
+Caption=Rune RPG su CD
+
+//[NetGamesShortcut]
+//Caption=NetGames USA
+
+//[LocalStatsShortcut]
+//Caption=Visualizza statistiche UT locali. [ngStats]
+
+//[GlobalStatsShortcut]
+//Caption=Visualizza statistiche UT globali. [ngWorldStats]
+
+//[MPlayerShortcut]
+//Caption=Esegui Rune su mplayer.com
+
+//[HeatShortcut]
+//Caption=Esegui Rune su HEAT
+
+[UninstallShortcut]
+Caption=Disinstalla Rune

@@ -1,0 +1,80 @@
+[Setup]
+LocalProduct=Rune
+DefaultFolder=C:\Rune
+ReadMe=Help\ReleaseNotes.htm
+SetupWindowTitle=Rune Setup
+AutoplayWindowTitle=Rune Einstellungen
+ProductURL=http://www.runegame.com/
+VersionURL=http://www.runegame.com/support.php
+Developer=Human Head Studios, Inc.
+DeveloperURL=http://www.humanhead.com/
+Logo=Help\RuneSetupLogo.bmp
+License=License.int
+
+[General]
+PlayLevelCommand=Dieses Runelevel &spielen
+OpenLinkCommand=Diesen Runelink Ö&ffnen
+InstallModuleCommand=Dieses Runemodul &installieren
+EditLevelCommand=Dieses Runelevel &bearbeiten
+
+[RuneContentGroup]
+Caption=Spiel Material
+Description=Wählen sie diese Option für höchste Performance. Ansonsten werden die Daten während des Spiels von der CD geladen. Das kostet Performance, spart aber Platz auf der Festplatte.
+
+[GameGroup]
+Caption=Rune Spiel
+Description=Installation ist erforderlich.
+
+//[NetGamesGroup]
+//Caption=NetGames USA Stat Utils
+//Description=Diese Tools können verwendet werden, um HTML-Statistiken über Ihre Rune-Spiele zu erzeugen. Sie können auch Ihren Stand auf der globalen Rangliste abfragen!
+
+[DirectXGroup]
+Caption=DirectX
+Description=Optionale Microsoft DirectX 7 Treiber für verbesserte Grafik, Ton und Joystickunterstützung.
+
+[EditorGroup]
+Caption=Rune Welteditor
+Description=Der Rune Welteditor zum Erstellen von eigenen 3D RuneLandschaften. Für erfahrene Benutzer; optionale Installation.
+
+[PlayShortcut]
+Caption=Rune Spielen
+
+[SafeModeShortcut]
+Caption=Rune Abgesicherter Modus
+
+[EditorShortcut]
+Caption=Rune Welteditor
+
+[DocumentationShortcut]
+Caption=Dokumentation
+
+[WebShortcut]
+Caption=Rune Webseite
+
+[GameSpyShortcut]
+Caption=GaneSpy Arcade installieren
+
+[GameSpyWebShortcut]
+Caption=Rune Online mit GameSpy Arcade spielen
+
+[RPGShortcut]
+Caption=Rune RPG auf der CD
+
+//[NetGamesShortcut]
+//Caption=NetGames USA
+
+//[LocalStatsShortcut]
+//Caption=Meine lokale Rune Statistik ansehen. [ngStats]
+
+//[GlobalStatsShortcut]
+//Caption=Meine globale Rune Statistik ansehen. [ngWorldStats]
+
+//[MPlayerShortcut]
+//Caption=Rune bei mplayer.com spielen
+
+//[HeatShortcut]
+//Caption=Rune bei HEAT spielen
+
+[UninstallShortcut]
+Caption=Rune deinstallieren
