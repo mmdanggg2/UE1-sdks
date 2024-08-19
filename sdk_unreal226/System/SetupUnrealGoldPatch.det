@@ -1,0 +1,64 @@
+[Setup]
+LocalProduct=Unreal - Return To Na Pali
+DefaultFolder=C:\NaPali
+ReadMe=http://www.unrealgold.com/readme/
+SetupWindowTitle=Unreal - Return To Na Pali Setup
+ProductURL=http://www.unrealgold.com/
+VersionURL=http://unreal.epicgames.com/versions.htm
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+ReleaseNotesURL=http://www.unrealgold.com/readme/german.htm
+UTDemoURL=http://www.unrealtournament.com/
+Logo=System\ConfigLogo.bmp
+
+[UnrealReturnToNaPaliRequirement]
+LocalProduct=Unreal - Return To Na Pali
+ProductURL=http://unreal.gtgames.com/
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+
+[General]
+PlayLevelCommand=&Play this Unreal level
+OpenLinkCommand=&Open this Unreal link
+InstallModuleCommand=&Install this Unreal module
+EditLevelCommand=&Edit this Unreal level
+
+[ContentGroup]
+Caption=Spielinhalt
+Description=Wählen Sie diese Option, um die beste Leistung zu erhalten. Wenn Sie diese Option deaktivieren, wird der Spielinhalt während des Spiels von der CD geladen. Das spart zwar Festplattenspeicher, mindert jedoch die Leistung.
+
+[GameGroup]
+Caption=Unreal - Return To Na Pali - Patch
+Description=Die Installation ist erforderlich.
+
+[DirectXGroup]
+Caption=DirectX
+Description=Microsoft DirectX 7
+
+[EditorGroup]
+Caption=Unreal Editor
+Description=Unreal Level Editor, um Ihre eigenen Welten für Unreal zu erschaffen. Für fortgeschrittene Benutzer.
+
+[PlayShortcut]
+Caption=Unreal - Return To Na Pali spielen
+
+[SafeModeShortcut]
+Caption=Unreal - Return To Na Pali - Sicherheitsmodus
+
+[EditorShortcut]
+Caption=Unreal Editor
+
+[DocumentationShortcut]
+Caption=Dokumentation
+
+[ReleaseNotesShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Unreal Gold - Web-Seite
+
+[UninstallShortcut]
+Caption=Unreal - Return To Na Pali deinstallieren
+
+[UTDemoShortcut]
+Caption=Unreal Tournament Demo

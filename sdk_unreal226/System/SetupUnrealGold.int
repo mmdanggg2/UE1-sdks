@@ -1,0 +1,57 @@
+[Setup]
+LocalProduct=Unreal Gold
+DefaultFolder=C:\UnrealGold
+ReadMe=http://www.unrealgold.com/readme/
+SetupWindowTitle=Unreal Gold Setup
+ProductURL=http://www.unrealgold.com/
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+ReleaseNotesURL=http://www.unrealgold.com/readme/
+UTDemoURL=http://www.unrealtournament.com/
+Logo=System\ConfigLogo.bmp
+
+[General]
+PlayLevelCommand=&Play this Unreal level
+OpenLinkCommand=&Open this Unreal link
+InstallModuleCommand=&Install this Unreal module
+EditLevelCommand=&Edit this Unreal level
+
+[ContentGroup]
+Caption=Game Content
+Description=Unreal Gold game content. Install this for best performance. If you deselect it, the game content will be loaded from CD during play, degrading performance, but using less hard disk space.
+
+[GameGroup]
+Caption=Unreal Gold Game
+Description=Unreal Gold Game. Installation is required.
+
+[DirectXGroup]
+Caption=DirectX
+Description=Optional Microsoft DirectX 7 drivers for enhanced graphics, sound, and joystick support.
+
+[EditorGroup]
+Caption=Unreal Editor
+Description=Unreal world editor, for creating your own 3D Unreal environments. For advanced users.
+
+[PlayShortcut]
+Caption=Play Unreal Gold
+
+[SafeModeShortcut]
+Caption=Unreal Gold Safe Mode
+
+[EditorShortcut]
+Caption=Unreal Editor
+
+[DocumentationShortcut]
+Caption=Documentation
+
+[ReleaseNotesShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Unreal Gold Web Page
+
+[UninstallShortcut]
+Caption=Uninstall Unreal Gold
+
+[UTDemoShortcut]
+Caption=Unreal Tournament Demo

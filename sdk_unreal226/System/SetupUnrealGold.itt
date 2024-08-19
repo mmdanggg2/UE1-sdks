@@ -1,0 +1,58 @@
+[Setup]
+LocalProduct=Unreal Gold
+DefaultFolder=C:\UnrealGold
+ReadMe=http://www.unrealgold.com/readme/italian.htm
+SetupWindowTitle=Unreal Gold Setup
+ProductURL=http://www.unrealgold.com/
+VersionURL=http://unreal.epicgames.com/versions.htm
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+ReleaseNotesURL=http://www.unrealgold.com/readme/italian.htm
+UTDemoURL=http://www.unrealtournament.com/
+Logo=System\ConfigLogo.bmp
+
+[General]
+PlayLevelCommand=&Play this Unreal level
+OpenLinkCommand=&Open this Unreal link
+InstallModuleCommand=&Install this Unreal module
+EditLevelCommand=&Edit this Unreal level
+
+[ContentGroup]
+Caption=Contenuto del gioco
+Description=Le prestazioni ottimali si hanno con questa installazione. Se questa opzione non è selezionata, il contenuto del gioco verrà caricato dal CD durante l'esecuzione del programma. Le prestazioni saranno inferiori, ma si risparmierà spazio sul disco rigido.
+
+[GameGroup]
+Caption=Unreal Gold - il gioco
+Description=È necessario procedere con l'installazione.
+
+[DirectXGroup]
+Caption=DirectX
+Description=Microsoft DirectX 7.
+
+[EditorGroup]
+Caption=Unreal Editor
+Description=Unreal editore del mondo, per la creazione dei vostri propri ambienti di 3D Unreal. Per gli utenti avanzati.
+
+[PlayShortcut]
+Caption=Esegui Unreal Gold
+
+[SafeModeShortcut]
+Caption=Modalità provvisoria di Unreal Gold
+
+[EditorShortcut]
+Caption=Unreal Editor
+
+[DocumentationShortcut]
+Caption=Documentazione
+
+[ReleaseNotesShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Pagina Web di Unreal Gold
+
+[UninstallShortcut]
+Caption=Disinstallare Unreal Gold
+
+[UTDemoShortcut]
+Caption=Unreal Tournament Demo

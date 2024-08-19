@@ -1,0 +1,30 @@
+[Setup]
+LocalProduct=Unreal Gold
+DefaultFolder=C:\UnrealGold
+ReadMe=http://www.unrealgold.com/readme/
+SetupWindowTitle=Unreal Gold Setup
+ProductURL=http://www.unrealgold.com/
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+ReleaseNotesURL=http://www.unrealgold.com/readme/
+UTDemoURL=http://www.unrealtournament.com/
+Logo=System\ConfigLogo.bmp
+
+[UnrealGoldRequirement]
+LocalProduct=Unreal Gold
+ProductURL=http://www.unrealgold.com/
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+
+[PatchGroup]
+Caption=Web Links patch
+Description=This patch will correct the Unreal Gold start menu web links.
+
+[ReleaseNotesShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Unreal Gold Web Page
+
+[UTDemoShortcut]
+Caption=Unreal Tournament Demo
