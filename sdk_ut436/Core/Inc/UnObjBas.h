@@ -330,7 +330,7 @@ public: \
 	virtual ~TClass() \
 		{ ConditionalDestroy(); } \
 	static void InternalConstructor( void* X ) \
-		{ new( (EInternal*)X )TClass(); } \
+		{ new( (EInternal*)X )TClass; } \
 
 // Declare an abstract class.
 #define DECLARE_ABSTRACT_CLASS( TClass, TSuperClass, TStaticFlags, TPackage ) \
@@ -361,7 +361,7 @@ public: \
 			StaticConfigName(), \
 			RF_Public | RF_Standalone | RF_Transient | RF_Native, \
 			(void(*)(void*))TClass::InternalConstructor, \
-			(void(UObject::*)())TClass::StaticConstructor \
+			(void(UObject::*)())&TClass::StaticConstructor \
 		); \
 		extern "C" DLL_EXPORT UClass* autoclass##TClass;\
 		DLL_EXPORT UClass* autoclass##TClass = TClass::StaticClass();
@@ -514,7 +514,7 @@ public:
 	UObject& operator=( const UObject& );
 	void StaticConstructor();
 	static void InternalConstructor( void* X )
-		{ new( (EInternal*)X )UObject(); }
+		{ new( (EInternal*)X )UObject; }
 
 	// Destructors.
 	virtual ~UObject();
