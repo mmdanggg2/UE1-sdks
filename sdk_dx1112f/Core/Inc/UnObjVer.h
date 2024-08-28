@@ -26,6 +26,9 @@
 // backwards compatibility. Must be at least PACKAGE_FILE_VERSION.
 #define PACKAGE_MIN_VERSION 60
 
+// Defines for easier building of multi game projects. --han
+#define DEUS_EX 1
+
 /*-----------------------------------------------------------------------------
 	The End.
 -----------------------------------------------------------------------------*/
