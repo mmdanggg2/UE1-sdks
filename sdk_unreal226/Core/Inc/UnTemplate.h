@@ -13,7 +13,6 @@
 //
 // Type information for initialization.
 //
-#ifdef _MSC_VER
 
 template <class T> struct TTypeInfoBase
 {
@@ -24,54 +23,62 @@ template <class T> struct TTypeInfoBase
 template <class T> struct TTypeInfo : public TTypeInfoBase<T>
 {
 };
-template <> struct TTypeInfo<BYTE> : public TTypeInfoBase<T>
+
+template <> struct TTypeInfo<BYTE> : public TTypeInfoBase<BYTE>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<SBYTE> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<SBYTE> : public TTypeInfoBase<SBYTE>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<ANSICHAR> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<ANSICHAR> : public TTypeInfoBase<ANSICHAR>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<INT> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<INT> : public TTypeInfoBase<INT>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<DWORD> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<DWORD> : public TTypeInfoBase<DWORD>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<_WORD> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<_WORD> : public TTypeInfoBase<_WORD>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<SWORD> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<SWORD> : public TTypeInfoBase<SWORD>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<QWORD> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<QWORD> : public TTypeInfoBase<QWORD>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<SQWORD> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<SQWORD> : public TTypeInfoBase<SQWORD>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-template <> struct TTypeInfo<FName> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<FName> : public TTypeInfoBase<FName>
 {
+public:
 	static UBOOL NeedsDestructor() {return 0;}
 };
-#else
-template <class T> struct TTypeInfo
+template <> struct TTypeInfo<UObject*> : public TTypeInfoBase<UObject*>
 {
-	typedef const T& ConstInitType;
-	static UBOOL NeedsDestructor() {return 1;}
-	static const T& ToInit( const T& In ) {return In;}
+public:
+	static UBOOL NeedsDestructor() {return 0;}
 };
-#endif
 
 /*-----------------------------------------------------------------------------
 	Standard templates.
@@ -1061,7 +1068,8 @@ public:
 		{
 			for( INT i=Len()-1; i>=0; i-- )
 			{
-				for( INT j=0; SubStr[j]; j++ )
+				INT j;
+				for( j=0; SubStr[j]; j++ )
 					if( (*this)(i+j)!=SubStr[j] )
 						break;
 				if( !SubStr[j] )
@@ -1145,7 +1153,7 @@ inline DWORD GetTypeHash( const FString& S )
 	return appStrihash(*S);
 }
 #if _MSC_VER
-template <> struct TTypeInfo<FString> : public TTypeInfoBase<T>
+template <> struct TTypeInfo<FString> : public TTypeInfoBase<FString>
 {
 	typedef const TCHAR* ConstInitType;
 	static const TCHAR* ToInit( const FString& In ) {return *In;}
@@ -1286,7 +1294,7 @@ protected:
 		INT HashNext;
 		TK Key;
 		TI Value;
-		TPair( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+		TPair( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 		: Key( InKey ), Value( InValue )
 		{}
 		TPair()
@@ -1303,7 +1311,7 @@ protected:
 		guardSlow(TMapBase::Rehash);
 		checkSlow(!(HashCount&(HashCount-1)));
 		checkSlow(HashCount>=8);
-		INT* NewHash = new(TEXT("HashMapHash"))INT[HashCount];
+		INT* NewHash = new INT[HashCount];
 		{for( INT i=0; i<HashCount; i++ )
 		{
 			NewHash[i] = INDEX_NONE;
@@ -1316,7 +1324,7 @@ protected:
 			NewHash[iHash] = i;
 		}}
 		if( Hash )
-			delete Hash;
+			delete[] Hash;
 		Hash = NewHash;
 		unguardSlow;
 	}
@@ -1328,7 +1336,7 @@ protected:
 		Rehash();
 		unguardSlow;
 	}
-	TI& Add( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+	TI& Add( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 	{
 		guardSlow(TMapBase::Add);
 		TPair& Pair   = *new(Pairs)TPair( InKey, InValue );
@@ -1391,7 +1399,7 @@ public:
 		Rehash();
 		unguardSlow;
 	}
-	TI& Set( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+	TI& Set( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 	{
 		guardSlow(TMap::Set);
 		for( INT i=Hash[(GetTypeHash(InKey) & (HashCount-1))]; i!=INDEX_NONE; i=Pairs(i).HashNext )
@@ -1400,7 +1408,7 @@ public:
 		return Add( InKey, InValue );
 		unguardSlow;
 	}
-	INT Remove( TTypeInfo<TK>::ConstInitType InKey )
+	INT Remove( typename TTypeInfo<TK>::ConstInitType InKey )
 	{
 		guardSlow(TMapBase::Remove);
 		INT Count=0;
@@ -1501,18 +1509,18 @@ public:
 				new(Values)TI(Pairs(i).Value);
 		unguardSlow;
 	}
-	TI& Add( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+	TI& Add( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 	{
 		return TMapBase<TK,TI>::Add( InKey, InValue );
 	}
-	TI& AddUnique( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+	TI& AddUnique( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 	{
 		for( INT i=Hash[(GetTypeHash(InKey) & (HashCount-1))]; i!=INDEX_NONE; i=Pairs(i).HashNext )
 			if( Pairs(i).Key==InKey && Pairs(i).Value==InValue )
 				return Pairs(i).Value;
 		return Add( InKey, InValue );
 	}
-	INT RemovePair( TTypeInfo<TK>::ConstInitType InKey, TTypeInfo<TI>::ConstInitType InValue )
+	INT RemovePair( typename TTypeInfo<TK>::ConstInitType InKey, typename TTypeInfo<TI>::ConstInitType InValue )
 	{
 		guardSlow(TMap::Remove);
 		INT Count=0;
@@ -1564,7 +1572,8 @@ template<class T> void Sort( T* First, INT Num )
 			// Use simple bubble-sort.
 			while( Current.Max > Current.Min )
 			{
-				for( T *Max=Current.Min, *Item=Current.Min+1; Item<=Current.Max; Item++ )
+				T *Max, *Item;
+				for( Max=Current.Min, Item=Current.Min+1; Item<=Current.Max; Item++ )
 					if( Compare(*Item, *Max) > 0 )
 						Max = Item;
 				Exchange( *Max, *Current.Max-- );

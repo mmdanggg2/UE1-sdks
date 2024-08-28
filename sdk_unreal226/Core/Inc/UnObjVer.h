@@ -25,6 +25,8 @@
 // The earliest file version which we can load with complete
 // backwards compatibility. Must be at least PACKAGE_FILE_VERSION.
 #define PACKAGE_MIN_VERSION 60
+// Defines for easier building of multi game projects. --han
+#define UNREAL_GOLD 1
 
 /*-----------------------------------------------------------------------------
 	The End.
