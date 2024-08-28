@@ -2,7 +2,7 @@
 	RenderPrivate.h: Rendering package private header.
 	Copyright 1997-1999 Epic Games, Inc. All Rights Reserved.
 =============================================================================*/
-
+#pragma once
 /*----------------------------------------------------------------------------
 	API.
 ----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 
 #include "Engine.h"
 #include "UnRender.h"
-#include "Amd3d.h"
+//#include "Amd3d.h" Has a lot of clashing #defines and isn't needed
 
 /*------------------------------------------------------------------------------------
 	Render package private.
