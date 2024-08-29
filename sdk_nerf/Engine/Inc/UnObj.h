@@ -33,8 +33,8 @@ class		UConsole;
 struct FTextureInfo;
 class  AActor;
 class  ABrush;
-class  FDecal;
-class  ADecal;
+//class  FDecal;
+//class  ADecal;
 class  FScan;
 
 /*-----------------------------------------------------------------------------
@@ -210,8 +210,8 @@ public:
 	SWORD		PanU;			// 2 U-Panning value.
 	SWORD		PanV;			// 2 V-Panning value.
 	ABrush*		Actor;			// 4 Brush actor owning this Bsp surface.
-	TArray<FDecal>	Decals;		// 12 Array decals on this surface
-	TArray<INT>	Nodes;			// 12 Nodes which make up this surface
+	//TArray<FDecal>	Decals;		// 12 Array decals on this surface
+	//TArray<INT>	Nodes;			// 12 Nodes which make up this surface
 
 	// Functions.
 	ENGINE_API friend FArchive& operator<<( FArchive& Ar, FBspSurf& Surf );
@@ -457,24 +457,24 @@ public:
 //
 // Decal associated with a surface
 //
-class FDecal
-{
-public:
-	// Variables.
-	FVector Vertices[4];	// Vertices of decal on surface (offset from the surface base).
-	ADecal*	Actor;			// ADecal actor associated with this decal.
-	TArray<INT> Nodes;		// The FBspNode indices on which this decal lies.
-
-	// Functions.
-	friend FArchive& operator<< (FArchive &Ar, FDecal &Decal)
-	{
-		guard(FDecal<<);
-		if( !Ar.IsLoading() && !Ar.IsSaving() )
-			Ar << *(UObject**)&Decal.Actor;
-		return Ar;
-		unguard;
-	}
-};
+//class FDecal
+//{
+//public:
+//	// Variables.
+//	FVector Vertices[4];	// Vertices of decal on surface (offset from the surface base).
+//	ADecal*	Actor;			// ADecal actor associated with this decal.
+//	TArray<INT> Nodes;		// The FBspNode indices on which this decal lies.
+//
+//	// Functions.
+//	friend FArchive& operator<< (FArchive &Ar, FDecal &Decal)
+//	{
+//		guard(FDecal<<);
+//		if( !Ar.IsLoading() && !Ar.IsSaving() )
+//			Ar << *(UObject**)&Decal.Actor;
+//		return Ar;
+//		unguard;
+//	}
+//};
 
 /*----------------------------------------------------------------------------
 	The End.
