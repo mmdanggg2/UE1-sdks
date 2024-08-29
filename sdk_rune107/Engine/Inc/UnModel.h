@@ -155,7 +155,7 @@ class ENGINE_API UBspNodes : public UObject
 			for( INT i=0; i<Element.Num(); i++ )
 				Ar << Element(i);
 			Ar << AR_INDEX(_NumZones);
-			for( i=0; i<_NumZones; i++ )
+			for( INT i=0; i<_NumZones; i++ )
 				Ar << _Zones[i];
 		}
 		unguardobj;

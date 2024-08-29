@@ -272,7 +272,7 @@ struct Mesh
 			M.dectris.Add(M.numtris);
 			M.triDecimated.Empty();
 			M.triDecimated.AddZeroed(M.numtris);
-			for(i = 0; i < M.numtris; i++)
+			for(int i = 0; i < M.numtris; i++)
 			{
 				M.dectris(i) = M.tris(i);
 			}

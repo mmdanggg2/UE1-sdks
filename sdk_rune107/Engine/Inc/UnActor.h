@@ -59,7 +59,8 @@ inline UBOOL AActor::IsOwnedBy( const AActor* TestOwner ) const
 //
 inline AActor* AActor::GetTopOwner()
 {
-	for( AActor* Top=this; Top->Owner; Top=Top->Owner );
+	AActor* Top;
+	for( Top=this; Top->Owner; Top=Top->Owner );
 	return Top;
 }
 
