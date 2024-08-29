@@ -909,6 +909,7 @@ inline void appMemzero( void* Dest, INT Count )
 // C style memory allocation stubs.
 //
 #if defined(NO_APP_MALLOC) || defined(UTGLR_NO_APP_MALLOC) || defined(_DEBUG)
+#include <new>
 #define appMalloc(size, tag) malloc(size)
 #define appFree free
 #define appRealloc(data, size, tag) realloc(data, size)
@@ -918,9 +919,8 @@ inline void appMemzero( void* Dest, INT Count )
 #define appRealloc    GMalloc->Realloc
 #endif
 
-#include <new>
-
 #ifdef _MSC_VER  // turn off "operator new may not be declared inline"
+#pragma warning( push )
 #pragma warning( disable : 4595 )
 #endif
 
@@ -934,8 +934,7 @@ __forceinline void* operator new( size_t Size, const TCHAR* Tag )
 	return appMalloc( Size, Tag );
 	unguardSlow;
 }
-
-__forceinline void* operator new( size_t Size ) 
+__forceinline void* operator new( size_t Size )
 {
 	guardSlow(new);
 	return appMalloc( Size, TEXT("new") );
@@ -957,8 +956,6 @@ __forceinline void* operator new[]( size_t Size, const TCHAR* Tag )
 	return appMalloc( Size, Tag );
 	unguardSlow;
 }
-
-
 __forceinline void* operator new[]( size_t Size )
 {
 	guardSlow(new);
@@ -972,6 +969,10 @@ __forceinline void operator delete[]( void* Ptr ) throw()
 	unguardSlow;
 }
 # endif
+#endif
+
+#ifdef _MSC_VER
+#pragma warning( pop )
 #endif
 
 /*-----------------------------------------------------------------------------

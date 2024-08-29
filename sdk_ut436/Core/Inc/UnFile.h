@@ -442,51 +442,71 @@ CORE_API void appMemzero( void* Dest, INT Count );
 //
 // C style memory allocation stubs.
 //
+#if defined(NO_APP_MALLOC) || defined(UTGLR_NO_APP_MALLOC) || defined(_DEBUG)
+#include <new>
+#define appMalloc(size, tag) malloc(size)
+#define appFree free
+#define appRealloc(data, size, tag) realloc(data, size)
+#else
 #define appMalloc     GMalloc->Malloc
 #define appFree       GMalloc->Free
 #define appRealloc    GMalloc->Realloc
+#endif
+
+#ifdef _MSC_VER  // turn off "operator new may not be declared inline"
+#pragma warning( push )
+#pragma warning( disable : 4595 )
+#endif
 
 //
 // C++ style memory allocation.
 //
-inline void* operator new( unsigned int Size, const TCHAR* Tag )
+#if !defined(_DEBUG) && !defined(NO_APP_MALLOC)
+__forceinline void* operator new( size_t Size, const TCHAR* Tag )
 {
 	guardSlow(new);
 	return appMalloc( Size, Tag );
 	unguardSlow;
 }
-inline void* operator new( unsigned int Size )
+__forceinline void* operator new( size_t Size )
 {
 	guardSlow(new);
 	return appMalloc( Size, TEXT("new") );
 	unguardSlow;
 }
-inline void operator delete( void* Ptr )
+__forceinline void operator delete( void* Ptr ) throw()
 {
 	guardSlow(delete);
 	appFree( Ptr );
 	unguardSlow;
 }
+#endif
 
-#if PLATFORM_NEEDS_ARRAY_NEW
-inline void* operator new[]( unsigned int Size, const TCHAR* Tag )
+#if !defined(_DEBUG) && !defined(NO_APP_MALLOC)
+# if PLATFORM_NEEDS_ARRAY_NEW
+__forceinline void* operator new[]( size_t Size, const TCHAR* Tag )
 {
 	guardSlow(new);
 	return appMalloc( Size, Tag );
 	unguardSlow;
 }
-inline void* operator new[]( unsigned int Size )
+__forceinline void* operator new[]( size_t Size )
 {
 	guardSlow(new);
 	return appMalloc( Size, TEXT("new") );
 	unguardSlow;
 }
-inline void operator delete[]( void* Ptr )
+__forceinline void operator delete[]( void* Ptr ) throw()
 {
 	guardSlow(delete);
 	appFree( Ptr );
 	unguardSlow;
 }
+# endif
+#endif
+
+#ifdef _MSC_VER
+#pragma warning( pop )
 #endif
 
 /*-----------------------------------------------------------------------------
