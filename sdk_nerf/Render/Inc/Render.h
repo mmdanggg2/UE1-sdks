@@ -3,6 +3,11 @@
 	Copyright 1997-1999 Epic Games, Inc. All Rights Reserved.
 =============================================================================*/
 
+// WARNING: This file is copied from DX1112f sdk as a base
+// The members of these classes may not match up with the actual game unless otherwise stated
+// - mmdanggg2
+
+#pragma once
 /*----------------------------------------------------------------------------
 	API.
 ----------------------------------------------------------------------------*/
@@ -17,7 +22,7 @@
 
 #include "Engine.h"
 #include "UnRender.h"
-#include "Amd3d.h"
+//#include "Amd3d.h" Has a lot of clashing #defines and isn't needed
 
 /*------------------------------------------------------------------------------------
 	Render package private.
@@ -530,7 +535,7 @@ class RENDER_API URender : public URenderBase
 	void ShowStat( FSceneNode* Frame, const TCHAR* Fmt, ... );
 	void DrawStats( FSceneNode* Frame );
 #ifndef NODECALS
-	INT ClipDecal( FSceneNode* Frame, FDecal *Decal, UModel* Model, FBspSurf* Surf, FSavedPoly* Poly, FTransTexture**& DecalPoints, INT& NumPts );
+	//INT ClipDecal( FSceneNode* Frame, FDecal *Decal, UModel* Model, FBspSurf* Surf, FSavedPoly* Poly, FTransTexture**& DecalPoints, INT& NumPts );
 #endif
 };
 extern RENDER_API URender* GRender;
