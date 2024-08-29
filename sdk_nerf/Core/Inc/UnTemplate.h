@@ -1360,7 +1360,7 @@ protected:
 		guardSlow(TMapBase::Rehash);
 		checkSlow(!(HashCount&(HashCount-1)));
 		checkSlow(HashCount>=8);
-		INT* NewHash = new(TEXT("HashMapHash"))INT[HashCount];
+		INT* NewHash = new INT[HashCount];
 		{for( INT i=0; i<HashCount; i++ )
 		{
 			NewHash[i] = INDEX_NONE;
@@ -1373,7 +1373,7 @@ protected:
 			NewHash[iHash] = i;
 		}}
 		if( Hash )
-			delete Hash;
+			delete[] Hash;
 		Hash = NewHash;
 		unguardSlow;
 	}

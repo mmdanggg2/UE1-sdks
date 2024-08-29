@@ -174,8 +174,11 @@ CORE_API void VARARGS appThrowf( const TCHAR* Fmt, ... );
 //
 // Normal timing.
 //
-#define clock(Timer)   {Timer -= appCycles();}
-#define unclock(Timer) {Timer += appCycles()-34;}
+
+// stijn: someone originally gave this the same name as a standard C89/99/POSIX
+// function.  This was a BAD idea and caused a _LOT_ of problems.
+#define clockFast(Timer)   {Timer -= appCycles();}
+#define unclockFast(Timer) {Timer += appCycles()-34;}
 
 //
 // Performance critical timing.

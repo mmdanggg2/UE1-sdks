@@ -304,7 +304,7 @@ public: \
 	virtual ~TClass() \
 		{ ConditionalDestroy(); } \
 	static void InternalConstructor( void* X ) \
-		{ new( (EInternal*)X )TClass(); } \
+		{ new( (EInternal*)X )TClass; } \
 
 // Declare an abstract class.
 #define DECLARE_ABSTRACT_CLASS( TClass, TSuperClass, TStaticFlags ) \
@@ -450,7 +450,7 @@ public:
 	UObject& operator=( const UObject& );
 	void StaticConstructor();
 	static void InternalConstructor( void* X )
-		{ new( (EInternal*)X )UObject(); }
+		{ new( (EInternal*)X )UObject; }
 
 	// Destructors.
 	virtual ~UObject();

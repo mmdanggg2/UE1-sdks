@@ -26,6 +26,8 @@
 // backwards compatibility. Must be at least PACKAGE_FILE_VERSION.
 #define PACKAGE_MIN_VERSION 60
 
+#define NERF_ARENA 1
+
 /*-----------------------------------------------------------------------------
 	The End.
 -----------------------------------------------------------------------------*/
