@@ -327,7 +327,7 @@ class ENGINE_API USkeletalMesh : public ULodMesh
 	// Special GetFrame for Skeletal animation
 	virtual void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner, INT& LODRequest );
 	virtual FBox GetRenderBoundingBox( const AActor* Owner, UBOOL Exact ); 
-
+	
 private:
 	FVector MeshAdjust(const AActor* Owner) const;
 };
