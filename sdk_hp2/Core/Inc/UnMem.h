@@ -57,7 +57,7 @@ public:
 	}
 
 	// Main functions.
-	void Init( INT DefaultChunkSize );
+	void Init( INT DefaultChunkSize, const TCHAR* name );
 	void Exit();
 	void Tick();
 	INT GetByteCount();
