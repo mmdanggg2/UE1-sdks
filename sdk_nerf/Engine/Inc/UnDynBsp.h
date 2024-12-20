@@ -17,7 +17,7 @@ class FMovingBrushTrackerBase
 {
 public:
 	// Constructors/destructors.
-	virtual ~FMovingBrushTrackerBase() {};
+	virtual ~FMovingBrushTrackerBase() noexcept(false) {};
 
 	// Public operations:
 	virtual void Update( AActor* Actor )=0;

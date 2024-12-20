@@ -425,7 +425,7 @@ public:
 		Codecs.AddItem( InCodec );
 		unguard;
 	}
-	~FCodecFull()
+	~FCodecFull() noexcept(false)
 	{
 		guard(FCodecFull::~FCodecFull);
 		for( INT i=0; i<Codecs.Num(); i++ )

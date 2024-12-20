@@ -244,7 +244,7 @@ public:
 	virtual void Init( const TCHAR* InSystem, const TCHAR* InUser, UBOOL RequireConfig )=0;
 	virtual void Exit()=0;
 	virtual void Dump( FOutputDevice& Ar )=0;
-	virtual ~FConfigCache() {};
+	virtual ~FConfigCache() noexcept(false) {};
 };
 
 // Any object that is capable of taking commands.

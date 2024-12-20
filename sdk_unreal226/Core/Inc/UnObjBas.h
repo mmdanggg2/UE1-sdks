@@ -300,7 +300,7 @@ public: \
 	DECLARE_BASE_CLASS( TClass, TSuperClass, TStaticFlags ) \
 	friend FArchive &operator<<( FArchive& Ar, TClass*& Res ) \
 		{ return Ar << *(UObject**)&Res; } \
-	virtual ~TClass() \
+	virtual ~TClass() noexcept(false) \
 		{ ConditionalDestroy(); } \
 	static void InternalConstructor( void* X ) \
 		{ new( (EInternal*)X )TClass; } \
@@ -310,7 +310,7 @@ public: \
 	DECLARE_BASE_CLASS( TClass, TSuperClass, TStaticFlags | CLASS_Abstract ) \
 	friend FArchive &operator<<( FArchive& Ar, TClass*& Res ) \
 		{ return Ar << *(UObject**)&Res; } \
-	virtual ~TClass() \
+	virtual ~TClass() noexcept(false) \
 		{ ConditionalDestroy(); } \
 
 // Declare that objects of class being defined reside within objects of the specified class.
@@ -450,8 +450,8 @@ public:
 		{ new( (EInternal*)X )UObject; }
 
 	// Destructors.
-	virtual ~UObject();
-	void operator delete( void* Object, size_t Size )
+	virtual ~UObject() noexcept(false);
+	void operator delete( void* Object, size_t Size ) noexcept(false)
 		{guard(UObject::operator delete); appFree( Object ); unguard;}
 
 	// FUnknown interface.

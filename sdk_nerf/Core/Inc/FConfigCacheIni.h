@@ -96,7 +96,7 @@ public:
 	FString SystemIni, UserIni;
 	FConfigCacheIni()
 	{}
-	~FConfigCacheIni()
+	~FConfigCacheIni() noexcept(false)
 	{
 		guard(FConfigCacheIni::~FConfigCacheIni);
 		Flush( 1 );
