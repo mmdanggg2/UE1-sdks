@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6a1bd3a7-e291-4fbb-9d42-af79a070cc23}</ProjectGuid>
+    <RootNamespace>D3D11Drv</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ICBINDx11Drv</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>.\..\Lib $(Platform)\$(Configuration)\</OutDir>
+    <IntDir>.X64\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\System\</OutDir>
+    <IntDir>.X86\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>.\..\Lib $(Platform)\$(Configuration)\</OutDir>
+    <IntDir>.X64\Debug\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;WINDOWS_IGNORE_PACKING_MISMATCH;NDEBUG;ICBINDx11Drv_API=__declspec(dllexport);_RELEASE;RELEASE;UTGLR_UT_BUILD;UTGLR_USES_ALPHABLEND=1;ENGINE_ARCHITECTURE="x86";OLDUNREAL_TEXTURE_COMPRESSION=1;_CRT_SECURE_NO_WARNINGS=1;_CRT_NO_VA_START_VALIDATION;UNICODE=1;_UNICODE=1;WIN32=1;CMAKE_INTDIR="Release";ICBINDx11Drv_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Core\Inc;..\..\Engine\Inc;..\Inc;..\..\Render\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <UseFullPaths>false</UseFullPaths>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\Core\Lib;..\..\Engine\Lib\;..\..\Render\Lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib;Engine.lib;winmm.lib;advapi32.lib;Dwmapi.lib;D3D11.lib;D3DCompiler.lib;Dwrite.lib;D2d1.lib;ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <PreBuildEvent>
+      <Command>cd .. 
+python PreCompileShader.py</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_WINDOWS;WIN32;UNICODE;WIN32_LEAN_AND_MEAN;_SECURE_SCL=0;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\..\Core\Inc;..\..\Engine\Inc;..\..\MWindow\Inc;..\Inc;..\..\Render\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <AssemblerListingLocation>$(Platform)\$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>$(Platform)\$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(Platform)\$(Configuration)\</ProgramDataBaseFileName>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>..\..\System X64\ICBINDx11Drv.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Core\Lib $(Platform)\$(Configuration);..\..\Engine\Lib $(Platform)\$(Configuration);..\..\MWindow\Lib $(Platform)\$(Configuration);..\..\Render\Lib $(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;Core.lib;Engine.lib;Render.lib;advapi32.lib;Dwmapi.lib;MWindow.lib;D3D11.lib;D3DCompiler.lib;Dwrite.lib;D2d1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>.\..\Lib X64\ICBINDx11Drv.pdb</ProgramDatabaseFile>
+      <ImportLibrary>.\..\Lib X64\ICBINDx11Drv.lib</ImportLibrary>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>USEMALLOC;NDEBUG;_WINDOWS;WIN32;UNICODE;WIN32_LEAN_AND_MEAN;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\..\Core\Inc;..\..\Engine\Inc;..\..\MWindow\Inc;..\Inc;..\..\Render\Inc;.;..\..\MiMalloc\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+      <ObjectFileName>$(Platform)\$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(Platform)\$(Configuration)\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(Platform)\$(Configuration)\</AssemblerListingLocation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>..\..\System X64\ICBINDx11Drv.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Core\Lib $(Platform)\$(Configuration);..\..\Engine\Lib $(Platform)\$(Configuration);..\..\MWindow\Lib $(Platform)\$(Configuration);..\..\Render\Lib $(Platform)\$(Configuration);..\..\MiMalloc\Out\msvc-$(Platform)\$(configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;Core.lib;Engine.lib;Render.lib;advapi32.lib;Dwmapi.lib;MWindow.lib;D3D11.lib;D3DCompiler.lib;Dwrite.lib;D2d1.lib;mimalloc-override.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>.\..\Lib X64\$(ProjectName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\X64\Release\$(ProjectName).map</MapFileName>
+      <ImportLibrary>.\..\Lib X64\$(ProjectName).lib</ImportLibrary>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <Profile>true</Profile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_5_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_4_0.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_4_1.h" />
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_5_0.h" />
+    <ClInclude Include="..\Inc\GammaModes.h" />
+    <ClInclude Include="..\Inc\HP2ShaderDefs.h" />
+    <ClInclude Include="..\Inc\HP2Shaders.h" />
+    <ClInclude Include="..\Inc\ICBINDx11Drv.h" />
+    <ClInclude Include="..\Inc\Robin-Map\robin_growth_policy.h" />
+    <ClInclude Include="..\Inc\Robin-Map\robin_hash.h" />
+    <ClInclude Include="..\Inc\Robin-Map\robin_map.h" />
+    <ClInclude Include="..\Inc\Robin-Map\robin_set.h" />
+    <ClInclude Include="..\Inc\ShaderFlags.h" />
+    <ClInclude Include="..\Inc\UnD3DShader.h" />
+    <ClInclude Include="..\Inc\UnShaderManager.h" />
+    <ClInclude Include="..\Inc\UnTexCache.h" />
+    <ClInclude Include="..\Inc\WindowsVersions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ResScalingShader.cpp" />
+    <ClCompile Include="Un227.cpp" />
+    <ClCompile Include="UnComplexSurfShader.cpp" />
+    <ClCompile Include="UnComputeShader.cpp" />
+    <ClCompile Include="UnConfig.cpp" />
+    <ClCompile Include="UnHardcodedShaders.cpp" />
+    <ClCompile Include="UnICBINDDx11Drv.cpp" />
+    <ClCompile Include="UnGenericShader.cpp" />
+    <ClCompile Include="UnHitTesting.cpp" />
+    <ClCompile Include="UnHPCustom.cpp" />
+    <ClCompile Include="UnLines.cpp" />
+    <ClCompile Include="UnLineShader.cpp" />
+    <ClCompile Include="UnMeshShader.cpp" />
+    <ClCompile Include="UnMSAAShader.cpp" />
+    <ClCompile Include="UnP8ToRGBAShader.cpp" />
+    <ClCompile Include="UnShader.cpp" />
+    <ClCompile Include="UnShaderManager.cpp" />
+    <ClCompile Include="UnSurf.cpp" />
+    <ClCompile Include="UnTexCache.cpp" />
+    <ClCompile Include="UnTexture.cpp" />
+    <ClCompile Include="UnTiles.cpp" />
+    <ClCompile Include="UnTileShader.cpp" />
+    <ClCompile Include="UnTriangles.cpp" />
+    <ClCompile Include="WindowsHelper.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

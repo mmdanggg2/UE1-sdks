@@ -1,0 +1,27 @@
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+
+set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc-8)
+set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++-8)
+set(CMAKE_ASM_COMPILER aarch64-linux-gnu-gcc-8)
+set(CMAKE_AR aarch64-linux-gnu-ar)
+set(CMAKE_C_COMPILER_TARGET aarch64-linux-gnu)
+set(CMAKE_CXX_COMPILER_TARGET aarch64-linux-gnu)
+set(CMAKE_C_FLAGS "-fPIC -isystem/usr/aarch64-linux-gnu/include")
+set(CMAKE_CXX_FLAGS "-fPIC -isystem/usr/aarch64-linux-gnu/include")
+set(CMAKE_LIBRARY_ARCHITECTURE aarch64-linux-gnu)
+
+get_filename_component(ABSOLUTE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" ABSOLUTE)
+set(CMAKE_FIND_ROOT_PATH "/usr/aarch64-linux-gnu;${ABSOLUTE_INSTALL_PREFIX}")
+set(CMAKE_INCLUDE_PATH "/usr/include/aarch64-linux-gnu;${ABSOLUTE_INSTALL_PREFIX}/include")
+set(CMAKE_LIBRARY_PATH "/usr/lib/aarch64-linux-gnu;${ABSOLUTE_INSTALL_PREFIX}/lib")
+list(APPEND CMAKE_MODULE_PATH "${ABSOLUTE_INSTALL_PREFIX}")
+
+set(PKG_CONFIG_EXECUTABLE aarch64-linux-gnu-pkg-config)
+#set(ENV{PKG_CONFIG_SYSROOT_DIR} "/usr/aarch64-linux-gnu")
+set(ENV{PKG_CONFIG_PATH} "/usr/lib/aarch64-linux-gnu/pkgconfig")
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+#set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+#set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+#set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)

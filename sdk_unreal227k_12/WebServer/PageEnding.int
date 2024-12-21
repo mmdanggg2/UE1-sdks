@@ -1,0 +1,7 @@
+<!-- PageEnding -->
+<div class='Welcome'>
+<h4>Welcome %Content:UWebAdmin.GetClientUser%, your IP: %Content:UWebAdmin.GetClientIP% has been logged on server.</h4>
+
+</div>
+</body>
+</html>

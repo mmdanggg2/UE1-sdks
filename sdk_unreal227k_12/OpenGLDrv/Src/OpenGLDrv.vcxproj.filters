@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{e1d1ea48-653e-430f-94e1-f14b4bfa677a}</UniqueIdentifier>
+      <Extensions>*.cpp;*.h</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="c_gclip.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLDrv.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="c_gclip.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="c_rbtree.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL1Funcs.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLDrv.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLExtFuncs.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="version.rc" />
+  </ItemGroup>
+</Project>
