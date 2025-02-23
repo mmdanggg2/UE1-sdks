@@ -823,7 +823,12 @@ public:
 //
 // Lazy-loadable dynamic array.
 //
+#ifdef __INTELLISENSE__
+// Dumbsense gets the object size and order wrong, so define it the way it will end up with msvc
+template <class T> class TLazyArray : public FLazyLoader, public TArray<T>
+#else
 template <class T> class TLazyArray : public TArray<T>, public FLazyLoader
+#endif // __INTELLISENSE__
 {
 public:
 	TLazyArray( INT InNum=0 )
