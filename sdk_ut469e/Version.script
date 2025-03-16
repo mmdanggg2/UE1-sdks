@@ -1,0 +1,12 @@
+{
+	global:	*;
+	local:
+		png*;
+		zlib*;
+		deflate*;
+		inflate*;
+		crc*;
+		zError;
+		get_crc_table;
+		adler*;
+};

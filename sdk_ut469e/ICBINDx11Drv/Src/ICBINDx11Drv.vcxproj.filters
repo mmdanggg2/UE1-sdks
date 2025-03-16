@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{0f44bc98-88ec-427a-9daa-02dbff64cc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders\ComputeShaders">
+      <UniqueIdentifier>{c31d5bda-a753-43bb-92aa-8220f6ec13e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders">
+      <UniqueIdentifier>{b9040668-ece1-4168-91ce-b3e84fdaed17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\Complex">
+      <UniqueIdentifier>{4a2c438a-fc13-43af-ab62-556efb7229a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\General">
+      <UniqueIdentifier>{f4cb2bae-53b3-44bf-82e9-9c206161c37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\Line">
+      <UniqueIdentifier>{6bf1ba49-c5b4-413f-b1b9-6ea0d0b9349c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\Mesh">
+      <UniqueIdentifier>{9ba2632c-4304-417a-8320-da82da9b07ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\PostFX">
+      <UniqueIdentifier>{fdb020ee-786f-4393-99e5-6a3565b7d32b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CompiledShaders\Tile">
+      <UniqueIdentifier>{aac5e7f6-1a5d-4e0e-8616-0fd3652fa5f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HP2CompiledShaders">
+      <UniqueIdentifier>{2cd6bfc3-69da-41b7-b5da-de451900d172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Robin-Map">
+      <UniqueIdentifier>{8af3cc0f-ac9f-4cc6-962f-c43078767b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{57b23257-a144-425a-9775-e1b3558715d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderCompiler">
+      <UniqueIdentifier>{33a07225-631f-40f8-8ad1-c9ccef4594d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Inc\ICBINDx11Drv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\UnD3DShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\UnTexCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\GammaModes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\WindowsVersions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\UnShaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\ShaderFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Complex\ComplexSurfShader_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Mesh\MeshShader_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\General\GeneralShader_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\LineShader_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_4_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_4_1.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Line\Line_GeoShader_GeoShader_gs_5_0.h">
+      <Filter>Header Files\CompiledShaders\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\PostFX\ResScaling_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\PostFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_4_0.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_4_1.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_Vert_VertShader_vs_5_0.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_4_0.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_4_1.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\CompiledShaders\Tile\TileShader_PX_PxShader_ps_5_0.h">
+      <Filter>Header Files\CompiledShaders\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\HP2Shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\HP2ShaderDefs.h">
+      <Filter>Header Files\HP2CompiledShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\Robin-Map\robin_growth_policy.h">
+      <Filter>Header Files\Robin-Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\Robin-Map\robin_hash.h">
+      <Filter>Header Files\Robin-Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\Robin-Map\robin_map.h">
+      <Filter>Header Files\Robin-Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Inc\Robin-Map\robin_set.h">
+      <Filter>Header Files\Robin-Map</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UnICBINDDx11Drv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnTiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnSurf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnHPCustom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnHitTesting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnLines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnTriangles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnGenericShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnTileShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnComputeShader.cpp">
+      <Filter>Source Files\Shaders\ComputeShaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnMeshShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnComplexSurfShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnLineShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnMSAAShader.cpp">
+      <Filter>Source Files\Shaders\ComputeShaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ResScalingShader.cpp">
+      <Filter>Source Files\Shaders\ComputeShaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnP8ToRGBAShader.cpp">
+      <Filter>Source Files\Shaders\ComputeShaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnTexCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnShaderManager.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="UnHardcodedShaders.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Un227.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ICBINDx11Drv.int">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\ICBINDx11Drv_Settings.int">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\PrecompileShader.py">
+      <Filter>ShaderCompiler</Filter>
+    </None>
+  </ItemGroup>
+</Project>

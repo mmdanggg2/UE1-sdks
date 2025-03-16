@@ -1,0 +1,13 @@
+prefix=C:/GameDev/UnrealTournament/build/Win/x86
+exec_prefix=${prefix}
+libdir=C:/GameDev/UnrealTournament/build/Win/x86/lib
+includedir=C:/GameDev/UnrealTournament/build/Win/x86/include
+
+Name: libxmp
+Description: Xmp module player library
+Version: 4.5.0
+
+Requires:
+Libs: -L${libdir} -lxmp
+Cflags: -I${includedir}
+Libs.private: 

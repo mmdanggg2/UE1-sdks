@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{926c02ed-0d00-451f-82f9-a41d33251cfe}</UniqueIdentifier>
+      <Extensions>*.cpp;*.h</Extensions>
+    </Filter>
+    <Filter Include="Res">
+      <UniqueIdentifier>{b343125d-411f-4bb7-8376-7f683287a0a6}</UniqueIdentifier>
+      <Extensions>*.rc</Extensions>
+    </Filter>
+    <Filter Include="Int">
+      <UniqueIdentifier>{6d7c0dc8-65d2-465a-a9d4-f3d4d6d1437b}</UniqueIdentifier>
+      <Extensions>*.int</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinClient.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="WinDrv.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="WinViewport.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="WinInput.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\WinDrv.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="Res\WinDrvRes.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\Unreal.ico">
+      <Filter>Res</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Res\WinDrvRes.rc">
+      <Filter>Res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Res\ADDACTOR.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHFR.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHMOV.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHROT.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHSCA.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHSHR.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BrushSna.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BRUSHSTR.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\BrushWrp.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\CAMZOOM.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\cur00001.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\cur00002.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\idcursor.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\MOVEACT.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\SELACTOR.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\SELECTPO.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\terrafor.cur">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\TEXGRAB.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\TEXPAN.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\TEXROT.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\TEXSCALE.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\TEXSET.CUR">
+      <Filter>Res</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\System\WinDrv.int">
+      <Filter>Int</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

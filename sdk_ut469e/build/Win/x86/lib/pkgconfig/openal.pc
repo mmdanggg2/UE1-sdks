@@ -1,0 +1,12 @@
+prefix=C:/GameDev/UnrealTournament/build/Win/x86
+exec_prefix=${prefix}
+libdir=C:/GameDev/UnrealTournament/build/Win/x86/lib
+includedir=C:/GameDev/UnrealTournament/build/Win/x86/include
+
+Name: OpenAL
+Description: OpenAL is a cross-platform 3D audio API
+Requires: 
+Version: 1.22.2
+Libs: -L${libdir} -lOpenAL32 
+Libs.private:
+Cflags: -I${includedir} -I${includedir}/AL 
