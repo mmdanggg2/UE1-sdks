@@ -470,10 +470,10 @@ protected:
 			Out << "SGE t1, fragment.position.zzzz, 0;" END_LINE
 				"KIL t1;"                                                   END_LINE;
 
-			Out << "SGE t1, fragment.position.zzzz, 0.6;"         END_LINE
-				"MAD t0, fragment.position, 0.1667, 0.5;"      END_LINE  // Transformed depth
-				"LRP result.depth, t1, fragment.position, t0;" END_LINE; // F=transformed depth if <1.2, normal depth if >= 1.2
- //			Out << "MOV result.depth, fragment.position;" END_LINE;
+			Out << "SGE t1, fragment.position.zzzz, 0.6;"           END_LINE
+				"MAD t0, fragment.position.zzzz, 0.1667, 0.5;"      END_LINE  // Transformed depth
+				"LRP result.depth, t1, fragment.position.zzzz, t0;" END_LINE; // F=transformed depth if <1.2, normal depth if >= 1.2
+//			Out << "MOV result.depth, fragment.position.z;" END_LINE;
 		}
 	}
 };

@@ -256,6 +256,7 @@ public:
 	DIDEVICEOBJECTDATA*		diMouseBuffer{};
 	DIMOUSESTATE2			diMouseState{};
 	UBOOL					diAcquiredMouse{};
+	UBOOL					diInitialized{};
 	POINT					SavedCursor{};
 };
 
@@ -370,6 +371,9 @@ class DLL_EXPORT UWindowsClient : public UClient, public FNotifyHook
 	FString GetClipboardText();
 	UBOOL SetClipboardText(FString& Str);
 #endif
+
+	// void StartTextInput();
+	// void StopTextInput();
 
 	// UWindowsClient interface.
 	void ddEndMode();

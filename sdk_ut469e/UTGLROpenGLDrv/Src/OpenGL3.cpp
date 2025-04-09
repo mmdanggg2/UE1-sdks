@@ -52,7 +52,7 @@ UBOOL UOpenGLRenderDevice::SetGL3( void* Window)
 	{
 		GL->RenDev = this;
 		GL->Reset();
-		FOpenGLBase::ActiveInstance = GL;
+		FOpenGLBase::SetCurrentInstance(GL);
 	}
 	return GL && GL->Context;
 

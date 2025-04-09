@@ -730,20 +730,7 @@ class WBrowserMusic : public WBrowser
 	virtual FString GetCurrentPathName(void)
 	{
 		guard(WBrowserMusic::GetCurrentPathName);
-		FString Package = pComboPackage->GetString(pComboPackage->GetCurrent());
-		FString Group = pComboGroup->GetString(pComboGroup->GetCurrent());
-		FString Name = pListMusic->GetString(pListMusic->GetCurrent());
-		Name = Name.Left(Name.InStr(TEXT(" ["), TRUE));
-
-		if (Group.Len()) 
-		{
-			Package += '.';
-			Package += Group;
-		}
-		Package += '.';
-		Package += Name;
-		return Package;
-
+		return FObjectPathName(GetMusic());
 		unguard;
 	}
 };

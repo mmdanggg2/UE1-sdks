@@ -590,6 +590,24 @@ FString UWindowsClient::GetClipboardText()
 }
 #endif
 
+//
+// StartTextInput - Start accepting Unicode text input
+// We call this when the pawn controlling a viewport goes into the 'Typing' state
+//
+#if 0
+void UWindowsClient::StartTextInput()
+{
+	// We don't use this yet
+}
+
+//
+// StopTextInput
+//
+void UWindowsClient::StopTextInput()
+{
+}
+#endif
+
 /*-----------------------------------------------------------------------------
-	Getting error messages.
+	The End.
 -----------------------------------------------------------------------------*/

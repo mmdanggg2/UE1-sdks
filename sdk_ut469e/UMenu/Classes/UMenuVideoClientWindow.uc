@@ -260,7 +260,7 @@ function Created()
 	FovAngleEdit.SetFont(F_Normal);
 	FovAngleEdit.SetNumericOnly(True);
 	FovAngleEdit.SetNumericFloat(True);
-	FovAngleEdit.SetMaxLength(5);
+	FovAngleEdit.SetMaxLength(10);
 	FovAngleEdit.Align = TA_Left;
 	ControlOffset += 25;
 

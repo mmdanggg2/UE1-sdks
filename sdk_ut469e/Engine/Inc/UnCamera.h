@@ -496,13 +496,16 @@ class ENGINE_API UClient : public UObject
 	virtual class UViewport* NewViewport( const FName Name )=0;
 	virtual void MakeCurrent( UViewport* NewViewport )=0;
 
-	// stijn: clipboard interface added in v469
 #if !OLDUNREAL_BINARY_COMPAT
+	// stijn: clipboard interface added in v469
 	virtual FString GetClipboardText()=0;
 	virtual UBOOL SetClipboardText(FString& Text)=0;
-#endif
+    
+    // stijn: start or stop accepting unicode text input
+    // virtual void StartTextInput()=0;
+    // virtual void StopTextInput()=0;
 
-#if !OLDUNREAL_BINARY_COMPAT && !WIN32
+# if !WIN32
 	virtual INT GetDPIScaledX(INT X)=0;
 	virtual INT GetDPIScaledY(INT Y)=0;
 	virtual void* CreateTTFFont(const TCHAR* FontName, int Height, int Italic, int Bold, int Underlined, int AntiAliased)=0;
@@ -510,6 +513,7 @@ class ENGINE_API UClient : public UObject
 	virtual void RenderGlyph(FGlyphInfo& Info, UTexture* PageTexture, INT X, INT Y, INT YAdjust)=0;
 	virtual void DestroyGlyphsList(TArray<FGlyphInfo>& Glyphs)=0;
 	virtual void DestroyTTFFont(void* Font)=0;
+# endif
 #endif
 };
 

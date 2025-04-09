@@ -60,6 +60,7 @@
 #define IDDIALOG_FIND_CLASS             173
 #define IDDIALOG_CONVERT_BRUSH          174
 #define IDDIALOG_IMPORT_COMPMIPS        175
+#define IDDIALOG_IMPORT_MESH            176
 #define ID_ShowBrush                    212
 #define ID_ShowEventLines               213
 #define ID_OccludeLines                 214
@@ -433,6 +434,7 @@
 #define IDRB_LOC_TOP                    1284
 #define IDRB_VCONFIG6                   1285
 #define IDRB_VCONFIG7                   1286
+#define IDCK_WITHLOD                    1287
 #define IDS_WARNING                     4096
 #define IDS_ERROR                       4097
 #define IDS_WARNING_NO_TRIANGLES        4100
@@ -915,6 +917,7 @@
 #define IDMN_AB_FileMyLevelSaveAs       40223
 #define IDMN_SB_EXPORT_WAV              40225
 #define IDMN_SB_IMPORT_WAV              40226
+#define IDMN_IMPORT_MESH                40227
 #define IDMN_TB_ZOOM_32                 40228
 #define IDMN_TB_ZOOM_64                 40229
 #define IDMN_TB_ZOOM_128                40230

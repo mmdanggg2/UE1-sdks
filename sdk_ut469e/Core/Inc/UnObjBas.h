@@ -646,6 +646,7 @@ private:
 	static INT				GObjBeginLoadCount;	// Count for BeginLoad multiple loads.
 	static INT				GObjRegisterCount;  // ProcessRegistrants entry counter.
 	static INT				GImportCount;		// Imports for EndLoad optimization.
+	static UINT				GObjRevision;		// Global revision number which increased each time when new object created.
 	static UObject*			GObjHash[4096];		// Object hash.
 	static UObject*			GAutoRegister;		// Objects to automatically register.
 	static TArray<UObject*> GObjLoaded;			// Objects that might need preloading.
@@ -771,6 +772,11 @@ public:
 	static void NoteAssignment(UObject* DestObject, UProperty* DestProperty, BYTE* DestPropertyAddress);
 	static void UProfile(UObject* InMethod, UBOOL InBegin);
 	static void UTrace(UBOOL bNewUTracing);
+	static void UTrack(const TCHAR* TrackObject, const TCHAR* TrackProperty);
+	static UINT GetGlobalRevision()
+	{
+		return GObjRevision;
+	}
 
 	// Functions.
 	void AddToRoot();

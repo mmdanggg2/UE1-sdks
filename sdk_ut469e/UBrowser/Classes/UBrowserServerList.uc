@@ -77,10 +77,22 @@ function QueryFinished(UBrowserServerListFactory Fact, bool bSuccess, optional s
 // Functions for server list entries only.
 function PingServer(bool bInitial, bool bJustThisServer, bool bNoSort)
 {
+	local bool bInstantPing;
+	local int PingAttempts;
+	bInstantPing = bInitial && bJustThisServer && 
+		UBrowserServerList(Sentinel) != None && 
+		UBrowserServerList(Sentinel).Owner != None && 
+		UBrowserServerList(Sentinel).Owner.UnpingedList == Sentinel;
 	// Create the UdpLink to ping the server
 	ServerPing = GetPlayerOwner().GetEntryLevel().Spawn(class'UBrowserServerPing');
 	ServerPing.Server = Self;
-	ServerPing.StartQuery('GetInfo', 2);
+	PingAttempts = 2;
+	if (bInstantPing)
+	{
+		PingAttempts = 4;
+		ServerPing.PingTimeout += 3;
+	}
+	ServerPing.StartQuery('GetInfo', PingAttempts);
 	ServerPing.bInitial = bInitial;
 	ServerPing.bJustThisServer = bJustThisServer;
 	ServerPing.bNoSort = bNoSort;

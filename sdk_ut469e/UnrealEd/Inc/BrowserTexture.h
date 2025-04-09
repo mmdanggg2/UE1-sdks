@@ -1560,11 +1560,13 @@ DECLARE_WINDOWCLASS(WBrowserTexture,WBrowser,Window)
 		case IDMN_TB_ZOOM_32:
 			iZoom = 32;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_TB_ZOOM_64:
 			iZoom = 64;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_TB_ZOOM_128:
@@ -1575,36 +1577,43 @@ DECLARE_WINDOWCLASS(WBrowserTexture,WBrowser,Window)
 		case IDMN_TB_ZOOM_256:
 			iZoom = 256;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_TB_ZOOM_512:
 			iZoom = 512;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_TB_ZOOM_1024:
 			iZoom = 1024;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_VAR_200:
 			iZoom = 1200;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_VAR_100:
 			iZoom = 1100;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_VAR_50:
 			iZoom = 1050;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case IDMN_VAR_25:
 			iZoom = 1025;
 			RefreshTextureList(GLastScroll);
+			UpdateMenu();
 			break;
 
 		case ID_FileOpen:

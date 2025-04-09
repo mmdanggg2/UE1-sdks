@@ -6,17 +6,17 @@
 #endif
 
 #ifndef SM4_0
-#define SM4_0 CompiledShaders\\
+#define SM4_0 CompiledShaders/
 
 #endif
 
 #ifndef SM4_1
-#define SM4_1 CompiledShaders\\
+#define SM4_1 CompiledShaders/
 
 #endif
 
 #ifndef SM5_0
-#define SM5_0 CompiledShaders\\
+#define SM5_0 CompiledShaders/
 
 #endif
 

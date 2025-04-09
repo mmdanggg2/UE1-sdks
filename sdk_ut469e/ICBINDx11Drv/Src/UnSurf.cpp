@@ -17,6 +17,14 @@ struct FUVInfo
 	FLOAT	VDot;
 
 	FPlane	AddColor;
+
+	FUVInfo()
+	{
+		// Metallicafan212:	This corrupts the stack....
+		//					Just zero AddColor
+		//appMemzero(this, sizeof(FUVInfo));
+		appMemzero(&AddColor.X, sizeof(FPlane));
+	}
 };
 
 
@@ -44,12 +52,12 @@ if (UVInfo.bEnabledTex[chan]) \
 	DO_UV_CHANNEL_NO_ADD(0, m_VertexBuff[Vert].U, m_VertexBuff[Vert].V); \
 	/* Metallicafan212:	Lightmap */ \
 	DO_UV_CHANNEL(1, m_VertexBuff[Vert].UX, m_VertexBuff[Vert].VX, UVInfo.LFScale.X, UVInfo.LFScale.Y); \
-	/* Metallicafan212:	Macro */ \
-	DO_UV_CHANNEL_NO_ADD(2, m_SecVert[Vert].MU, m_SecVert[Vert].MV); \
 	/* Metallicafan212:	Fog */ \
-	DO_UV_CHANNEL(3, m_SecVert[Vert].FU, m_SecVert[Vert].FV, UVInfo.LFScale.Z, UVInfo.LFScale.W); \
+	DO_UV_CHANNEL(2, m_SecVert[Vert].FU, m_SecVert[Vert].FV, UVInfo.LFScale.Z, UVInfo.LFScale.W); \
 	/* Metallicafan212:	Detail */ \
-	DO_UV_CHANNEL_NO_ADD(4, m_SecVert[Vert].DU, m_SecVert[Vert].DV);
+	DO_UV_CHANNEL_NO_ADD(3, m_SecVert[Vert].DU, m_SecVert[Vert].DV); \
+	/* Metallicafan212:	Macro */ \
+	DO_UV_CHANNEL_NO_ADD(4, m_SecVert[Vert].MU, m_SecVert[Vert].MV);
 
 FORCEINLINE void BufferAndIndex(FSurfaceFacet& Facet, FPlane Color, FPlane Fog, FD3DVert* m_VertexBuff, INDEX* m_IndexBuff, SIZE_T m_BufferedVerts, SIZE_T m_BufferedIndicies, FD3DSecondaryVert* m_SecVert, FUVInfo& UVInfo)
 {
@@ -209,12 +217,13 @@ void UICBINDx11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo&
 
 	SetTexture(1, Surface.LightMap, 0);
 
-	SetTexture(2, Surface.MacroTexture, 0);
-
-	SetTexture(3, Surface.FogMap, 0);
+	// Metallicafan212:	Textures were reordered
+	SetTexture(2, Surface.FogMap, 0);
 
 	// Metallicafan212:	Also bind the detail texture lmao
-	SetTexture(4, Surface.DetailTexture, 0);
+	SetTexture(3, Surface.DetailTexture, 0);
+
+	SetTexture(4, Surface.MacroTexture, 0);
 
 	FSurfShader->Bind(m_RenderContext);
 
@@ -224,6 +233,7 @@ void UICBINDx11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo&
 	FPlane TestColor	= FPlane(1.f, 1.f, 1.f, 1.f);
 	FPlane Fog			= FPlane(0.f, 0.f, 0.f, 0.f);
 
+	// Metallicafan212:	This is disabled for now as it's conflicting with things like dark lights....
 #if DX11_HP2
 	// Metallicafan212:	Set the ambientless lightmap color
 	UVInfo.AddColor		= Surface.ZoneAmbientColor;
@@ -247,6 +257,12 @@ void UICBINDx11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo&
 	if (Surface.Zone != nullptr && Frame->Viewport->Actor->RendMap == REN_DynLight)
 	{
 		UVInfo.AddColor		= FGetHSV(Surface.Zone->AmbientHue, Surface.Zone->AmbientSaturation, Surface.Zone->AmbientBrightness);
+
+		// Metallicafan212:	If one x blending is enabled, reduce the strength
+		if (bOneXLightmaps)
+		{
+			UVInfo.AddColor /= 2.0f;
+		}
 	}
 #endif
 
@@ -288,10 +304,10 @@ void UICBINDx11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo&
 	for (INT i = 0; i < 5; i++)
 	{
 		// Metallicafan212:	Copy the pan and scale info
-		if (BoundTextures[i].BoundTex != nullptr)//TexInfoHash != 0)
+		if (BoundTextures[i].BoundTex != nullptr)
 		{
-			UVInfo.bEnabledTex[i] = 1;
-			UVInfo.PanScale[i] = FPlane(BoundTextures[i].UPan, BoundTextures[i].VPan, BoundTextures[i].UMult, BoundTextures[i].VMult);
+			UVInfo.bEnabledTex[i]	= 1;
+			UVInfo.PanScale[i]		= FPlane(BoundTextures[i].UPan, BoundTextures[i].VPan, BoundTextures[i].UMult, BoundTextures[i].VMult);
 		}
 		else
 		{
@@ -300,17 +316,17 @@ void UICBINDx11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo&
 	}
 
 	// Metallicafan212:	And lastly the original lightmap scale
-	if (BoundTextures[1].BoundTex != nullptr)//.TexInfoHash != 0)
+	if (BoundTextures[1].BoundTex != nullptr)
 	{
 		UVInfo.LFScale.X = BoundTextures[1].UScale * 0.5f;
 		UVInfo.LFScale.Y = BoundTextures[1].VScale * 0.5f;
 	}
 
 	// Metallicafan212:	And the fog scale
-	if (BoundTextures[3].BoundTex != nullptr)//.TexInfoHash != 0)
+	if (BoundTextures[2].BoundTex != nullptr)
 	{
-		UVInfo.LFScale.Z = BoundTextures[3].UScale * 0.5f;
-		UVInfo.LFScale.W = BoundTextures[3].VScale * 0.5f;
+		UVInfo.LFScale.Z = BoundTextures[2].UScale * 0.5f;
+		UVInfo.LFScale.W = BoundTextures[2].VScale * 0.5f;
 	}
 
 	BufferAndIndex(Facet, TestColor, Fog, m_VertexBuff, m_IndexBuff, m_BufferedVerts, m_BufferedIndices, m_SecVertexBuff, UVInfo);

@@ -491,7 +491,7 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 			CurrentDC      = nullptr;
 			wglMakeCurrent(nullptr, nullptr);
 		}
-		ActiveInstance = nullptr;
+		SetCurrentInstance(nullptr);
 	}
 	else 
 	{
@@ -514,12 +514,13 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 					wglMakeCurrent(nullptr, nullptr);
 					debugf(NAME_DevGraphics, TEXT("OpenGLDrv: wglMakeCurrent failure."));
 				}
+				SetCurrentInstance(nullptr);
 				return false;
 			}
 			CurrentWindow = Window;
 			CurrentContext = Context;
 		}
-		ActiveInstance = this;
+		SetCurrentInstance(this);
 	}
 	return true;
 

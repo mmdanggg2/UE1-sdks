@@ -57,7 +57,11 @@
 //  for core pieces like timing, too. Eventually, we might flip the switch
 //  and use it on all Unix platforms (or...all platforms?!).
 #if !MOD_BUILD
-# include <SDL2/SDL.h>
+# if SDL2BUILD
+#  include <SDL2/SDL.h>
+# else
+#  include <SDL3/SDL.h>
+# endif
 #endif
 
 #include <string.h>

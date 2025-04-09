@@ -599,6 +599,18 @@ void UWindowsViewport::OpenWindow( void* InParentWindow, UBOOL IsTemporary, INT 
 	}
 	if (!RenDev)
 		TryRenderDevice(TEXT("ini:Engine.Engine.WindowedRenderDevice"), NewX, NewY, INDEX_NONE, 0);
+#if !BUILD_64
+	if (!RenDev && GIsEditor)
+		TryRenderDevice(TEXT("SoftDrv.SoftwareRenderDevice"), NewX, NewY, INDEX_NONE, 0);
+#endif
+	if (!RenDev && GIsEditor)
+		TryRenderDevice(TEXT("OpenGLDrv.OpenGLRenderDevice"), NewX, NewY, INDEX_NONE, 0);
+	if (!RenDev && GIsEditor)
+		TryRenderDevice(TEXT("D3D9Drv.D3D9RenderDevice"), NewX, NewY, INDEX_NONE, 0);
+	if (!RenDev && GIsEditor)
+		TryRenderDevice(TEXT("D3D11Drv.D3D11RenderDevice"), NewX, NewY, INDEX_NONE, 0);
+	if (!RenDev && GIsEditor)
+		TryRenderDevice(TEXT("ICBINDx11Drv.ICBINDx11RenderDevice"), NewX, NewY, INDEX_NONE, 0);
 	check(RenDev);
 	UpdateWindowFrame();
 	if( DoRepaint )

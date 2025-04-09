@@ -358,6 +358,10 @@ bool UOpenGLRenderDevice::DetectContextType( DWORD PreferredContextType)
 	// Create the window
 #if __WIN32__
 	HWND DummyWindow = FOpenGLBase::CreateDummyWindow();
+#elif SDL3BUILD
+	SDL_Window* DummyWindow = SDL_CreateWindow(
+		"", 800, 600, 
+		SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
 #else
 	SDL_Window* DummyWindow = SDL_CreateWindow(
 		"", 0, 0, 800, 600, 
@@ -1125,7 +1129,9 @@ UBOOL UOpenGLRenderDevice::Exec( const TCHAR* Cmd, FOutputDevice& Ar)
 	else if ( ParseCommand(&Cmd, TEXT("GetRes")) )
 	{
 #ifdef __UNIX__
-
+# if SDL3BUILD
+		return 0;
+# else
 		FString Str = TEXT("");
 		// Available fullscreen video modes
 		INT display_count = 0, display_index = 0, mode_index = 0, i = 0;
@@ -1157,6 +1163,7 @@ UBOOL UOpenGLRenderDevice::Exec( const TCHAR* Cmd, FOutputDevice& Ar)
 		// Send the resolution string to the engine.
 		Ar.Log(*Str.LeftChop(1));
 		return 1;
+# endif
 #else
 		TArray<FPlane> Relevant;
 		INT i;

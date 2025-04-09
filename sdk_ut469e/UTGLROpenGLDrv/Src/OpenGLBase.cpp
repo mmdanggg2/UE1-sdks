@@ -84,6 +84,10 @@ static void (*InternalSetTextureFilters)( FOpenGLTexture&, bool Nearest) = nullp
 static void InternalSetTextureFilters_Base( FOpenGLTexture&, bool);
 static void InternalSetTextureFilters_DSA( FOpenGLTexture&, bool);
 
+void FOpenGLBase::SetCurrentInstance( FOpenGLBase* Instance)
+{
+	ActiveInstance = Instance;
+}
 
 /*-----------------------------------------------------------------------------
 	Compatibility.

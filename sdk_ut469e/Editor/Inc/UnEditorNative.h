@@ -57,7 +57,8 @@ DECLARE_NATIVE_TYPE(Editor, UBrushBuilder);
 	UBitArray::StaticClass();\
 	UBitMatrix::StaticClass();\
 	UTextureFactory::StaticClass();		 \
-	UTrueTypeFontFactory::StaticClass();
+	UTrueTypeFontFactory::StaticClass(); \
+	UFontFactory::StaticClass();
 
 
 

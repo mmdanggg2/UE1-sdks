@@ -277,12 +277,6 @@ static UEngine* InitEngine()
 	// Set exec hook.
 	GExec = NULL;
 
-	// Update first-run.
-	INT FirstRun=0;
-	if (FirstRun<ENGINE_VERSION)
-		FirstRun = ENGINE_VERSION;
-	GConfig->SetInt( TEXT("FirstRun"), TEXT("FirstRun"), FirstRun );
-
     FixIni();  // check for legacy and Windows-specific INI entries...
 
 	// Create the global engine object.

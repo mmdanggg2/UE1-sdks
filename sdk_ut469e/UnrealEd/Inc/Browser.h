@@ -380,7 +380,7 @@ class WBrowser : public WWindow
 		unguard;
 	}
 	template <class T, class V>
-	inline void RefreshItemList(WComboBox* pComboPackage, WComboBox* pComboGroup, WCheckBox* pCheckGroupAll, WListBox* pListItems, TArray<T*> ItemsList)
+	inline void RefreshItemList(WComboBox* pComboPackage, WComboBox* pComboGroup, WCheckBox* pCheckGroupAll, WListBox* pListItems, TArray<T*>& ItemsList)
 	{
 		guard(WBrowser::RefreshItemList);
 

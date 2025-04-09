@@ -89,7 +89,11 @@ void* FOpenGLBase::CreateContext( void* Window)
 void FOpenGLBase::DeleteContext( void* Context)
 {
 	if ( Context )
+#if SDL3BUILD
+		SDL_GL_DestroyContext((SDL_GLContext)Context);
+#else
 		SDL_GL_DeleteContext(Context);
+#endif
 }
 
 bool FOpenGLBase::MakeCurrent( void* OnWindow)
@@ -108,15 +112,21 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 			CurrentContext = nullptr;
 			SDL_GL_MakeCurrent(nullptr, nullptr);
 		}
-		ActiveInstance = nullptr;
+		SetCurrentInstance(nullptr);
 	}
 	else
 	{
 		if ( Context && (Context != CurrentContext || OnWindow != CurrentWindow) )
 		{
 			Window = OnWindow;
-			if ( !SDL_GL_MakeCurrent((SDL_Window*)Window, (SDL_GLContext)Context) )
+			INT Result = SDL_GL_MakeCurrent((SDL_Window*)Window, (SDL_GLContext)Context);
+#if SDL3BUILD
+			if ( Result == 0 )
+#else
+			if ( Result != 0 )
+#endif
 			{
+				debugf(TEXT("SDL_GL_MakeCurrent error %i - %ls"), Result, appFromAnsi(SDL_GetError()));
 				if ( CurrentContext || CurrentWindow )
 				{
 					CurrentWindow = nullptr;
@@ -124,12 +134,13 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 					ActiveInstance = nullptr;
 					SDL_GL_MakeCurrent(nullptr, nullptr);
 				}
+				SetCurrentInstance(nullptr);
 				return false;
 			}
 			CurrentWindow = Window;
 			CurrentContext = Context;
 		}
-		ActiveInstance = this;
+		SetCurrentInstance(this);
 	}
 	return true;
 

@@ -2,6 +2,7 @@ class ListItem expands Object;
 
 var ListItem 	Next;
 var ListItem	Prev;
+var ListItem	Last;
 
 var String	Tag;			// sorted element
 var String	Data;			// saved data
@@ -11,30 +12,63 @@ function AddElement(ListItem NewElement)
 {
 	local ListItem TempItem;
 	
-	for (TempItem = self; TempItem.Next != None; TempItem = TempItem.Next);
+	// Use do..until loop instead of "for" loop for reduce runaway counter increment.
+	TempItem = self;
+	if (TempItem.Next != None)
+	{
+		do
+			TempItem = TempItem.Next;
+		until (TempItem.Next == None);
+	}
 	
 	TempItem.Next = NewElement;
 	NewElement.Prev = TempItem;
 	NewElement.Next = None;
 }
 
+function InitAppend()
+{
+	Last = self;
+	if (Last.Next != None)
+	{
+		do
+			Last = Last.Next;
+		until (Last.Next == None);
+	}
+}
+
+function AppendElement(ListItem NewElement)
+{
+	if (Last == None)
+		InitAppend();
+	
+	Last.Next = NewElement;
+	NewElement.Prev = Last;
+	NewElement.Next = None;
+	Last = NewElement;
+}
+
 function AddSortedElement(out ListItem FirstElement, ListItem NewElement)
 {
 	local ListItem TempItem;
+	local string NewElementCapsTag;
+	local bool CapsTagLess;
 	
+	NewElementCapsTag = Caps(NewElement.Tag);
 	// find item which new should be inserted after
 	TempItem = FirstElement;
 	while (TempItem != None)
 	{
+		CapsTagLess = Caps(TempItem.Tag) <= NewElementCapsTag;
 		// if current is less or equal than new, but is at the end
-		if (Caps(TempItem.Tag) <= Caps(NewElement.Tag) && TempItem.Next == None)
+		if (CapsTagLess && TempItem.Next == None)
 		{
 			TempItem.Next = NewElement;
 			NewElement.Prev = TempItem;
 			NewElement.Next = None;
 			break;
 		} // else if current is greater than new
-		else if (Caps(TempItem.Tag) > Caps(NewElement.Tag))
+		else if (!CapsTagLess)
 		{	// if current.prev == none, then make it the new first element
 			if (TempItem.Prev == None)
 				FirstElement = NewElement;

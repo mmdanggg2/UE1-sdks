@@ -214,7 +214,7 @@ f_TextureConvert FTextureUploadState::SelectSoftwareConversion()
 		}
 
 		// Choose R8 if this is a pure grayscale image (using swizzle)
-		if ( FOpenGLBase::SupportsTextureSwizzle )
+		if ( FOpenGLBase::SupportsTextureSwizzle && FTextureFormatInfo::Get(TEXF_R8).Supported )
 		{
 			if ( PaletteGrayscaleFont(Info->Palette) )
 			{

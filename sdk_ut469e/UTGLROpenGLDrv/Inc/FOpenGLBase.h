@@ -417,6 +417,7 @@ public:
 	void LockDXGIFramebuffer();
 	bool UnlockDXGIFramebuffer();
 #endif
+	static void SetCurrentInstance(FOpenGLBase* Current);
 	bool MakeCurrent( void* OnWindow);
 
 public:

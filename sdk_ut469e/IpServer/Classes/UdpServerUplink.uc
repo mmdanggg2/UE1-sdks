@@ -92,10 +92,10 @@ function Resolved( IpAddr Addr )
 	Log("UdpServerUplink: Master Server is "$MasterServerAddress$":"$MasterServerIpAddr.Port);
 	
 	// Bind the local port.
-	UplinkPort = Query.Port + 1;
-	if( BindPort(UplinkPort, true) == 0 )
+	UplinkPort = BindPort(Query.Port + 1, true);
+	if( UplinkPort == 0 )
 	{
-		Log( "UdpServerUplink: Error binding port, aborting." );
+		Log( "UdpServerUplink: Error binding port, aborting." @ "[" $ (Query.Port + 1) $ "+]" );
 		return;
 	}
 	Log("UdpServerUplink: Port "$UplinkPort$" successfully bound.");

@@ -3114,6 +3114,8 @@ public:
     INT StoredCanvasY;
     DECLARE_FUNCTION(execPasteFromClipboard);
     DECLARE_FUNCTION(execCopyToClipboard);
+//  DECLARE_FUNCTION(execStartTextInput);
+//  DECLARE_FUNCTION(execStopTextInput);
     DECLARE_FUNCTION(execConsoleCommand);
     DECLARE_FUNCTION(execGetPlayerNetworkAddress);
     DECLARE_FUNCTION(execGetEntryLevel);
@@ -3400,6 +3402,8 @@ AUTOGENERATE_FUNCTION(APawn,502,execMoveToward);
 AUTOGENERATE_FUNCTION(APawn,500,execMoveTo);
 AUTOGENERATE_FUNCTION(APlayerPawn,-1,execPasteFromClipboard);
 AUTOGENERATE_FUNCTION(APlayerPawn,-1,execCopyToClipboard);
+//AUTOGENERATE_FUNCTION(APlayerPawn,-1,execStartTextInput);
+//AUTOGENERATE_FUNCTION(APlayerPawn,-1,execStopTextInput);
 AUTOGENERATE_FUNCTION(APlayerPawn,-1,execConsoleCommand);
 AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetPlayerNetworkAddress);
 AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetEntryLevel);

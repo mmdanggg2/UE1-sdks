@@ -628,7 +628,7 @@ public:
 	// Serializer.
 	friend FArchive& operator<<( FArchive& Ar, TRed& C )
 	{
-		return Ar << C.R << C.G;
+		return Ar << C.R;
 	}
 
 	// Operators.

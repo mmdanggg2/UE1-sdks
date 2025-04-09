@@ -142,6 +142,9 @@ class USDLClient : public UClient, public FNotifyHook
 	FString GetClipboardText();
 	UBOOL SetClipboardText(FString& Str);
 
+	void StartTextInput();
+	void StopTextInput();
+
 	// Dynamic font creation support
 	INT GetDPIScaledX(INT X);
 	INT GetDPIScaledY(INT Y);

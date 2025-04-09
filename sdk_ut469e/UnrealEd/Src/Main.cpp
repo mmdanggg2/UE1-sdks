@@ -21,7 +21,8 @@ enum eLASTDIR {
 	eLASTDIR_UMX = 8,
 	eLASTDIR_MUS = 9,
 	eLASTDIR_CLS = 10,
-	eLASTDIR_MAX = 11
+	eLASTDIR_MSH = 11,
+	eLASTDIR_MAX = 12
 };
 
 enum eBROWSER {
@@ -765,6 +766,7 @@ class WLevelFrame : public WWindow
 		GConfig->SetString( TEXT("Directories"), TEXT("WAV"), *GLastDir[eLASTDIR_WAV], GUEDIni );
 		GConfig->SetString( TEXT("Directories"), TEXT("BRUSH"), *GLastDir[eLASTDIR_BRUSH], GUEDIni );
 		GConfig->SetString( TEXT("Directories"), TEXT("2DS"), *GLastDir[eLASTDIR_2DS], GUEDIni );
+		GConfig->SetString( TEXT("Directories"), TEXT("MSH"), *GLastDir[eLASTDIR_MSH], GUEDIni );
 
 		// Background image
 		GConfig->SetInt( TEXT("Background Image"), TEXT("Active"), (hImage != NULL), GUEDIni );
@@ -4192,6 +4194,7 @@ INT WINAPI WinMain( HINSTANCE hInInstance, HINSTANCE hPrevInstance, char* InCmdL
 #else
 		if (!GConfig->GetString(TEXT("Directories"), TEXT("USM"), GLastDir[eLASTDIR_USM], GUEDIni))		GLastDir[eLASTDIR_USM] = TEXT("..\\System");
 #endif
+		if (!GConfig->GetString(TEXT("Directories"), TEXT("MSH"), GLastDir[eLASTDIR_MSH], GUEDIni))		GLastDir[eLASTDIR_MSH] = TEXT("..\\System");
 		if (!GConfig->GetString(TEXT("Directories"), TEXT("UMX"), GLastDir[eLASTDIR_UMX], GUEDIni))		GLastDir[eLASTDIR_UMX] = TEXT("..\\Music");
 		if (!GConfig->GetString(TEXT("Directories"), TEXT("UAX"), GLastDir[eLASTDIR_UAX], GUEDIni))		GLastDir[eLASTDIR_UAX] = TEXT("..\\Sounds");
 		if (!GConfig->GetString(TEXT("Directories"), TEXT("UTX"), GLastDir[eLASTDIR_UTX], GUEDIni))		GLastDir[eLASTDIR_UTX] = TEXT("..\\Textures");

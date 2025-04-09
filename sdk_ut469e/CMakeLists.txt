@@ -166,6 +166,12 @@ if(LINUX)
   )
 endif()
 
+if(NOT WINDOWS)
+  option(OLDUNREAL_BUILD_SDL2DRV
+    "Set to true to build with the SDL2-based version of SDLDrv/SDLLaunch" TRUE
+  )
+endif()
+
 ################################################################################
 # Build options - Not available for the SDK
 ################################################################################
@@ -195,6 +201,23 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/UnObj.cpp)
   endif()
 
   set(WANT_GALAXY TRUE)
+
+  if(NOT WIN32)
+    add_compile_definitions(SDLBUILD=1)
+    if(NOT OLDUNREAL_BUILD_SDL2DRV)
+      set(WANT_SDL2 OFF)
+  	  set(SDLDRV_DIR SDL3Drv)
+  	  set(SDLLAUNCH_DIR SDL3Launch)
+	  add_compile_definitions(SDL2BUILD=0)
+	  add_compile_definitions(SDL3BUILD=1)
+    else()
+      set(WANT_SDL2 ON)
+	  set(SDLDRV_DIR SDLDrv)
+	  set(SDLLAUNCH_DIR SDLLaunch)
+	  add_compile_definitions(SDL2BUILD=1)
+	  add_compile_definitions(SDL3BUILD=0)
+    endif()
+  endif()
   
 else()
   set(OLDUNREAL_BUILD_OLDOPENGLDRV FALSE)
@@ -210,6 +233,10 @@ else()
   
   if(EMSCRIPTEN)
     message(FATAL_ERROR "The OldUnreal SDK is not available for emscripten. Sorry!")
+  endif()
+
+  if(NOT OLDUNREAL_X86)
+    message(FATAL_ERROR "The OldUnreal SDK is not available for 64-bit or ARM versions of Windows. Consider building with cmake -A Win32 to use our 32-bit SDK.")
   endif()
   
 endif()
@@ -601,10 +628,9 @@ if(WINDOWS)
     include_directories(${ICBINDX11DRV_DIR}/Inc)
   endif()
 else()
-  include_directories(SDLLaunch/Inc)
+  include_directories(${SDLLAUNCH_DIR}/Inc)
   include_directories(Window/Src/Res)
-  include_directories(SDLDrv/Inc)
-  include_directories(SDLSoftDrv/Src)
+  include_directories(${SDLDRV_DIR}/Inc)
   include_directories(ALAudio/Inc)
 endif()
 
@@ -825,7 +851,7 @@ oldunreal_set_package_properties(udemo)
 
 if(OLDUNREAL_BUILD_FRUCORE)
   file(GLOB FRUCORE_HEADERS FruitCompanyRenderer/Inc/*.h)
-  file(GLOB FRUCORE_SOURCES FruitCompanyRenderer/Src/*.cpp)
+  file(GLOB FRUCORE_SOURCES FruitCompanyRenderer/Src/*.cpp FruitCompanyRenderer/Src/*.m)
   file(GLOB FRUCORE_SHADERS FruitCompanyRenderer/Shaders/*.metal)
 
   if(CMAKE_GENERATOR STREQUAL Xcode)
@@ -1097,8 +1123,8 @@ if(WINDOWS)
 
 else() # Non-Windows targets
 
-  file(GLOB SDLDRV_HEADERS SDLDrv/Inc/*.h)
-  file(GLOB SDLDRV_SOURCES SDLDrv/Src/*.cpp)
+  file(GLOB SDLDRV_HEADERS ${SDLDRV_DIR}/Inc/*.h)
+  file(GLOB SDLDRV_SOURCES ${SDLDRV_DIR}/Src/*.cpp)
   add_library(
     SDLDrv
     ${OLDUNREAL_PACKAGE_LINKAGE}
@@ -1110,7 +1136,7 @@ else() # Non-Windows targets
   if(NOT OLDUNREAL_MAKE_BUNDLE)
     add_executable(
       ${OLDUNREAL_EXE}
-      SDLLaunch/Src/SDLLaunch.cpp
+      ${SDLLAUNCH_DIR}/Src/SDLLaunch.cpp
     )
     set_target_properties(${OLDUNREAL_EXE} PROPERTIES CXX_STANDARD 17)
 	target_include_directories(${OLDUNREAL_EXE} PRIVATE External/fmod/inc)
@@ -1118,13 +1144,13 @@ else() # Non-Windows targets
     add_executable(
       ${OLDUNREAL_EXE}
       MACOSX_BUNDLE
-      SDLLaunch/Src/SDLLaunch.cpp
-      SDLLaunch/Src/Unreal2.icns
+      ${SDLLAUNCH_DIR}/Src/SDLLaunch.cpp
+      ${SDLLAUNCH_DIR}/Src/Unreal2.icns
     )
     set_target_properties(
       ${OLDUNREAL_EXE}
       PROPERTIES
-      MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/SDLLaunch/Src/Unreal.plist.in
+      MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/${SDLLAUNCH_DIR}/Src/Unreal.plist.in
 	  CXX_STANDARD 17
     )
 	target_include_directories(${OLDUNREAL_EXE} PRIVATE External/fmod/inc)
@@ -1218,7 +1244,7 @@ endif()
 
 target_link_libraries(
   ALAudio
-  ${SDL2_LIBRARIES}
+  ${SDL_LIBRARIES}
   ${OPENAL_LIBRARY}
   ${XMP_LIBRARY}
   ${VORBISFILE_LIBRARY}
@@ -1363,16 +1389,15 @@ endif()
 # Common Linker Rules for Linux and Mac
 ################################################################################
 if(UNIX)
-  # We don't have RDTSC on ARM so we use SDL2 to get timestamps
+  # We don't have RDTSC on ARM so we use SDL to get timestamps
   if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/UnObj.cpp AND (OLDUNREAL_ARM OR OLDUNREAL_ARM64))
-    target_link_libraries(Core ${SDL2_LIBRARIES})
+    target_link_libraries(Core ${SDL_LIBRARIES})
   endif()
 
   target_link_libraries(
     SDLDrv
-    ${SDL2_LIBRARIES}
-    ${SDL2_TTF_LIBRARY}
-    ${FREETYPE_LIBRARIES}
+    ${SDL_LIBRARIES}
+    ${SDL_TTF_LIBRARIES}
 	${PNG_LIBRARY}
     ${ZLIB_LIBRARY}
   )
@@ -1380,21 +1405,21 @@ if(UNIX)
   target_link_libraries(
     ${OLDUNREAL_EXE}
     SDLDrv
-    ${SDL2_LIBRARIES}
-    ${SDL2_TTF_LIBRARY}
+    ${SDL_LIBRARIES}
+    ${SDL_TTF_LIBRARIES}
   )
   
   if(OLDUNREAL_BUILD_WX_LAUNCHER)
     target_link_libraries(
       ${OLDUNREAL_WX_LAUNCHER_EXE}
       SDLDrv
-      ${SDL2_LIBRARIES}
-      ${SDL2_TTF_LIBRARY}
+      ${SDL_LIBRARIES}
+      ${SDL_TTF_LIBRARIES}
     )
   endif()
 
   if ((OLDUNREAL_ARM OR OLDUNREAL_ARM64) AND OLDUNREAL_BUILD_SERVER)
-    target_link_libraries(${OLDUNREAL_SERVER_EXE} ${SDL2_LIBRARIES})
+    target_link_libraries(${OLDUNREAL_SERVER_EXE} ${SDL_LIBRARIES})
   endif()
   
 endif()
@@ -1405,10 +1430,10 @@ endif()
 ################################################################################
 
 if(EMSCRIPTEN)
-  set(SDLDIR "${CMAKE_CURRENT_SOURCE_DIR}/SDL2")
+  set(SDLDIR "${CMAKE_CURRENT_SOURCE_DIR}/${SDL_NAME}")
 
   macro(emscripten_build _UT99EXE _GLDRV _DEFXOPENGL _LINKFLAGS)
-    add_executable(${_UT99EXE} SDLLaunch/Src/SDLLaunch.cpp)
+    add_executable(${_UT99EXE} ${SDLLAUNCH_DIR}/Src/SDLLaunch.cpp)
     target_link_libraries(
       ${_UT99EXE}
       Editor
@@ -1426,7 +1451,7 @@ if(EMSCRIPTEN)
       ${_UT99EXE} PROPERTIES COMPILE_DEFINITIONS
                              FORCE_XOPENGLDRV=${_DEFXOPENGL}
     )
-    target_link_libraries(${_UT99EXE} "${SDLDIR}/lib/emscripten/libSDL2.a")
+    target_link_libraries(${_UT99EXE} "${SDLDIR}/lib/emscripten/lib${SDL_NAME}.a")
     if(${_DEFXOPENGL} STREQUAL "0")
       target_link_libraries(
         ${_UT99EXE}
@@ -1729,7 +1754,7 @@ elseif(APPLE)
     Core
     ${COCOA_FRAMEWORK}
     iconv
-    ${SDL2_LIBRARIES}
+    ${SDL_LIBRARIES}
   )
 
   if(OLDUNREAL_BUILD_FRUCORE)
@@ -1974,7 +1999,8 @@ elseif(LINUX)
   foreach(LIB
   	"${XMP_LIBRARY};libxmp.so.4"
 	"${OPENAL_LIBRARY};libopenal.so.1"
-#	"${SDL2_LIBRARIES};libSDL2-2.0.so.0"
+#	"${SDL_LIBRARIES};${SDL_SO_NAME}"
+#   "${SDL_TTF_LIBRARIES};${SDL_TTF_SO_NAME}"
 	"${MPG123_LIBRARY};libmpg123.so"
 	"${SNDFILE_LIBRARY};libsndfile.so.1"
 	"${FMOD_LINK_LIBRARY};libfmod.so.13"
@@ -2012,7 +2038,7 @@ elseif(APPLE AND OLDUNREAL_MAKE_BUNDLE)
   )
 
   set_source_files_properties(
-    SDLLaunch/Src/Unreal2.icns
+    ${SDLLAUNCH_DIR}/Src/Unreal2.icns
     PROPERTIES
     MACOSX_PACKAGE_LOCATION
     Resources
@@ -2026,8 +2052,12 @@ elseif(APPLE AND OLDUNREAL_MAKE_BUNDLE)
     "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/libfmod.dylib"
     "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/libmpg123.dylib"
     "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/libsndfile.1.dylib"
-    "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/libSDL2-2.0.0.dylib"
+    "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/${SDL_DYLIB_NAME}"
   )
+
+  if(NOT "${SDL_TTF_DYLIB_NAME}" STREQUAL "")
+    list(APPEND LIBS "${CMAKE_INSTALL_PREFIX}/${OLDUNREAL_EXE}.app/Contents/Frameworks/${SDL_TTF_DYLIB_NAME}")
+  endif()
   
   install(
     TARGETS ${OLDUNREAL_EXE}
@@ -2077,20 +2107,24 @@ elseif(APPLE AND OLDUNREAL_MAKE_BUNDLE)
     "${XMP_LIBRARY};libxmp.4.dylib"
     "${MPG123_LIBRARY};libmpg123.dylib"
     "${SNDFILE_LIBRARY};libsndfile.1.dylib"
-    "${SDL2_LIBRARIES};libSDL2-2.0.0.dylib"
+    "${SDL_LIBRARIES};${SDL_DYLIB_NAME}"
+	"${SDL_TTF_LIBRARIES};${SDL_TTF_DYLIB_NAME}"
     "${FMOD_INSTALL_LIBRARY};libfmod.dylib"
   )
-    # Ugh. SDL2 has two libs in the list
+    # Ugh. SDL has two libs in the list
     list(GET LIB -2 ORIG_NAME)
     list(GET LIB -1 NEW_NAME)
 
-    get_library_path(ORIG_NAME ABSOLUTE_PATH)
-    
-    install(
-      FILES ${ABSOLUTE_PATH}
-      RENAME ${NEW_NAME}
-      DESTINATION ${OLDUNREAL_EXE}.app/Contents/Frameworks
-    )
+#    if(NOT "${ORIG_NAME}" STREQUAL "" AND NOT "${NEW_NAME}" STREQUAL "")
+      get_library_path(ORIG_NAME ABSOLUTE_PATH)
+
+  	  message(STATUS "Copying lib ${ABSOLUTE_PATH} ${NEW_NAME}")
+      install(
+        FILES ${ABSOLUTE_PATH}
+        RENAME ${NEW_NAME}
+        DESTINATION ${OLDUNREAL_EXE}.app/Contents/Frameworks
+      )
+#	endif()
   endforeach()
 
   install(
@@ -2110,14 +2144,16 @@ elseif(APPLE)
     )
   endif()
 
-  get_library_path(SDL2_LIBRARIES SDL2_INSTALL_LIBRARY)
-
+  get_library_path(SDL_LIBRARIES SDL_INSTALL_LIBRARY)
+  get_library_path(SDL_TTF_LIBRARIES SDL_TTF_INSTALL_LIBRARY)
+  
   install(
     FILES
     ${XMP_LIBRARY}
     ${OPENAL_LIBRARY}
     ${FMOD_INSTALL_LIBRARY}	
-    ${SDL2_INSTALL_LIBRARY}
+    ${SDL_INSTALL_LIBRARY}
+	${SDL_TTF_INSTALL_LIBRARY}
     ${MPG123_LIBRARY}
     ${SNDFILE_LIBRARY}
     DESTINATION ./

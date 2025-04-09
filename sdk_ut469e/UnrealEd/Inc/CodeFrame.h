@@ -1071,6 +1071,7 @@ class WCodeFrame : public WWindow
 
 	TArray<ClassHolder> m_Classes;	// the list of classes we are editing scripts for
 	UClass* pCurrentClass;
+	INT ClassesCount = INDEX_NONE; // For determine if need update classes list or no.
 
 	// pointer from BrowserActor
 	WCheckListBox* pPackagesList{};
@@ -1596,6 +1597,7 @@ class WCodeFrame : public WWindow
 					FString Name = FilesList.GetString( FilesList.GetCurrent() );
 					m_Classes.Empty();
 					m_Classes.AddItem({FindObject<UClass>(ANY_PACKAGE, *Name, 1)});
+					ClassesCount = INDEX_NONE;
 				}
 				/* no break; */
 
@@ -1910,6 +1912,7 @@ class WCodeFrame : public WWindow
 		{
 			debugf(TEXT("WCodeFrame::AddClass - Adding class to list"));
 			m_Classes.AddItem({pClass});
+			ClassesCount = INDEX_NONE;
 		}
 
 		if (bSilent)
@@ -1935,6 +1938,7 @@ class WCodeFrame : public WWindow
 			if( !appStrcmp( *FObjectPathName(m_Classes(x).Cls), *Name ) )
 			{
 				m_Classes.Remove(x);
+				ClassesCount = INDEX_NONE;
 				break;
 			}
 		}
@@ -1955,6 +1959,10 @@ class WCodeFrame : public WWindow
 	void RefreshScripts(void)
 	{
 		guard(WCodeFrame::RefreshScripts);
+
+		if (ClassesCount == m_Classes.Num() && m_Classes.Num() == FilesList.GetCount())
+			return;
+		ClassesCount = m_Classes.Num();
 		
 		FilesList.SetRedraw(false);
 

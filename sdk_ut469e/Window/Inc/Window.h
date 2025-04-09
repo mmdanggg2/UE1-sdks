@@ -7589,6 +7589,7 @@ public:
 	// Variables.
 	UBOOL ByCategory{};
 	TArray<UObject*> _Objects;
+	TArray<INT> _ObjectIndexes;
 
 	// Structors.
 	FObjectsItem() = default;
@@ -7711,6 +7712,7 @@ public:
 
 		// Add objects and find lowest common base class.
 		_Objects.Empty();
+		_ObjectIndexes.Empty();
 		BaseClass = NULL;
 		for( INT i=0; i<Count; i++ )
 		{
@@ -7722,6 +7724,7 @@ public:
 				while( !InObjects[i]->GetClass()->IsChildOf(BaseClass) )
 					BaseClass = BaseClass->GetSuperClass();
 				_Objects.AddItem( InObjects[i] );
+				_ObjectIndexes.AddItem(InObjects[i]->GetIndex());
 			}
 		}
 
@@ -7741,7 +7744,7 @@ public:
 		INT i = 0;
 		for (i = 0; i < _Objects.Num(); i++)
 		{
-			if (!_Objects(i) || _Objects(i)->IsPendingKill())
+			if (!_Objects(i) || (i < _ObjectIndexes.Num() && _Objects(i) != UObject::GetIndexedObject(_ObjectIndexes(i))) || _Objects(i)->IsPendingKill())
 			{
 				bChanged = true;
 				_Objects.Remove(i, 1);

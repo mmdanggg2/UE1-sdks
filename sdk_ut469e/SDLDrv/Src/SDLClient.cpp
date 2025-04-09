@@ -400,6 +400,17 @@ FString USDLClient::GetClipboardText()
 }
 
 //
+// Start/StopTextInput - We don't need these for SDL2
+//
+void USDLClient::StartTextInput()
+{
+}
+
+void USDLClient::StopTextInput()
+{
+}
+
+//
 // DPI awareness - completely untested
 //
 INT USDLClient::GetDPIScaledX(INT X)

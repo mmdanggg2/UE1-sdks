@@ -170,10 +170,6 @@ void UICBINDx11RenderDevice::SetupDevice()
 	SAFE_RELEASE(BlankSampler);
 
 	// Metallicafan212:	Depth states for PF_Occlude
-	//SAFE_RELEASE(m_DefaultZState);
-	//SAFE_RELEASE(m_DefaultNoZState);
-	//SAFE_RELEASE(m_DefaultNoZWriteState);
-
 	for (INT i = 0; i < ARRAY_COUNT(DepthStencilStates); i++)
 	{
 		SAFE_RELEASE(DepthStencilStates[i]);
@@ -210,7 +206,7 @@ void UICBINDx11RenderDevice::SetupDevice()
 
 	// Metallicafan212:	Init DX11
 	//					We want to use feature level 11_1 for compute shaders
-	D3D_FEATURE_LEVEL FLList[9] = 
+	D3D_FEATURE_LEVEL FLList[] = 
 	{ 
 		D3D_FEATURE_LEVEL_12_1,
 		D3D_FEATURE_LEVEL_12_0,
@@ -1179,8 +1175,6 @@ UBOOL UICBINDx11RenderDevice::Init(UViewport* InViewport, INT NewX, INT NewY, IN
 	//					So, if the format needs to be changed, just change it and I'll make it match when I finally finish implementing it
 	//					AMD compressonator wasn't producing this correctly (which is why I disabled it)
 	RegisterTextureFormat(TEXF_BC6H, DXGI_FORMAT_BC6H_UF16, 0, 1, 16, &FD3DTexType::BlockCompressionPitch);
-//#else
-//	RegisterTextureFormat(TEXF_BC6H, DXGI_FORMAT_BC6H_UF16, 0, 16, &FD3DTexType::BlockCompressionPitch);
 #endif
 
 	RegisterTextureFormat(TEXF_BC7, DXGI_FORMAT_BC7_UNORM, 0, 1, 16, &FD3DTexType::BlockCompressionPitch);
@@ -1191,6 +1185,11 @@ UBOOL UICBINDx11RenderDevice::Init(UViewport* InViewport, INT NewX, INT NewY, IN
 	RegisterTextureFormat(TEXF_RGB10A2, DXGI_FORMAT_R10G10B10A2_UNORM, 0);
 	RegisterTextureFormat(TEXF_RGBA16, DXGI_FORMAT_R16G16B16A16_UNORM, 0, 0, 8);
 	RegisterTextureFormat(TEXF_RGB16_, DXGI_FORMAT_R16G16B16A16_UNORM, 0, 0, 8);
+#endif
+
+	// Metallicafan212:	MSDF font support
+#if DX11_MSDF_RENDERING
+	RegisterTextureFormat(TEXF_MSDF, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 0, 4, &FD3DTexType::RawPitch);
 #endif
 
 	return 1;
@@ -1686,9 +1685,10 @@ void UICBINDx11RenderDevice::SetupResources()
 		swapChainDesc.BufferCount			= 2; //+ NumAdditionalBuffers;
 		//swapChainDesc.Scaling				= DXGI_SCALING_NONE;
 		// Metallicafan212:	If we're on windows 10 or above, use the better DXGI mode
-		swapChainDesc.SwapEffect			= (bFlipDiscard		? DXGI_SWAP_EFFECT_FLIP_DISCARD : DXGI_SWAP_EFFECT_DISCARD);
-		swapChainDesc.Flags					= (bAllowTearing	? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0) | (bFullscreen ? DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH : 0);
-		swapChainDesc.Scaling				= (bFullscreen		? DXGI_SCALING_NONE : DXGI_SCALING_STRETCH);
+		swapChainDesc.SwapEffect			= (bFlipDiscard					? DXGI_SWAP_EFFECT_FLIP_DISCARD : DXGI_SWAP_EFFECT_DISCARD);
+		swapChainDesc.Flags					= (bAllowTearing				? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0) | (bFullscreen ? DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH : 0);
+		// Metallicafan212:	None is only supported in flip mode presentation....
+		swapChainDesc.Scaling				= (bFullscreen && bFlipDiscard	? DXGI_SCALING_NONE : DXGI_SCALING_STRETCH);
 
 
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = {};
@@ -1865,7 +1865,7 @@ void UICBINDx11RenderDevice::SetupResources()
 		// Metallicafan212:	Save the last detected value
 		INT LastWhiteBalance = 0;
 
-		GConfig->GetInt(GetClass()->GetPathName(), TEXT("AutodetectedWhiteBalance"), LastWhiteBalance);
+		GConfig->GetInt(*ClsName, TEXT("AutodetectedWhiteBalance"), LastWhiteBalance);
 
 		// Metallicafan212:	If the config value is invalid, or the last autodetected value isn't found, or if the detected white balance doesn't match, reset
 		if (HDRWhiteBalanceNits <= 0 || LastWhiteBalance == 0 || DetectedWhiteBalance != LastWhiteBalance)
@@ -1882,12 +1882,12 @@ void UICBINDx11RenderDevice::SetupResources()
 
 			FrameShaderVars.WhiteLevel	= HDRWhiteBalanceNits / 80.0f;
 
-			GConfig->SetInt(GetClass()->GetPathName(), TEXT("AutodetectedWhiteBalance"), DetectedWhiteBalance);
+			GConfig->SetInt(*ClsName, TEXT("AutodetectedWhiteBalance"), DetectedWhiteBalance);
 
 			SaveConfig();
 		}
 
-		GConfig->SetInt(GetClass()->GetPathName(), TEXT("AutodetectedWhiteBalance"), DetectedWhiteBalance);
+		GConfig->SetInt(*ClsName, TEXT("AutodetectedWhiteBalance"), DetectedWhiteBalance);
 	}
 
 	// Metallicafan212:	Initalize shaders, if needed
@@ -2521,7 +2521,7 @@ UBOOL UICBINDx11RenderDevice::Exec(const TCHAR* Cmd, FOutputDevice& Ar)
 {
 	guard(UICBINDx11RenderDevice::Exec);
 
-	if (URenderDevice::Exec(Cmd, Ar))
+	if (RD_CLASS::Exec(Cmd, Ar))
 	{
 		return 1;
 	}
@@ -2553,8 +2553,12 @@ UBOOL UICBINDx11RenderDevice::Exec(const TCHAR* Cmd, FOutputDevice& Ar)
 		{
 			Str += FString::Printf(TEXT("%ix%i "), (INT)Relevant(i).X, (INT)Relevant(i).Y);
 		}
-		// Metallicafan212:	This causes the HP2 UC to not add on 1920x1080 (aka the desktop res)
+#if DX11_UT_469
+		Ar.Log(*Str.LeftChop(1));
+#else
+		// Metallicafan212:	This causes the HP2 UC to not add on the user's desktop res
 		Ar.Log(*Str);//.LeftChop(1));
+#endif
 		return 1;
 	}
 
@@ -3182,11 +3186,7 @@ void UICBINDx11RenderDevice::Unlock(UBOOL Blit)
 		if (n > 0)
 		{
 			// Metallicafan212:	Get the current timestamp
-#if DX11_UNREAL_227
-			const TCHAR* tStamp = *appTimestamp();
-#else
-			const TCHAR* tStamp = appTimestamp();
-#endif
+			FString tStamp = appTimestamp();
 
 			GLog->Logf(TEXT("DX11: Warnings and errors during this frame:"));
 
@@ -3207,7 +3207,7 @@ void UICBINDx11RenderDevice::Unlock(UBOOL Blit)
 					m_D3DQueue->GetMessage(i, temp, &mSize);
 
 					// Metallicafan212:	Now log it
-					GWarn->Logf(TEXT("DX11 debug message (%s): %s at %s"), GetD3DDebugSeverity(temp->Severity), appFromAnsi(temp->pDescription), tStamp);
+					GWarn->Logf(TEXT("DX11 debug message (%s): %s at %s"), GetD3DDebugSeverity(temp->Severity), appFromAnsi(temp->pDescription), *tStamp);
 
 					appFree(temp);
 				}

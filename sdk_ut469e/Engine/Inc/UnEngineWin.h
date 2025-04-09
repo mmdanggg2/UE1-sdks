@@ -213,11 +213,11 @@ class WConfigPageSafeOptions : public WWizardPage
 			CmdLine+=TEXT(" -nosound");
 		if( SendMessageW(No3DSoundButton,BM_GETCHECK,0,0)==BST_CHECKED )
 			CmdLine+=TEXT(" -no3dsound");
-		if( SendMessageW(No3DSoundButton,BM_GETCHECK,0,0)==BST_CHECKED )
+		if( SendMessageW(No3DVideoButton,BM_GETCHECK,0,0)==BST_CHECKED )
 			CmdLine+=TEXT(" -nohard");
-		if( SendMessageW(No3DSoundButton,BM_GETCHECK,0,0)==BST_CHECKED )
+		if( SendMessageW(WindowButton,BM_GETCHECK,0,0)==BST_CHECKED )
 			CmdLine+=TEXT(" -nohard -noddraw");
-		if( SendMessageW(No3DSoundButton,BM_GETCHECK,0,0)==BST_CHECKED )
+		if( SendMessageW(ResButton,BM_GETCHECK,0,0)==BST_CHECKED )
 			CmdLine+=TEXT(" -defaultres");
 		if( SendMessageW(NoProcessorButton,BM_GETCHECK,0,0)==BST_CHECKED )
 			CmdLine+=TEXT(" -nommx -nokni -nok6");
@@ -950,13 +950,6 @@ static UEngine* InitEngine()
 	FArchive* Ar = GFileManager->CreateFileWriter(TEXT("Running.ini"),0);
 	if( Ar )
 		delete Ar;
-
-	// Update first-run.
-	if( FirstRun<ENGINE_VERSION )
-		FirstRun = ENGINE_VERSION;
-	// Buggie: Do not update ini file from UCC or UnrealEd for avoid bypass first-time init from Launcher.
-	if (!GIsEditor && GIsClient)
-		GConfig->SetInt( TEXT("FirstRun"), TEXT("FirstRun"), FirstRun );
 
 	// Cd check.
 	FString CdPath;

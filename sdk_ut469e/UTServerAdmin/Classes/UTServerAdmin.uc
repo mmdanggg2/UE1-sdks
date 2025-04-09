@@ -86,7 +86,7 @@ function LoadGameTypes()
 		if (GameTypeList == None)
 			GameTypeList = TempItem;
 		else
-			GameTypeList.AddElement(TempItem);
+			GameTypeList.AppendElement(TempItem);
 
 		NextGame = Level.GetNextInt("TournamentGameInfo", ++i);
 	}
@@ -134,7 +134,7 @@ function LoadMutators()
 			if (IncludeMutators == None)
 				IncludeMutators = TempItem;
 			else
-				IncludeMutators.AddElement(TempItem);
+				IncludeMutators.AppendElement(TempItem);
 		}
 		else
 			log("Unknown Mutator in use: "@String(M.Class));
@@ -214,7 +214,7 @@ function ApplyMapList(out ListItem ExcludeMaps, out ListItem IncludeMaps, String
 				if (IncludeMaps == None)
 					IncludeMaps = TempItem;
 				else
-					IncludeMaps.AddElement(TempItem);
+					IncludeMaps.AppendElement(TempItem);
 			}
 			else
 				Log("*** Unknown map in Map List: "$MapListClass.Default.Maps[i]);
@@ -256,7 +256,7 @@ function ReloadExcludeMaps(out ListItem ExcludeMaps, String GameType)
 			{
 				// Maplists returned by GetMapName get sorted in C++ as of the Unreal Tournament 469 patch
 				//ExcludeMaps.AddSortedElement(ExcludeMaps, TempItem);
-				ExcludeMaps.AddElement(TempItem);
+				ExcludeMaps.AppendElement(TempItem);
 			}
 		}
 
@@ -276,6 +276,8 @@ function ReloadIncludeMaps(out ListItem ExcludeMaps, out ListItem IncludeMaps, S
 		return;
 	if (GameClass != None)
 	{
+		if (IncludeMaps != None)
+			IncludeMaps.InitAppend();
 		for (i=0; i<ArrayCount(GameClass.Default.MapListType.Default.Maps) && GameClass.Default.MapListType.Default.Maps[i] != ""; i++)
 		{
 			// Add the map.
@@ -295,7 +297,7 @@ function ReloadIncludeMaps(out ListItem ExcludeMaps, out ListItem IncludeMaps, S
 				if (IncludeMaps == None)
 					IncludeMaps = TempItem;
 				else
-					IncludeMaps.AddElement(TempItem);
+					IncludeMaps.AppendElement(TempItem);
 			}
 		}
 	}
@@ -823,6 +825,8 @@ function QueryCurrentMutators(WebRequest Request, WebResponse Response)
 	Response.Subst("Area", S);
 
 	if (Request.GetVariable("AddMutator", "") != "") {
+		if (IncludeMutators != None)
+			IncludeMutators.InitAppend();
 		Count = Request.GetVariableCount("ExcludeMutatorsSelect");
 		for (i=0; i<Count; i++)
 		{
@@ -835,7 +839,7 @@ function QueryCurrentMutators(WebRequest Request, WebResponse Response)
 					if (IncludeMutators == None)
 						IncludeMutators = TempItem;
 					else
-						IncludeMutators.AddElement(TempItem);
+						IncludeMutators.AppendElement(TempItem);
 				}
 				else
 					Log("Exclude mutator not found: "$Request.GetVariableNumber("ExcludeMutatorsSelect", i));
@@ -864,6 +868,8 @@ function QueryCurrentMutators(WebRequest Request, WebResponse Response)
 	}
 	else if (Request.GetVariable("AddAllMutators", "") != "")
 	{
+		if (IncludeMutators != None)
+			IncludeMutators.InitAppend();
 		while (ExcludeMutators != None)
 		{
 			TempItem = ExcludeMutators.DeleteElement(ExcludeMutators);
@@ -873,7 +879,7 @@ function QueryCurrentMutators(WebRequest Request, WebResponse Response)
 				if (IncludeMutators == None)
 					IncludeMutators = TempItem;
 				else
-					IncludeMutators.AddElement(TempItem);
+					IncludeMutators.AppendElement(TempItem);
 			}
 		}
 	}
@@ -1019,6 +1025,8 @@ function QueryDefaultsMaps(WebRequest Request, WebResponse Response)
 		}
 	}
 	else if (Request.GetVariable("AddMap", "") != "") {
+		if (IncludeMaps != None)
+			IncludeMaps.InitAppend();
 		Count = Request.GetVariableCount("ExcludeMapsSelect");
 		for (i=0; i<Count; i++)
 		{
@@ -1031,7 +1039,7 @@ function QueryDefaultsMaps(WebRequest Request, WebResponse Response)
 					if (IncludeMaps == None)
 						IncludeMaps = TempItem;
 					else
-						IncludeMaps.AddElement(TempItem);
+						IncludeMaps.AppendElement(TempItem);
 				}
 				else
 					Log("Exclude map not found: "$Request.GetVariableNumber("ExcludeMapsSelect", i));
@@ -1063,6 +1071,8 @@ function QueryDefaultsMaps(WebRequest Request, WebResponse Response)
 		UpdateDefaultMaps(GameType, IncludeMaps);
 	}
 	else if (Request.GetVariable("AddAllMap", "") != "") {
+		if (IncludeMaps != None)
+			IncludeMaps.InitAppend();
 		while (ExcludeMaps != None)
 		{
 			TempItem = ExcludeMaps.DeleteElement(ExcludeMaps);
@@ -1072,7 +1082,7 @@ function QueryDefaultsMaps(WebRequest Request, WebResponse Response)
 				if (IncludeMaps == None)
 					IncludeMaps = TempItem;
 				else
-					IncludeMaps.AddElement(TempItem);
+					IncludeMaps.AppendElement(TempItem);
 			}
 		}
 		MapListType = "Custom";

@@ -27,6 +27,231 @@ extern void Query( ULevel* Level, const TCHAR* Item, FString* pOutput, UPackage*
 
 // --------------------------------------------------------------
 //
+// IMPORT Mesh Dialog
+//
+// --------------------------------------------------------------
+
+class WDlgImportMesh : public WDialog
+{
+	DECLARE_WINDOWCLASS(WDlgImportMesh,WDialog,UnrealEd)
+
+	// Variables.
+	WButton OkButton;
+	WButton OkAllButton;
+	WButton SkipButton;
+	WButton CancelButton;
+	WLabel FilenameStatic;
+	WPackageComboBox PackageEdit;
+	WEdit NameEdit;
+
+	FString defPackage;
+	TArray<FString>* paFilenames;
+
+	FString Package, Name;
+	BOOL bOKToAll;
+	int iCurrentFilename;
+	UBOOL bNeedGC;
+
+	// Constructor.
+	WDlgImportMesh( UObject* InContext, WBrowser* InOwnerWindow )
+		: WDialog(TEXT("Import Mesh"), IDDIALOG_IMPORT_MESH, InOwnerWindow)
+		, OkButton(this, IDOK, FDelegate(this, (TDelegate)&WDlgImportMesh::OnOk))
+		, OkAllButton(this, IDPB_OKALL, FDelegate(this, (TDelegate)&WDlgImportMesh::OnOkAll))
+		, SkipButton(this, IDPB_SKIP, FDelegate(this, (TDelegate)&WDlgImportMesh::OnSkip))
+		, CancelButton(this, IDCANCEL, FDelegate(this, (TDelegate)&WDlgImportMesh::EndDialogFalse))
+		, FilenameStatic(this, IDSC_FILENAME)
+		, PackageEdit(this, IDEC_PACKAGE)
+		, NameEdit(this, IDEC_NAME)
+		, paFilenames(NULL)
+		, bOKToAll(FALSE)
+		, iCurrentFilename(0)
+		, bNeedGC(FALSE)
+	{
+	}
+
+	// WDialog interface.
+	void OnInitDialog()
+	{
+		guard(WDlgImportMesh::OnInitDialog);
+		WDialog::OnInitDialog();
+
+		PackageEdit.Init(*defPackage);
+		::SetFocus( NameEdit.hWnd );
+
+		bOKToAll = FALSE;
+		iCurrentFilename = -1;
+		SetNextFilename();
+
+		unguard;
+	}
+	void OnDestroy()
+	{
+		guard(WDlgImportMesh::OnDestroy);
+		WDialog::OnDestroy();
+		unguard;
+	}
+	virtual int DoModal( FString _defPackage, TArray<FString>* _paFilenames)
+	{
+		guard(WDlgImportMesh::DoModal);
+
+		defPackage = _defPackage;
+		paFilenames = _paFilenames;
+
+		INT Ret = WDialog::DoModal( hInstance );
+		if (bNeedGC)
+			GEditor->Cleanse(FALSE, TEXT("Clean up after import meshes")); // call GC
+		return Ret;
+		unguard;
+	}
+	void OnOk()
+	{
+		guard(WDlgImportMesh::OnOk);
+		if( GetDataFromUser() )
+		{
+			ImportFile( (*paFilenames)(iCurrentFilename) );
+			SetNextFilename();
+		}
+		unguard;
+	}
+	void OnOkAll()
+	{
+		guard(WDlgImportMesh::OnOkAll);
+		if( GetDataFromUser() )
+		{
+			ImportFile( (*paFilenames)(iCurrentFilename) );
+			bOKToAll = TRUE;
+			SetNextFilename();
+		}
+		unguard;
+	}
+	void OnSkip()
+	{
+		guard(WDlgImportMesh::OnSkip);
+		if( GetDataFromUser() )
+			SetNextFilename();
+		unguard;
+	}
+	void ImportTexture( void )
+	{
+		guard(WDlgImportMesh::ImportTexture);
+		unguard;
+	}
+	void RefreshName( void )
+	{
+		guard(WDlgImportMesh::RefreshName);
+		FilenameStatic.SetText( *(*paFilenames)(iCurrentFilename) );
+
+		FString Name = GetFilenameOnly( (*paFilenames)(iCurrentFilename) );
+
+		FString Ext = (*paFilenames)(iCurrentFilename).Right(5).Locs();
+		if (Ext == TEXT("_d.3d") || Ext == TEXT("_a.3d"))
+			Name.MidInline(0, Name.Len() - 2);
+		NameEdit.SetText( *Name );
+		unguard;
+	}
+	BOOL GetDataFromUser( void )
+	{
+		guard(WDlgImportMesh::GetDataFromUser);
+		Package = PackageEdit.GetText();
+		Name = NameEdit.GetText();
+
+		if( !Package.Len()
+			|| !Name.Len() )
+		{
+			appMsgf( TEXT("Invalid input.") );
+			return FALSE;
+		}
+
+		return TRUE;
+		unguard;
+	}
+	void SetNextFilename( void )
+	{
+		guard(WDlgImportMesh::SetNextFilename);
+		iCurrentFilename++;
+		if( iCurrentFilename == paFilenames->Num() ) {
+			EndDialogTrue();
+			return;
+		}
+
+		if( bOKToAll ) {
+			RefreshName();
+			GetDataFromUser();
+			ImportFile( (*paFilenames)(iCurrentFilename) );
+			SetNextFilename();
+			return;
+		};
+
+		RefreshName();
+
+		unguard;
+	}
+	void ImportFile( FString Filename )
+	{
+		guard(WDlgImportMesh::ImportFile);
+
+		UBOOL bWithLOD = SendMessageW(::GetDlgItem(hWnd, IDCK_WITHLOD), BM_GETCHECK, 0, 0) == BST_CHECKED;
+
+		FString ExecLine;
+		FString Ext = Filename.Right(4).Locs();
+		FString CutFilename = Filename.Mid(0, Filename.Len() - 4);
+		if (Ext == TEXT("d.3d") || Ext == TEXT("a.3d"))
+			ExecLine = FString::Printf(TEXT("MESH IMPORT MESH=%ls ANIVFILE=\"%lsa.3d\" DATAFILE=\"%lsd.3d\" %ls"),
+				*Name, *CutFilename, *CutFilename, bWithLOD ? TEXT("") : TEXT("MLOD=0"));
+		else if (Ext == TEXT(".psk"))
+			ExecLine = FString::Printf(TEXT("MESH MODELIMPORT MESH=%ls MODELFILE=\"%ls\""),
+				*Name, *Filename);
+		else if (Ext == TEXT(".psa"))
+			ExecLine = FString::Printf(TEXT("ANIM IMPORT ANIM=%ls ANIMFILE=\"%ls\" IMPORTSEQS=1"),
+				*Name, *Filename);
+		else
+		{
+			appMsgf(TEXT("Unknown format of file %ls!"), *Filename);
+			return;
+		}
+
+		UClass* OldClass = GEditor->CurrentClass;
+		GEditor->CurrentClass = NULL;
+
+		// Create new class.
+		//
+		FString ClassName = FString::Printf(TEXT("tmp_%u_%u"), appRand(), (UINT)(appSecondsNew()*1000.0));
+		GEditor->Exec(*(FString::Printf(TEXT("CLASS NEW NAME=\"%ls\" PACKAGE=\"%ls\" PARENT=\"Actor\""),
+			*ClassName, *Package)));
+		FString FullName = FString::Printf(TEXT("%ls.%ls"), *Package, *ClassName);
+		GEditor->Exec(*(FString::Printf(TEXT("SETCURRENTCLASS CLASS=\"%ls\""), *FullName)));
+
+		if (GEditor->CurrentClass)
+		{
+			UClass* Obj = GEditor->CurrentClass;
+
+			FString S = FString::Printf(
+				TEXT("class %ls expands Actor;\r\n")
+				TEXT("#forceexec %ls\r\n")
+				TEXT("#forceexec MESH ORIGIN MESH=%ls X=0 Y=0 Z=0 YAW=0 PITCH=0 ROLL=0\r\n")
+				TEXT("#forceexec MESHMAP SCALE MESHMAP=%ls X=1 Y=1 Z=1\r\n")
+				TEXT("#forceexec ANIM DIGEST ANIM=%ls VERBOSE\r\n"),
+				*ClassName, *ExecLine, *Name, *Name, *Name);
+			GEditor->Set(TEXT("SCRIPT"), *FullName, *S);
+
+			// compile new class
+			GEditor->MakeScripts(GWarn, FALSE, FALSE, GEditor->CurrentClass);
+
+			Obj->RemoveFromRoot();
+			Obj->ClearFlags(RF_Native | RF_Standalone); // Makes sure we can GC the object
+			bNeedGC = TRUE;
+		}
+		else
+			appMsgf(TEXT("Failed create temp class %ls for import mesh!"), *FullName);
+
+		GEditor->CurrentClass = OldClass;
+
+		unguard;
+	}
+};
+
+// --------------------------------------------------------------
+//
 // WBrowserMesh
 //
 // --------------------------------------------------------------
@@ -511,7 +736,7 @@ class WBrowserMesh : public WBrowser, public WViewportWindowContainer
 	{
 		guard(WBrowserMesh::OnDestroy);		
 
-		GEditor->Exec(TEXT("CAMERA CLOSE NAME=MeshViewer"));
+		GEditor->Exec(TEXT("CAMERA CLOSE NAME=MeshBrowser"));
 		delete pViewport;
 
 		delete pMeshCombo;
@@ -725,6 +950,47 @@ class WBrowserMesh : public WBrowser, public WViewportWindowContainer
 				GFileManager->SetDefaultDirectory(appBaseDir());
 			}
 			RefreshAll();
+			break;
+
+			case IDMN_IMPORT_MESH:
+			{
+				TArray<FString> Files;
+				if (OpenFilesWithDialog(
+					*GLastDir[eLASTDIR_MSH],
+					TEXT("Mesh Files (*.3d, *.psk, *.psa)\0*.3d;*.psk;*.psa\0")
+					TEXT("Vertex Mesh Files (*.3d)\0*.3d\0")
+					TEXT("Skeletal Mesh Files (*.psk)\0*.psk\0")
+					TEXT("Skeletal Anim Files (*.psa)\0*.psa\0")
+					TEXT("All Files\0*.*\0\0"),
+					TEXT("*.3d;*.psk;*.psa"),
+					TEXT("Import Meshes"),
+					Files
+				))
+				{
+					FString Package = pMeshPackCombo->GetString(pMeshPackCombo->GetCurrent());
+
+					if (Files.Num() > 0)
+						GLastDir[eLASTDIR_MSH] = appFilePathName(*Files(0));
+
+					WDlgImportMesh l_dlg(NULL, this);
+					l_dlg.DoModal(Package, &Files);
+
+					GBrowserMaster->RefreshAll();
+					INT Pos = pMeshPackCombo->FindStringExact(*l_dlg.Package);
+					if (Pos >= 0)
+						pMeshPackCombo->SetCurrent(Pos);
+					ReloadMeshes(true);
+					if (Pos >= 0)
+					{
+						Pos = pMeshCombo->FindStringExact(*l_dlg.Name);
+						if (Pos >= 0)
+							pMeshCombo->SetCurrent(Pos);
+					}
+					OnMeshSelectionChange();
+				}
+
+				GFileManager->SetDefaultDirectory(appBaseDir());
+			}
 			break;
 
 			case IDPB_EXPORT:

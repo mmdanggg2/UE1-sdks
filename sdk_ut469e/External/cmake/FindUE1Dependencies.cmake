@@ -13,46 +13,64 @@ endif()
 
 # SDL2/SDL2_ttf
 if(UNIX)
-  find_package(SDL2)
-  if(NOT SDL2_FOUND)
-    find_path(SDL2_INCLUDE_DIRS SDL.h
+  if(WANT_SDL2)
+    set(SDL_SO_NAME "libSDL2-2.0.so.0")
+	set(SDL_TTF_SO_NAME "")
+	set(SDL_DYLIB_NAME "libSDL2-2.0.0.dylib")
+	set(SDL_TTF_DYLIB_NAME "")
+    find_package(SDL2)
+    if(NOT SDL2_FOUND)
+      find_path(SDL2_INCLUDE_DIRS SDL.h
+	    REQUIRED
+	    HINTS
+	    PATH_SUFFIXES include include/SDL2
+      )
+      find_library(SDL2_LIBRARY
+        REQUIRED
+   	    NAMES SDL2
+   	    HINTS
+   	    PATH_SUFFIXES lib
+      )
+	  set(SDL_LIBRARIES ${SDL2_LIBRARY})
+	else()
+	  set(SDL_LIBRARIES ${SDL2_LIBRARIES})
+    endif()
+    message(STATUS "Found SDL headers: ${SDL2_INCLUDE_DIRS}")
+    include_directories(${SDL2_INCLUDE_DIRS})
+    find_path(SDL2_TTF_INCLUDE_DIR SDL_ttf.h
 	  REQUIRED
 	  HINTS
 	  PATH_SUFFIXES include include/SDL2
     )
-    find_library(SDL2_LIBRARY
+    find_library(SDL2_TTF_LIBRARY
       REQUIRED
-   	  NAMES SDL2
+   	  NAMES SDL2_ttf
    	  HINTS
    	  PATH_SUFFIXES lib
     )
-  set(SDL2_LIBRARIES ${SDL2_LIBRARY})
+    message(STATUS "Found SDL_TTF headers: ${SDL2_TTF_INCLUDE_DIR}")  
+    include_directories(${SDL2_TTF_INCLUDE_DIR})
+    find_library(FREETYPE_LIBRARY
+      REQUIRED
+   	  NAMES libfreetype freetype
+   	  HINTS
+   	  PATH_SUFFIXES lib
+    )
+    set(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
+	set(SDL_TTF_LIBRARIES "${SDL2_TTF_LIBRARY};${FREETYPE_LIBRARIES}")
+  else()
+    set(SDL_SO_NAME "libSDL3.so.0")
+	set(SDL_TTF_SO_NAME "")
+	set(SDL_DYLIB_NAME "libSDL3.0.dylib")
+	set(SDL_TTF_DYLIB_NAME "libSDL3_ttf.0.dylib")
+    find_package(SDL3)
+	set(SDL_LIBRARIES "${SDL3_LIBRARIES}")
+    find_package(SDL3_ttf)
+    set(SDL_TTF_LIBRARIES "SDL3_ttf::SDL3_ttf")
   endif()
-  message(STATUS "Found SDL2 headers: ${SDL2_INCLUDE_DIRS}")
-  message(STATUS "Found SDL2 library: ${SDL2_LIBRARIES}")
-  include_directories(${SDL2_INCLUDE_DIRS})
-  find_path(SDL2_TTF_INCLUDE_DIR SDL_ttf.h
-	REQUIRED
-	HINTS
-	PATH_SUFFIXES include include/SDL2
-  )
-  find_library(SDL2_TTF_LIBRARY
-    REQUIRED
-   	NAMES SDL2_ttf
-   	HINTS
-   	PATH_SUFFIXES lib
-  )
-  message(STATUS "Found SDL2_TTF headers: ${SDL2_TTF_INCLUDE_DIR}")
-  message(STATUS "Found SDL2_TTF library: ${SDL2_TTF_LIBRARY}")  
-  include_directories(${SDL2_TTF_INCLUDE_DIR})
-  find_library(FREETYPE_LIBRARY
-    REQUIRED
-   	NAMES libfreetype freetype
-   	HINTS
-   	PATH_SUFFIXES lib
-  )
-  set(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
-  message(STATUS "Found FreeType library: ${FREETYPE_LIBRARIES}")
+
+  message(STATUS "Found SDL library: ${SDL_LIBRARIES}")
+  message(STATUS "Found SDL_TTF library: ${SDL_TTF_LIBRARIES}")
 endif()
 
 # zlib

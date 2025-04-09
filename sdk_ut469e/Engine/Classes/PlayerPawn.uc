@@ -294,6 +294,8 @@ native final function string GetPlayerNetworkAddress();
 native function string ConsoleCommand( string Command );
 native function CopyToClipboard( string Text );
 native function string PasteFromClipboard();
+// native function StartTextInput();
+// native function StopTextInput();
 
 function InitPlayerReplicationInfo()
 {
@@ -1798,6 +1800,7 @@ function Typing( bool bTyping )
 		if (Level.Game.LocalLog != None)
 			Level.Game.LocalLog.LogTypingEvent(True, Self);
 		PlayChatting();
+		// StartTextInput();
 	}
 	else
 	{
@@ -1805,6 +1808,7 @@ function Typing( bool bTyping )
 			Level.Game.WorldLog.LogTypingEvent(False, Self);
 		if (Level.Game.LocalLog != None)
 			Level.Game.LocalLog.LogTypingEvent(False, Self);
+		// StopTextInput();
 	}
 }
 

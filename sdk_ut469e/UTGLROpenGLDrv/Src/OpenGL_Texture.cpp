@@ -166,7 +166,11 @@ void FGL::FTexturePool::Lock()
 
 	if ( Textures.Num() == 0 )
 	{
+		check(FOpenGLBase::ActiveInstance);
+
 		Textures.AddZeroed(TEXPOOL_ID_START);
+		FOpenGLBase::ActiveInstance->TextureUnits.SetActiveNoCheck(0);
+		
 		ComposeInvalidTexture(Textures(TEXPOOL_ID_InvalidTexture));
 		ComposeDervMap(Textures(TEXPOOL_ID_DervMap));
 		ComposePlainColor(Textures(TEXPOOL_ID_NoDetail), FColor(127,127,127,255) );
@@ -455,10 +459,7 @@ void UOpenGLRenderDevice::UpdateTextureParamsUBO( INT ElementIndex)
 	{
 		ElementIndex = INDEX_NONE;
 		TextureParamsData.Elements.SetSize(TexturePool.UniformQueue.Size());
-		if ( FOpenGLBase::SupportsPersistentMapping )
-			FOpenGLBase::CreateInmutableBuffer(bufferId_TextureParamsUBO, GL_UNIFORM_BUFFER, TexturePool.UniformQueue.Size()*sizeof(FTextureParams_UBO::FElement), nullptr, GL_DYNAMIC_STORAGE_BIT);
-		else
-			FOpenGLBase::CreateBuffer(bufferId_TextureParamsUBO, GL_UNIFORM_BUFFER, TexturePool.UniformQueue.Size()*sizeof(FTextureParams_UBO::FElement), nullptr, GL_STATIC_DRAW);
+		FOpenGLBase::CreateBuffer(bufferId_TextureParamsUBO, GL_ARRAY_BUFFER, TexturePool.UniformQueue.Size()*sizeof(FTextureParams_UBO::FElement), nullptr, GL_STATIC_DRAW);
 		FOpenGLBase::ActiveInstance->BindBufferBase(GL_UNIFORM_BUFFER, FTextureParams_UBO::UniformIndex, bufferId_TextureParamsUBO);
 	}
 

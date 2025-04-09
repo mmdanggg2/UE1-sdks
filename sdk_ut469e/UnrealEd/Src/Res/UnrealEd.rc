@@ -854,6 +854,7 @@ BEGIN
         MENUITEM "&Open...",                    ID_FileOpen
         MENUITEM "&Save...",                    ID_FileSave
         MENUITEM SEPARATOR
+        MENUITEM "&Import...",                  IDMN_IMPORT_MESH
         MENUITEM "Export &Vertex Mesh (.3d)...", IDPM_EXPORT
         MENUITEM "Batchexport Vertex Meshes from Package(.3d)...", IDPM_EXPORT_ALL
         MENUITEM "Export &Skeletal Mesh (.psk)...", IDPSKM_EXPORT
@@ -1310,6 +1311,25 @@ BEGIN
     LTEXT           "Group:",IDC_STATIC,12,61,22,8
     LTEXT           "Package:",IDC_STATIC,12,46,32,8
     LTEXT           "File :",IDC_STATIC,12,16,16,24
+END
+
+IDDIALOG_IMPORT_MESH DIALOG 0, 0, 240, 102
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Import Mesh"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDEC_NAME,46,59,129,12,ES_AUTOHSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,185,10,50,14
+    PUSHBUTTON      "OK A&ll",IDPB_OKALL,185,24,50,14
+    PUSHBUTTON      "&Skip",IDPB_SKIP,185,39,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,53,50,14
+    COMBOBOX        IDEC_PACKAGE,46,44,129,12,CBS_AUTOHSCROLL | CBS_DROPDOWN | CBS_HASSTRINGS | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDSC_FILENAME,46,14,129,28
+    GROUPBOX        "Info",IDC_STATIC,5,5,174,90
+    LTEXT           "Name:",IDC_STATIC,12,61,22,8
+    LTEXT           "Package:",IDC_STATIC,12,46,32,8
+    LTEXT           "File :",IDC_STATIC,12,16,16,24
+    CONTROL         "As LOD mesh",IDCK_WITHLOD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,46,75,129,10
 END
 
 IDDIALOG_IMPORT_TEXTURE DIALOGEX 0, 0, 313, 180
@@ -2331,6 +2351,14 @@ BEGIN
         RIGHTMARGIN, 296
         TOPMARGIN, 7
         BOTTOMMARGIN, 84
+    END
+
+    IDDIALOG_IMPORT_MESH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 75
     END
 
 #if ENGINE_VERSION==227

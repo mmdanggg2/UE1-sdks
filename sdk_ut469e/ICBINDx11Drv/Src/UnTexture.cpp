@@ -78,7 +78,7 @@ void UICBINDx11RenderDevice::SetTexture(INT TexNum, const FTextureInfo* Info, PF
 		//					If it's not set, this will add it (as CheckMSDF will be set)
 		GlobalPolyflagVars.ShaderFlags ^= SF_MSDFRendering;
 
-		UpdateGlobalShaderVars();
+		UpdatePolyflagsVars();
 	}
 #endif
 
@@ -123,6 +123,9 @@ void UICBINDx11RenderDevice::SetTexture(INT TexNum, const FTextureInfo* Info, PF
 	UBOOL bTexChanged = (Info->Texture != nullptr && DaTex != nullptr ? Info->Texture->RealtimeChangeCount != DaTex->RealtimeChangeCount : Info->bRealtimeChanged);
 #elif DX11_UNREAL_227
 	UBOOL bTexChanged = (Info->Texture != nullptr && DaTex != nullptr ? Info->RenderTag != DaTex->RealtimeChangeCount : Info->bRealtimeChanged);
+#else
+	// Metallicafan212:	Generic UE1 support
+	UBOOL bTexChanged = Info->bRealtimeChanged;
 #endif
 
 	// Metallicafan212:	Check if we need to upload it to the GPU

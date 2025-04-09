@@ -926,6 +926,14 @@ void FWindowsDirectInputHandler::PollInputs(UWindowsViewport* Viewport)
 		Result = diMouse->GetDeviceState(sizeof(diMouseState), &diMouseState);
 	}
 
+	if (!diInitialized)
+	{
+		diInitialized = TRUE;
+		OldCursorPos.x = diMouseState.lX;
+		OldCursorPos.y = diMouseState.lY;
+		OldWheelPos = diMouseState.lZ;
+	}
+
 	LONG DX = diMouseState.lX - OldCursorPos.x;
 	LONG DY = diMouseState.lY - OldCursorPos.y;
 	LONG DZ = diMouseState.lZ - OldWheelPos;

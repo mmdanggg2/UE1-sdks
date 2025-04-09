@@ -170,7 +170,7 @@ typedef unsigned short INDEX;
 #if DX11_HP2
 #define ADJUST_PFLAGS(PolyFlags) \
 	/* Metallicafan212:	Cut it down to only specific flags */ \
-	if (!(PolyFlags & (PF_Translucent | PF_Modulated | PF_Highlighted | PF_LumosAffected | PF_AlphaBlend))) \
+	if (!(PolyFlags & (PF_Translucent | PF_Modulated | PF_Highlighted | PF_LumosAffected | PF_AlphaBlend | PF_Opacity))) \
 	{ \
 		PolyFlags |= PF_Occlude; \
 	} \
@@ -245,6 +245,13 @@ typedef unsigned short INDEX;
 #if !DX11_HP2
 #include "WindowsVersions.h"
 #endif
+
+#define USE_COM_ERROR 1
+// Metallicafan212:	Format HRESULT codes as text
+extern FString GetHRESULTValue(HRESULT HR);
+
+// Metallicafan212:	TODO! This is a hack to keep the class name compatible between projects
+extern FString ClsName;
 
 // Metallicafan212:	Compile-time check for engine revision
 constexpr int c_strcmp(const TCHAR* lhs, const TCHAR* rhs)
@@ -1480,7 +1487,7 @@ class UICBINDx11RenderDevice : public RD_CLASS
 				}
 			}
 
-			appErrorf(TEXT("DX11 encountered an error (%lu). If the debug layer is supported, the log file will likely contain useful debug info!"), hr);
+			appErrorf(TEXT("DX11 encountered an error (%s). If the debug layer is supported, the log file will likely contain useful debug info!"), *GetHRESULTValue(hr));
 		}
 	}
 

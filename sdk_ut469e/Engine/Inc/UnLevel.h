@@ -67,7 +67,7 @@ public:
 	static DWORD GetActorQueryFlags( AActor* Actor);
 };
 
-ENGINE_API FCollisionHashBase* GNewCollisionHash();
+ENGINE_API FCollisionHashBase* GNewCollisionHash(ULevel* Level);
 
 
 /*-----------------------------------------------------------------------------
