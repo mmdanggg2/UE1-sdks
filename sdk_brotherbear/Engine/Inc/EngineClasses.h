@@ -761,7 +761,8 @@ public:
     BITFIELD bReplicateInstigator:1;
     BITFIELD bTrailerSameRotation:1;
     BITFIELD bTrailerPrePivot:1;
-    BITFIELD bClientAnim:1;
+    FRotator rTrailerRotationOffset;
+    BITFIELD bClientAnim:1 GCC_PACK(4);
     BITFIELD bSimFall:1;
     BITFIELD bCanMoveInSpecialPause:1;
     BITFIELD bInSpecialPause:1;
@@ -793,7 +794,6 @@ public:
     FName Event;
     class AActor* Target;
     class APawn* Instigator;
-    class USound* AmbientSound;
     class AInventory* Inventory;
     class AActor* Base;
     FPointRegion Region;
@@ -854,6 +854,8 @@ public:
     class UModel* Brush;
     FLOAT DrawScale;
     FVector PrePivot;
+    FLOAT SavedPrePivotX;
+    FLOAT SavedPrePivotY;
     FLOAT SavedPrePivotZ;
     FLOAT ScaleGlow;
     FLOAT SpecularGlow;
@@ -884,13 +886,22 @@ public:
     BITFIELD bTravel:1;
     BITFIELD bMovable:1;
     class UTexture* MultiSkins[8] GCC_PACK(4);
-    BYTE SoundRadius;
-    BYTE SoundVolume;
-    BYTE SoundPitch;
+    class USound* AmbientSound;
     BYTE SoundOcclusion;
+    FLOAT SoundPitch;
+    FLOAT SoundPitchVariance;
+    FLOAT SoundRadius;
+    FLOAT SoundVolume;
+    FLOAT SoundRollOff;
+    BITFIELD SoundIs3D:1 GCC_PACK(4);
+    FLOAT SoundFadeInTime;
     FLOAT TransientSoundVolume;
     FLOAT TransientSoundRadius;
     FLOAT TransientSoundPitch;
+
+    FName MouthRootBoneName;
+    FName MouthAnimName;
+    FName MouthRestAnimName;
 
     FLOAT CollisionRadius;
     FLOAT CollisionWidth;
@@ -905,6 +916,8 @@ public:
     BITFIELD bAlignBottom:1;
     BITFIELD bAlignBottomAlways:1;
     BITFIELD bBlockCamera:1;
+    BITFIELD bDontBlockCameraView : 1;
+    FLOAT DesiredOpacity;
     BYTE LightType GCC_PACK(4);
     BYTE LightEffect;
     BYTE LightBrightness;
@@ -955,12 +968,12 @@ public:
     BITFIELD bClientDemoNetFunc:1;
     class UClass* RenderIteratorClass GCC_PACK(4);
     class URenderIterator* RenderInterface;
-    ADecal* Shadow;
+    class ADecal* Shadow;
     FString CutName;
-    AActor* CutNotifyActor;
+    class AActor* CutNotifyActor;
     FString CutErrorString;
     FString sCutNotifyCue;
-    class AHUD* playerHarryHud;
+    BITFIELD bIgnoreWaterWhenFalling:1 GCC_PACK(4);
     DECLARE_FUNCTION(execMultiply_ColorFloat);
     DECLARE_FUNCTION(execAdd_ColorColor);
     DECLARE_FUNCTION(execMultiply_FloatColor);

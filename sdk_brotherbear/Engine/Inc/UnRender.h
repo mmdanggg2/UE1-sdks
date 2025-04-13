@@ -469,6 +469,8 @@ class ENGINE_API URenderBase : public USubsystem
 	virtual void GlobalLighting( UBOOL Realtime, AActor* Owner, FLOAT& Brightness, FPlane& Color )=0;
 	virtual void Precache( UViewport* Viewport )=0;
 
+	virtual void HandleDistanceFog( FSceneNode* Frame )=0;
+
 	// High level primitive drawing.
 	virtual void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, UBOOL bScaleRadiusByZoom = 0 )=0;
 	virtual void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, const FBox& Min, const FCoords& Max )=0;

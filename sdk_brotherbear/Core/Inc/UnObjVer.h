@@ -39,7 +39,7 @@
 // backwards compatibility. Must be at least PACKAGE_FILE_VERSION.
 #define PACKAGE_MIN_VERSION 60
 // Defines for easier building of multi game projects. --han
-#define HARRY_POTTER_2 1
+#define BROTHER_BEAR 1
 
 /*-----------------------------------------------------------------------------
 	The End.

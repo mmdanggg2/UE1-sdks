@@ -452,6 +452,9 @@ class RENDER_API URender : public URenderBase
 	FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds );
 	FSceneNode* CreateChildFrame( FSceneNode* Frame, FSpanBuffer* Span, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds );
 	void FinishMasterFrame();
+
+	void HandleDistanceFog(FSceneNode* Frame);
+
 	void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, UBOOL bScaleRadiusByZoom = 0 );
 	void DrawBox(FSceneNode* Frame, FPlane Color, DWORD LineFlags, const FBox& Min, const FCoords& Max);
 	void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max );

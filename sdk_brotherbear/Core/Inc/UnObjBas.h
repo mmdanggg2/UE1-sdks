@@ -544,7 +544,7 @@ public:
 	virtual UBOOL ScriptConsoleExec( const TCHAR* Cmd, FOutputDevice& Ar, UObject* Executor );
 	virtual void Register();
 	virtual void LanguageChange();
-	virtual void ImportPostProcess(const TCHAR*, const TCHAR*);
+	virtual void ImportPostProcess(const TCHAR*, const TCHAR*, const UObject*);
 
 	// Systemwide functions.
 	static UObject* StaticFindObject( UClass* Class, UObject* InOuter, const TCHAR* Name, UBOOL ExactClass=0 );

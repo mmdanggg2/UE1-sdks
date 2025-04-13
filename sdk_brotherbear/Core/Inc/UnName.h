@@ -11,7 +11,7 @@
 ----------------------------------------------------------------------------*/
 
 // Maximum size of name.
-enum {NAME_SIZE	= 64};
+enum {NAME_SIZE	= 128};
 
 // Name index.
 typedef INT NAME_INDEX;
@@ -64,53 +64,17 @@ class CORE_API FName
 {
 public:
 	// Accessors.
-	const TCHAR* operator*() const
-	{
-		checkName(Index < Names.Num());
-		checkName(Names(Index));
-		return Names(Index)->Name;
-	}
-	NAME_INDEX GetIndex() const
-	{
-		checkName(Index < Names.Num());
-		checkName(Names(Index));
-		return Index;
-	}
-	DWORD GetFlags() const
-	{
-		checkName(Index < Names.Num());
-		checkName(Names(Index));
-		return Names(Index)->Flags;
-	}
-	void SetFlags( DWORD Set ) const
-	{
-		checkName(Index < Names.Num());
-		checkName(Names(Index));
-		Names(Index)->Flags |= Set;
-	}
-	void ClearFlags( DWORD Clear ) const
-	{
-		checkName(Index < Names.Num());
-		checkName(Names(Index));
-		Names(Index)->Flags &= ~Clear;
-	}
-	UBOOL operator==( const FName& Other ) const
-	{
-		return Index==Other.Index;
-	}
-	UBOOL operator!=( const FName& Other ) const
-	{
-		return Index!=Other.Index;
-	}
-	UBOOL IsValid()
-	{
-		return Index>=0 && Index<Names.Num() && Names(Index)!=NULL;
-	}
+	const TCHAR* operator*() const;
+	NAME_INDEX GetIndex() const;
+	DWORD GetFlags() const;
+	void SetFlags(DWORD Set) const;
+	void ClearFlags(DWORD Clear) const;
+	UBOOL operator==(const FName& Other) const;
+	UBOOL operator!=(const FName& Other) const;
+	UBOOL IsValid();
 
 	// Constructors.
-	FName( enum EName N )
-	: Index( N )
-	{}
+	FName(enum EName N);
 	FName()
 	{}
 	FName( const TCHAR* Name, EFindName FindType=FNAME_Add );
@@ -146,7 +110,7 @@ public:
 
 private:
 	// Name index.
-	NAME_INDEX Index;
+	FNameEntry* Entry;
 
 	// Static subsystem variables.
 	static TArray<FNameEntry*>	Names;			 // Table of all names.

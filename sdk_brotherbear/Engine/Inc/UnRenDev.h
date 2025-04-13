@@ -91,7 +91,12 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void DrawStats( FSceneNode* Frame ) {}
 	virtual void SetSceneNode( FSceneNode* Frame ) {}
 	virtual void PrecacheTexture( FTextureInfo& Info, DWORD PolyFlags ) {}
-	virtual void* GetOsSurface(void* param_1, bool param_2);
+	virtual void SetDistanceFog(INT, FLOAT, FLOAT, class FColor);
+	virtual void SetDistanceFogForceReset(INT);
+	virtual INT GetDistanceFogForceReset();
+	virtual UBOOL HasNativeDrawString();
+	virtual void DrawString(unsigned long, class UFont*, INT&, INT&, TCHAR const*, class FPlane const&);
+
 
 	// Padding.
 	virtual void vtblPad0() {}
