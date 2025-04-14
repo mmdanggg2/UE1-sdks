@@ -73,6 +73,8 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void Flush( UBOOL AllowPrecache )=0;
 	virtual void Lock( FPlane FlashScale, FPlane FlashFog, FPlane ScreenClear, DWORD RenderLockFlags, BYTE* HitData, INT* HitSize )=0;
 	virtual void Unlock( UBOOL Blit )=0;
+	virtual void UpdateGamma()=0;
+	virtual void RestoreGamma()=0;
 	virtual void DrawComplexSurface( FSceneNode* Frame, FSurfaceInfo& Surface, FSurfaceFacet& Facet )=0;
 	virtual INT MaxVertices()=0;
 	virtual void DrawTriangles(FSceneNode* Frame, FTextureInfo& Info, FTransTexture** Pts, INT NumPts, USHORT* param_5, int param_6, DWORD param_7, FSpanBuffer* param_8)=0;
