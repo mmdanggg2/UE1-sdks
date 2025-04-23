@@ -1,0 +1,64 @@
+[Setup]
+LocalProduct=Unreal - Return To Na Pali
+DefaultFolder=C:\NaPali
+ReadMe=http://www.unrealgold.com/readme/
+SetupWindowTitle=Unreal - Return To Na Pali Setup
+ProductURL=http://www.unrealgold.com/
+VersionURL=http://unreal.epicgames.com/versions.htm
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+ReleaseNotesURL=http://www.unrealgold.com/readme/
+UTDemoURL=http://www.unrealtournament.com/
+Logo=System\ConfigLogo.bmp
+
+[UnrealReturnToNaPaliRequirement]
+LocalProduct=Unreal - Return To Na Pali
+ProductURL=http://unreal.gtgames.com/
+Developer=Legend Entertainment
+DeveloperURL=http://www.legendent.com/
+
+[General]
+PlayLevelCommand=&Play this Unreal level
+OpenLinkCommand=&Open this Unreal link
+InstallModuleCommand=&Install this Unreal module
+EditLevelCommand=&Edit this Unreal level
+
+[ContentGroup]
+Caption=Game Content
+Description=Unreal - Return to Na Pali game content. Install this for best performance. If you deselect it, the game content will be loaded from CD during play, degrading performance, but using less hard disk space.
+
+[GameGroup]
+Caption=Unreal - Return to Na Pali Patch
+Description=Unreal - Return to Na Pali Patch. Installation is required.
+
+[DirectXGroup]
+Caption=DirectX
+Description=Optional Microsoft DirectX 7 drivers for enhanced graphics, sound, and joystick support.
+
+[EditorGroup]
+Caption=Unreal Editor
+Description=Unreal world editor, for creating your own 3D Unreal environments. For advanced users.
+
+[PlayShortcut]
+Caption=Play Unreal - Return to Na Pali
+
+[SafeModeShortcut]
+Caption=Unreal Safe Mode
+
+[EditorShortcut]
+Caption=Unreal Editor
+
+[DocumentationShortcut]
+Caption=Documentation
+
+[ReleaseNotesShortcut]
+Caption=Release Notes
+
+[WebShortcut]
+Caption=Unreal Gold Web Page
+
+[UninstallShortcut]
+Caption=Uninstall Unreal - Return to Na Pali
+
+[UTDemoShortcut]
+Caption=Unreal Tournament Demo
