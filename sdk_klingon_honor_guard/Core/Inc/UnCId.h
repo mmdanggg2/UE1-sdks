@@ -39,7 +39,7 @@ enum ECacheIDBase
 	CID_DynamicMap          = 0x31,
 	CID_GlidePal            = 0x32,
 	CID_BumpNormals         = 0x33,
-	CID_RenderTexture		= 0xE0,
+	CID_RenderTexture		= 0x23,
 	CID_MAX					= 0xff,
 };
 
@@ -49,7 +49,7 @@ enum ECacheIDBase
 
 inline QWORD MakeCacheID( ECacheIDBase Base, UObject* Frame )
 {
-	return (Base) + ((Frame?(QWORD)Frame->GetIndex():(QWORD)0) << 8);
+	return (Base) + ((Frame?(QWORD)Frame->GetIndex():(QWORD)0) << 32);
 }
 
 inline QWORD MakeCacheID( ECacheIDBase Base, UObject* Obj, UObject* Frame )

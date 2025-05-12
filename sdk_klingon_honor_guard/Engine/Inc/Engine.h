@@ -57,7 +57,6 @@ ENGINE_API extern class FMemCache	GCache;
 #include "UnAudio.h"			// Audio code.
 #include "UnDynBsp.h"			// Dynamic Bsp objects.
 #include "UnScrTex.h"			// Scripted textures.
-#include "UnRenderIterator.h"	// Enhanced Actor Render Interface
 
 /*-----------------------------------------------------------------------------
 	The End.

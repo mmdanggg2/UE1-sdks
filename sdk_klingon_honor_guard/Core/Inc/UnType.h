@@ -37,20 +37,18 @@ class CORE_API UProperty : public UField
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	virtual void Link( FArchive& Ar, UProperty* Prev );
 	virtual UBOOL Identical( const void* A, const void* B ) const=0;
-	virtual void ExportCpp( FOutputDevice& Out, UBOOL IsLocal, UBOOL IsParm ) const;
-	virtual void ExportCppItem( FOutputDevice& Out ) const=0;
+	virtual void ExportCpp( FArchive& Out, UBOOL IsLocal, UBOOL IsParm );
+	virtual void ExportCppItem( FArchive& Out ) const=0;
+	virtual INT GetElementSize() const = 0;
 	virtual void SerializeItem( FArchive& Ar, void* Value ) const=0;
-	virtual UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	virtual void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const=0;
+	virtual void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable )=0;
 	virtual const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const=0;
-	virtual UBOOL ExportText( INT ArrayElement, TCHAR* ValueStr, BYTE* Data, BYTE* Delta, UBOOL HumanReadable ) const;
-	virtual void CopySingleValue( void* Dest, void* Src ) const;
-	virtual void CopyCompleteValue( void* Dest, void* Src ) const;
-	virtual void DestroyValue( void* Dest ) const;
-	virtual UBOOL Port() const;
-	virtual BYTE GetID() const;
+	virtual UBOOL ExportText( INT ArrayElement, TCHAR* ValueStr, BYTE* Data, BYTE* Delta, UBOOL HumanReadable );
+	virtual void Link( FArchive& Ar, UProperty* Prev )=0;
+	virtual void ExecLet(void*, FFrame&);
+	virtual UBOOL Port();
+	virtual BYTE GetID();
 
 	// Inlines.
 	UBOOL Matches( const void* A, const void* B, INT ArrayIndex ) const
@@ -103,15 +101,13 @@ class CORE_API UByteProperty : public UProperty
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
+	void ExportCppItem( FArchive& Out ) const;
+	INT GetElementSize() const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
+	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable );
 	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void CopyCompleteValue( void* Dest, void* Src ) const;
+	void Link( FArchive& Ar, UProperty* Prev );
 };
 
 /*-----------------------------------------------------------------------------
@@ -133,15 +129,13 @@ class CORE_API UIntProperty : public UProperty
 	{}
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void CopyCompleteValue( void* Dest, void* Src ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
 };
 
 /*-----------------------------------------------------------------------------
@@ -170,14 +164,14 @@ class CORE_API UBoolProperty : public UProperty
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
+	void ExecLet(void*, FFrame&);
 };
 
 /*-----------------------------------------------------------------------------
@@ -199,15 +193,13 @@ class CORE_API UFloatProperty : public UProperty
 	{}
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void CopyCompleteValue( void* Dest, void* Src ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
 };
 
 /*-----------------------------------------------------------------------------
@@ -237,15 +229,13 @@ class CORE_API UObjectProperty : public UProperty
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void CopyCompleteValue( void* Dest, void* Src ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
 };
 
 /*-----------------------------------------------------------------------------
@@ -275,7 +265,7 @@ class CORE_API UClassProperty : public UObjectProperty
 
 	// UProperty interface.
 	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	BYTE GetID() const
+	BYTE GetID()
 	{
 		return NAME_ObjectProperty;
 	}
@@ -300,14 +290,13 @@ class CORE_API UNameProperty : public UProperty
 	{}
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void CopyCompleteValue( void* Dest, void* Src ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
 };
 
 /*-----------------------------------------------------------------------------
@@ -332,55 +321,16 @@ class CORE_API UStrProperty : public UProperty
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void DestroyValue( void* Dest ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
+	void ExecLet(void*, FFrame&);
 };
 
-/*-----------------------------------------------------------------------------
-	UFixedArrayProperty.
------------------------------------------------------------------------------*/
-
-//
-// Describes a fixed length array.
-//
-class CORE_API UFixedArrayProperty : public UProperty
-{
-	DECLARE_CLASS(UFixedArrayProperty,UProperty,0)
-
-	// Variables.
-	UProperty* Inner;
-	INT Count;
-
-	// Constructors.
-	UFixedArrayProperty()
-	{}
-	UFixedArrayProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
-
-	// UObject interface.
-	void Serialize( FArchive& Ar );
-
-	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void DestroyValue( void* Dest ) const;
-
-	// UFixedArrayProperty interface.
-	void AddCppProperty( UProperty* Property, INT Count );
-};
 
 /*-----------------------------------------------------------------------------
 	UArrayProperty.
@@ -406,56 +356,18 @@ class CORE_API UArrayProperty : public UProperty
 	// UObject interface.
 	void Serialize( FArchive& Ar );
 
-	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void DestroyValue( void* Dest ) const;
-
-	// UArrayProperty interface.
-	void AddCppProperty( UProperty* Property );
-};
-
-/*-----------------------------------------------------------------------------
-	UMapProperty.
------------------------------------------------------------------------------*/
-
-//
-// Describes a dynamic map.
-//
-class CORE_API UMapProperty : public UProperty
-{
-	DECLARE_CLASS(UMapProperty,UProperty,0)
-
-	// Variables.
-	UProperty* Key;
-	UProperty* Value;
-
-	// Constructors.
-	UMapProperty()
-	{}
-	UMapProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
-
-	// UObject interface.
-	void Serialize( FArchive& Ar );
+	// UField interface.
+	void AddCppProperty(UProperty* Property);
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void DestroyValue( void* Dest ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
+	void ExecLet(void*, FFrame&);
 };
 
 /*-----------------------------------------------------------------------------
@@ -486,15 +398,13 @@ class CORE_API UStructProperty : public UProperty
 	void Serialize( FArchive& Ar );
 
 	// UProperty interface.
-	void Link( FArchive& Ar, UProperty* Prev );
-	UBOOL Identical( const void* A, const void* B ) const;
-	void SerializeItem( FArchive& Ar, void* Value ) const;
-	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
-	void ExportCppItem( FOutputDevice& Out ) const;
-	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable ) const;
-	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable ) const;
-	void CopySingleValue( void* Dest, void* Src ) const;
-	void DestroyValue( void* Dest ) const;
+	UBOOL Identical(const void* A, const void* B) const;
+	void ExportCppItem(FArchive& Out) const;
+	INT GetElementSize() const;
+	void SerializeItem(FArchive& Ar, void* Value) const;
+	void ExportTextItem(TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, UBOOL HumanReadable);
+	const TCHAR* ImportText(const TCHAR* Buffer, BYTE* Data, UBOOL HumanReadable) const;
+	void Link(FArchive& Ar, UProperty* Prev);
 };
 
 /*-----------------------------------------------------------------------------

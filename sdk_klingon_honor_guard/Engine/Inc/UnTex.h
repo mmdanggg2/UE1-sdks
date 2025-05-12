@@ -248,8 +248,7 @@ class ENGINE_API UBitmap : public UObject
 	UBitmap();
 
 	// UBitmap interface.
-	virtual void Lock( FTextureInfo& TextureInfo, DOUBLE Time, INT LOD, URenderDevice* RenDev )=0;
-	virtual void Unlock( FTextureInfo& TextureInfo )=0;
+	virtual void GetInfo( FTextureInfo& TextureInfo, DOUBLE Time )=0;
 	virtual INT GetNumMips()=0;
 	virtual FMipmapBase* GetMip( INT i )=0;
 };
@@ -280,12 +279,12 @@ class ENGINE_API UTexture : public UBitmap
 
 	// Flags.
 	DWORD		PolyFlags;			// Polygon flags to be applied to Bsp polys with texture (See PF_*).
-	BITFIELD	bHighColorQuality:1; // High color quality hint.
-	BITFIELD	bHighTextureQuality:1; // High color quality hint.
+	BITFIELD	bNoTile : 1;		// Texture doesn't tile.
+	BITFIELD	bBumpMap:1;			// Is a bump map.
+	BITFIELD	bBlur: 1;			// Blur it.
 	BITFIELD	bRealtime:1;        // Texture changes in realtime.
 	BITFIELD	bParametric:1;      // Texture data need not be stored.
 	BITFIELD	bRealtimeChanged:1; // Changed since last render.
-	BYTE        LODSet;				// Level of detail type.
 
 	// Animation related.
 	UTexture*	AnimNext;			// Next texture in looped animation sequence.
@@ -298,8 +297,6 @@ class ENGINE_API UTexture : public UBitmap
 
 	// Table of mipmaps.
 	TArray<FMipmap> Mips;			// Mipmaps in native format.
-	TArray<FMipmap> DecompMips;		// Mipmaps in requested format.
-	BYTE            DecompFormat;   // Decompressed texture format.
 
 	// Constructor.
 	UTexture();
@@ -328,8 +325,7 @@ class ENGINE_API UTexture : public UBitmap
 	{
 		return &Mips(i);
 	}
-	void Lock( FTextureInfo& TextureInfo, DOUBLE Time, INT LOD, URenderDevice* RenDev );
-	void Unlock( FTextureInfo& TextureInfo );
+	void GetInfo( FTextureInfo& TextureInfo, DOUBLE Time );
 
 	// UTexture interface.
 	virtual void Clear( DWORD ClearFlags );
@@ -360,17 +356,13 @@ class ENGINE_API UTexture : public UBitmap
 // Information about a locked texture. Used for ease of rendering.
 //
 enum {MAX_MIPS=12};
-struct ENGINE_API FTextureInfo
+struct FTextureInfo
 {
-	friend class UBitmap;
-	friend class UTexture;
-
 	// Variables.
-	UTexture*		Texture;				// Optional texture.
 	QWORD			CacheID;				// Unique cache ID.
 	QWORD			PaletteCacheID;			// Unique cache ID of palette.
 	FVector			Pan;					// Panning value relative to texture planes.
-	FColor*			MaxColor;				// Maximum color in texture and all its mipmaps.
+	FColor* MaxColor;						// Maximum color in texture and all its mipmaps.
 	ETextureFormat	Format;					// Texture format.
 	FLOAT			UScale;					// U Scaling.
 	FLOAT			VScale;					// V Scaling.
@@ -379,19 +371,14 @@ struct ENGINE_API FTextureInfo
 	INT				UClamp;					// U clamping value, or 0 if none.
 	INT				VClamp;					// V clamping value, or 0 if none.
 	INT				NumMips;				// Number of mipmaps.
-	INT				LOD;					// Level of detail, 0=highest.
 	FColor*			Palette;				// Palette colors.
-	BITFIELD		bHighColorQuality:1;	// High color quality hint.
-	BITFIELD		bHighTextureQuality:1;	// High color quality hint.
+	BITFIELD		bNoTile : 1;			// Texture doesn't tile. // These 3 are a guess from .uc files
+	BITFIELD		bBumpMap : 1;			// Is a bump map.
+	BITFIELD		bBlur : 1;				// Blur it.
 	BITFIELD		bRealtime:1;			// Texture changes in realtime.
 	BITFIELD		bParametric:1;			// Texture data need not be stored.
 	BITFIELD		bRealtimeChanged:1;		// Changed since last render.
 	FMipmapBase*	Mips[MAX_MIPS];			// Array of NumMips of mipmaps.
-
-	// Functions.
-	void Load();
-	void Unload();
-	void CacheMaxColor();
 };
 
 /*-----------------------------------------------------------------------------

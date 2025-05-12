@@ -75,7 +75,6 @@ class ENGINE_API ULevelBase : public UObject, public FNetworkNotify
 	class UNetDriver*	NetDriver;
 	class UEngine*		Engine;
 	FURL				URL;
-	class UNetDriver*	DemoRecDriver;
 
 	// Constructors.
 	ULevelBase( UEngine* InOwner, const FURL& InURL=FURL(NULL) );
@@ -167,6 +166,9 @@ class ENGINE_API ULevel : public ULevelBase
 	void Destroy();
 	void PostLoad();
 
+	//UDatabase??
+	virtual FArray& GetArray();
+
 	// ULevel interface.
 	virtual void Modify( UBOOL DoTransArrays=0 );
 	virtual void SetActorCollision( UBOOL bCollision );
@@ -176,8 +178,9 @@ class ENGINE_API ULevel : public ULevelBase
 	virtual INT ServerTickClient( UNetConnection* Conn, FLOAT DeltaSeconds );
 	virtual void ReconcileActors();
 	virtual void RememberActors();
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 	virtual void ShrinkLevel();
+	virtual INT GetRelevantActors(APlayerPawn*, AActor**, INT);
 	virtual void CompactActors();
 	virtual UBOOL Listen( FString& Error );
 	virtual UBOOL IsServer();
@@ -194,6 +197,7 @@ class ENGINE_API ULevel : public ULevelBase
 	virtual UBOOL FindSpot( FVector Extent, FVector& Location, UBOOL bCheckActors, UBOOL bAssumeFit );
 	virtual void AdjustSpot( FVector &Adjusted, FVector TraceDest, FLOAT TraceLen, FCheckResult &Hit );
 	virtual UBOOL CheckEncroachment( AActor* Actor, FVector TestLocation, FRotator TestRotation, UBOOL bTouchNotify );
+	virtual FPackageMap* GetSandbox();
 	virtual UBOOL SinglePointCheck( FCheckResult& Hit, FVector Location, FVector Extent, DWORD ExtraNodeFlags, ALevelInfo* Level, UBOOL bActors );
 	virtual UBOOL SingleLineCheck( FCheckResult& Hit, AActor* SourceActor, const FVector& End, const FVector& Start, DWORD TraceFlags, FVector Extent=FVector(0,0,0), BYTE NodeFlags=0 );
 	virtual FCheckResult* MultiPointCheck( FMemStack& Mem, FVector Location, FVector Extent, DWORD ExtraNodeFlags, ALevelInfo* Level, UBOOL bActors );
@@ -201,10 +205,6 @@ class ENGINE_API ULevel : public ULevelBase
 	virtual void InitStats();
 	virtual void GetStats( TCHAR* Result );
 	virtual void DetailChange( UBOOL NewDetail );
-	virtual INT TickDemoRecord( FLOAT DeltaSeconds );
-	virtual INT TickDemoPlayback( FLOAT DeltaSeconds );
-	virtual void UpdateTime( ALevelInfo* Info );
-	virtual void WelcomePlayer( UNetConnection* Connection );
 
 	// FNetworkNotify interface.
 	EAcceptConnection NotifyAcceptingConnection();

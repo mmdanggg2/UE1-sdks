@@ -429,14 +429,14 @@ class RENDER_API URender : public URenderBase
 
 	// Constructor.
 	URender();
-	void StaticConstructor();
+	static void StaticConstructor(UClass* clazz);
 
 	// UObject interface.
 	void Destroy();
 
 	// URenderBase interface.
 	void Init( UEngine* InEngine );
-	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 	void PreRender( FSceneNode* Frame );
 	void PostRender( FSceneNode* Frame );
 	void DrawWorld( FSceneNode* Frame );
@@ -450,7 +450,8 @@ class RENDER_API URender : public URenderBase
 	void GlobalLighting( UBOOL Realtime, AActor* Owner, FLOAT& Brightness, FPlane& Color );
 	FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds );
 	FSceneNode* CreateChildFrame( FSceneNode* Frame, FSpanBuffer* Span, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds );
-	void FinishMasterFrame();
+	void Draw2DClippedLine(FSceneNode*, FPlane, DWORD, FVector, FVector);
+	void Draw3DLine(FSceneNode*, FPlane, DWORD, FVector, FVector);
 	void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius );
 	void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max );
 	void DrawCylinder( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, FLOAT Height );
@@ -491,17 +492,6 @@ class RENDER_API URender : public URenderBase
 	// Variables.
 	UBOOL					Toggle;
 	UBOOL					LeakCheck;
-	//UBOOL                   WireShow;
-	//UBOOL                   BlendShow;
-	//UBOOL                   BoneShow;
-	//FLOAT					GlobalMeshLOD;
-	//FLOAT					GlobalShapeLOD;
-	//FLOAT					GlobalShapeLODAdjust;
-	//INT                     ShapeLODMode;
-	//FLOAT                   ShapeLODFix;
-#if !STATS && defined(LEGEND_RENDERING)
-	INT						MeshPolyCount;
-#endif
 
 	// Timing.
 	DOUBLE					LastEndTime;
@@ -510,12 +500,8 @@ class RENDER_API URender : public URenderBase
 	DWORD					NodesDraw;
 	DWORD					PolysDraw;
 
-	// Scene.
-	FMemMark				SceneMark, MemMark, DynMark;
-	INT						SceneCount;
-
 	// Which stats to display.
-	//UBOOL NetStats;
+	UBOOL NetStats;
 	UBOOL FpsStats;
 	UBOOL GlobalStats;
 	UBOOL MeshStats;
@@ -536,24 +522,10 @@ class RENDER_API URender : public URenderBase
 	UBOOL EARIStats;
 	UBOOL EARIDetails;
 	UBOOL Extra8Stats;
-	//UBOOL AnimStats;
+	UBOOL AnimStats;
 
 	// Stat line counter.
 	INT   StatLine;
-
-	// Stats display offsets.
-	INT   StatOffsetX;
-	INT   StatOffsetY;
-
-	// Stats drawing options.
-	UBOOL StatDrawOutline;  // if true, draws a black outline around stats to improve font visibility
-	UBOOL StatScaleFont;   // if true, the stat font will scale up on larger displays
-	FLOAT StatScaleFactor; // -1 = scale dynamically, >1.0 = multiply font height by statscalefactor
-
-	// Unlit behavior.
-	UBOOL OldUnlitColors;		
-
-	// OccludeBsp dynamics.
 	
 	// stijn: the dynamics cache stores dynamic lights, sprites, etc. 
 	static struct FDynamicsCache

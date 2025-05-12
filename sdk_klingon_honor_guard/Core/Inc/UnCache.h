@@ -83,7 +83,7 @@ public:
 	BYTE* Create( QWORD Id, FCacheItem *&Item, INT CreateSize, INT Alignment=DEFAULT_ALIGNMENT, INT SafetyPad=0 );
 	void Tick();
 	void CheckState();
-	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 	void Status( TCHAR* Msg );
 	INT GetTime() {return Time;}
 

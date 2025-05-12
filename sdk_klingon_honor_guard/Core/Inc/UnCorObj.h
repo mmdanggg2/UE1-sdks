@@ -120,7 +120,7 @@ class CORE_API UTextBuffer : public UObject, public FOutputDevice
 	void Serialize( FArchive& Ar );
 
 	// FOutputDevice interface.
-	void Serialize( const TCHAR* Data, EName Event );
+	void Serialize( void* Data, INT Count, EName Event );
 };
 
 /*----------------------------------------------------------------------------
@@ -144,7 +144,7 @@ class CORE_API USystem : public USubsystem
 	USystem();
 
 	// FExec interface.
-	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 };
 
 /*----------------------------------------------------------------------------

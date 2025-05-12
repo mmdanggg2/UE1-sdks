@@ -40,7 +40,7 @@ class ENGINE_API UEngine : public USubsystem
 
 	// UEngine interface.
 	virtual void Init();
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Out=*GLog );
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Out=GOut );
 	virtual void Flush();
 	virtual UBOOL Key( UViewport* Viewport, EInputKey Key );
 	virtual UBOOL InputEvent( UViewport* Viewport, EInputKey iKey, EInputAction State, FLOAT Delta=0.0 );

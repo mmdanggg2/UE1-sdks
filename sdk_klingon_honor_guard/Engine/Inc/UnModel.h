@@ -10,6 +10,44 @@
 	UModel.
 -----------------------------------------------------------------------------*/
 
+// Just lets TTransArray syntax continue to work with the pointers
+template <class T>
+class MagicPtr {
+public:
+	T* ptr;
+
+	// Optional smart-pointer-like access
+	T* operator->() { return ptr; }
+	const T* operator->() const { return ptr; }
+
+	T& operator*() { return *ptr; }
+	const T& operator*() const { return *ptr; }
+
+	// Transparent forwarding of operator()
+	auto operator()(INT i) const -> decltype((*ptr)(i)) {
+		return (*ptr)(i);
+	}
+
+	// Transparent forwarding of Num()
+	template <typename... Args>
+	auto Num(Args&&... args) const -> decltype(ptr->Num(std::forward<Args>(args)...)) {
+		return ptr->Num(std::forward<Args>(args)...);
+	}
+};
+
+struct DBOwner{
+	UObject* dbOwner;
+};
+
+// Looks like what TTransArray evolved from, looks like the same structure but has extra object ptr before it.
+template <class T>
+class UDatabase : UObject, DBOwner, public TTransArray<T> {};
+
+class UVectors : public UDatabase<FVector> {};
+class UBspNodes : public UDatabase<FBspNode> {};
+class UBspSurfs: public UDatabase<FBspSurf> {};
+class UVerts : public UDatabase<FVert> {};
+
 //
 // Model objects are used for brushes and for the level itself.
 //
@@ -20,12 +58,12 @@ class ENGINE_API UModel : public UPrimitive
 	DECLARE_CLASS(UModel,UPrimitive,CLASS_RuntimeStatic)
 
 	// Arrays and subobjects.
+	MagicPtr<UVectors> Vectors;
+	MagicPtr<UVectors> Points;
+	MagicPtr<UBspNodes>	Nodes;
+	MagicPtr<UBspSurfs>	Surfs;
+	MagicPtr<UVerts>	Verts;
 	UPolys*					Polys;
-	TTransArray<FBspNode>	Nodes;
-	TTransArray<FVert>      Verts;
-	TTransArray<FVector>	Vectors;
-	TTransArray<FVector>	Points;
-	TTransArray<FBspSurf>	Surfs;
 	TArray<FLightMapIndex>	LightMap;
 	TArray<BYTE>			LightBits;
 	TArray<FBox>			Bounds;
@@ -44,11 +82,6 @@ class ENGINE_API UModel : public UPrimitive
 	// Constructors.
 	UModel()
 	: RootOutside( 1 )
-	, Surfs( this )
-	, Vectors( this )
-	, Points( this )
-	, Verts( this )
-	, Nodes( this )
 	{
 		EmptyModel( 1, 0 );
 	}

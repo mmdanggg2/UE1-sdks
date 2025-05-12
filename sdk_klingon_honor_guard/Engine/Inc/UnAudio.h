@@ -27,7 +27,7 @@ class ENGINE_API UAudioSubsystem : public USubsystem
 	// UAudioSubsystem interface.
 	virtual UBOOL Init()=0;
 	virtual void SetViewport( UViewport* Viewport )=0;
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog )=0;
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut )=0;
 	virtual void Update( FPointRegion Region, FCoords& Listener )=0;
 	virtual void RegisterMusic( UMusic* Music )=0;
 	virtual void RegisterSound( USound* Music )=0;

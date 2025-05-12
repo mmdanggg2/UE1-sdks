@@ -29,7 +29,7 @@ public:
 //
 class CORE_API FClassNetCache
 {
-	friend class UPackageMap;
+	friend class FPackageMap;
 public:
 	FClassNetCache();
 	FClassNetCache( UClass* Class );
@@ -75,14 +75,13 @@ public:
 //
 // Maps objects and names to and from indices for network communication.
 //
-class CORE_API UPackageMap : public UObject
+class CORE_API FPackageMap
 {
-	DECLARE_CLASS(UPackageMap,UObject,CLASS_Transient);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
 
-	// UPackageMap interface.
+	// FPackageMap interface.
 	virtual UBOOL CanSerializeObject( UObject* Obj );
 	virtual UBOOL SerializeObject( FArchive& Ar, UClass* Class, UObject*& Obj );
 	virtual UBOOL SerializeName( FArchive& Ar, FName& Name );
@@ -93,7 +92,7 @@ class CORE_API UPackageMap : public UObject
 	virtual INT GetMaxObjectIndex() {return MaxObjectIndex;}
 	virtual FClassNetCache* GetClassNetCache( UClass* Class );
 	virtual UBOOL SupportsPackage( UObject* InOuter );
-	void Copy( UPackageMap* Other );
+	void Copy( FPackageMap* Other );
 
 	// Variables.
 	TArray<FPackageInfo> List;

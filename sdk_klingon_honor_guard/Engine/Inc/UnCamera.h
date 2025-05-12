@@ -229,7 +229,6 @@ class ENGINE_API UViewport : public UPlayer
 	// Level traveling.
 	ETravelType		TravelType;
 	FStringNoInit	TravelURL;
-	UBOOL			bTravelItems;
 
 	// Frame buffer info; only valid when locked.
 	DOUBLE			CurrentTime;	// Time when initially locked.
@@ -273,14 +272,14 @@ class ENGINE_API UViewport : public UPlayer
 	virtual void* GetWindow()=0;
 	virtual void SetMouseCapture( UBOOL Capture, UBOOL Clip, UBOOL FocusOnly=0 )=0;
 	virtual void Repaint( UBOOL Blit )=0;
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 
 	// Functions.
 	void ExecuteHits( const FHitCause& Cause, BYTE* HitData, INT HitSize );
 	void PushHit( const struct HHitProxy& Hit, INT Size );
 	void PopHit( UBOOL bForce );
 	UBOOL IsWire();
-	void ExecMacro( const TCHAR* Filename, FOutputDevice& Ar=*GLog );
+	void ExecMacro( const TCHAR* Filename, FOutputDevice& Ar=GOut );
 
 	// UViewport inlines.
 	BYTE* _Screen( INT X, INT Y )
@@ -357,19 +356,14 @@ class ENGINE_API UClient : public UObject
 	INT					DrawCycles;
 
 	// Configurable.
-	BITFIELD	CaptureMouse;
-	BITFIELD	CurvedSurfaces;
-	BITFIELD	ScreenFlashes;
-	BITFIELD	NoLighting;
-	INT			WindowedViewportX;
-	INT			WindowedViewportY;
-	INT			WindowedColorBits;
-	INT			FullscreenViewportX;
-	INT			FullscreenViewportY;
-	INT			FullscreenColorBits;
+	INT			ViewportX;
+	INT			ViewportY;
 	FLOAT		Brightness;
 	FLOAT		MipFactor;
-	INT			TextureLODSet[LODSET_MAX];
+	UBOOL	CaptureMouse;
+	UBOOL	CurvedSurfaces;
+	UBOOL	ScreenFlashes;
+	UBOOL	NoLighting;
 
 	// Constructors.
 	UClient();
@@ -386,7 +380,7 @@ class ENGINE_API UClient : public UObject
 	virtual void ShowViewportWindows( DWORD ShowFlags, int DoShow )=0;
 	virtual void EnableViewportWindows( DWORD ShowFlags, int DoEnable )=0;
 	virtual void Tick()=0;
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog )=0;
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut )=0;
 	virtual class UViewport* NewViewport( const FName Name )=0;
 	virtual void MakeCurrent( UViewport* NewViewport )=0;
 };

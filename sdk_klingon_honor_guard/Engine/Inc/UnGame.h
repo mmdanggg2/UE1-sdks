@@ -37,7 +37,7 @@ class ENGINE_API UGameEngine : public UEngine
 	void Init();
 	void Tick( FLOAT DeltaSeconds );
 	void Draw( UViewport* Viewport, UBOOL Blit=1, BYTE* HitData=NULL, INT* HitSize=NULL );
-	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 	void MouseDelta( UViewport*, DWORD, FLOAT, FLOAT );
 	void MousePosition( class UViewport*, DWORD, FLOAT, FLOAT );
 	void Click( UViewport*, DWORD, FLOAT, FLOAT );

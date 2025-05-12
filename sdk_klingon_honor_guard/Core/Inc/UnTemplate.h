@@ -1047,10 +1047,6 @@ public:
 	{
 		return FString( Clamp(Count,0,Len()), **this );
 	}
-	FString LeftChop( INT Count ) const
-	{
-		return FString( Clamp(Len()-Count,0,Len()), **this );
-	}
 	FString Right( INT Count ) const
 	{
 		return FString( **this + Len()-Clamp(Count,0,Len()) );
@@ -1114,12 +1110,17 @@ public:
 	}
 	FString LeftPad( INT ChCount );
 	FString RightPad( INT ChCount );
-	static FString Printf( const TCHAR* Fmt, ... );
+	void Setf(const char* Fmt, ...);
+	static __forceinline FString Printf(const TCHAR* Fmt, auto... args) {
+		FString formatted{};
+		formatted.Setf(Fmt, args...);
+		return formatted;
+	};
 	static FString Chr( TCHAR Ch );
 	CORE_API friend FArchive& operator<<( FArchive& Ar, FString& S );
 	friend struct FStringNoInit;
 private:
-	FString( INT InCount, const TCHAR* InSrc )
+	__forceinline FString( INT InCount, const TCHAR* InSrc )
 	:	TArray<TCHAR>( InCount+1 )
 	{
 		appStrncpy( &(*this)(0), InSrc, InCount+1 );

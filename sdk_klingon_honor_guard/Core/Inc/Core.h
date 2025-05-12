@@ -114,7 +114,6 @@ class		USubsystem;
 class			USystem;
 class		UTextBuffer;
 class       URenderDevice;
-class		UPackageMap;
 
 // Structs.
 class FName;
@@ -131,7 +130,6 @@ class FRepLink;
 class FArray;
 class FLazyLoader;
 class FString;
-class FMalloc;
 
 // Templates.
 template<class T> class TArray;
@@ -139,9 +137,6 @@ template<class T> class TTransArray;
 template<class T> class TLazyArray;
 template<class TK, class TI> class TMap;
 template<class TK, class TI> class TMultiMap;
-
-// Globals.
-CORE_API extern class FOutputDevice* GNull;
 
 // EName definition.
 #include "UnNames.h"
@@ -155,60 +150,34 @@ class CORE_API FOutputDevice
 {
 public:
 	// FOutputDevice interface.
-	virtual void Serialize( const TCHAR* V, EName Event )=0;
+	virtual void Serialize( void* Data, INT Count, EName Event )=0;
 
 	// Simple text printing.
 	void Log( const TCHAR* S );
 	void Log( enum EName Type, const TCHAR* S );
-	void Log( const FString& S );
-	void Log( enum EName Type, const FString& S );
 	void Logf( const TCHAR* Fmt, ... );
 	void Logf( enum EName Type, const TCHAR* Fmt, ... );
 };
 
+// Log device.
+class CORE_API FLogOut : public FOutputDevice
+{
+public:
+	void Serialize( void* Data, INT Count, EName Event );
+};
+
 // Error device.
-class CORE_API FOutputDeviceError : public FOutputDevice
+class CORE_API FErrorOut : public FOutputDevice
 {
 public:
-	virtual void HandleError()=0;
+	void Serialize( void* Data, INT Count, EName Event );
 };
 
-// Memory allocator.
-class CORE_API FMalloc
+// Null output device.
+class CORE_API FNullOut : public FOutputDevice
 {
 public:
-	virtual void* Malloc( DWORD Count, const TCHAR* Tag )=0;
-	virtual void* Realloc( void* Original, DWORD Count, const TCHAR* Tag )=0;
-	virtual void Free( void* Original )=0;
-	virtual void DumpAllocs()=0;
-	virtual void HeapCheck()=0;
-	virtual void Init()=0;
-	virtual void Exit()=0;
-};
-
-// Configuration database cache.
-class FConfigCache
-{
-public:
-	virtual UBOOL GetBool( const TCHAR* Section, const TCHAR* Key, UBOOL& Value, const TCHAR* Filename=NULL )=0;
-	virtual UBOOL GetInt( const TCHAR* Section, const TCHAR* Key, INT& Value, const TCHAR* Filename=NULL )=0;
-	virtual UBOOL GetFloat( const TCHAR* Section, const TCHAR* Key, FLOAT& Value, const TCHAR* Filename=NULL )=0;
-	virtual UBOOL GetString( const TCHAR* Section, const TCHAR* Key, TCHAR* Value, INT Size, const TCHAR* Filename=NULL )=0;
-	virtual UBOOL GetString( const TCHAR* Section, const TCHAR* Key, class FString& Str, const TCHAR* Filename=NULL )=0;
-	virtual const TCHAR* GetStr( const TCHAR* Section, const TCHAR* Key, const TCHAR* Filename=NULL )=0;
-	virtual UBOOL GetSection( const TCHAR* Section, TCHAR* Value, INT Size, const TCHAR* Filename=NULL )=0;
-	virtual TMultiMap<FString,FString>* GetSectionPrivate( const TCHAR* Section, UBOOL Force, UBOOL Const, const TCHAR* Filename=NULL )=0;
-	virtual void EmptySection( const TCHAR* Section, const TCHAR* Filename=NULL )=0;
-	virtual void SetBool( const TCHAR* Section, const TCHAR* Key, UBOOL Value, const TCHAR* Filename=NULL )=0;
-	virtual void SetInt( const TCHAR* Section, const TCHAR* Key, INT Value, const TCHAR* Filename=NULL )=0;
-	virtual void SetFloat( const TCHAR* Section, const TCHAR* Key, FLOAT Value, const TCHAR* Filename=NULL )=0;
-	virtual void SetString( const TCHAR* Section, const TCHAR* Key, const TCHAR* Value, const TCHAR* Filename=NULL )=0;
-	virtual void Flush( UBOOL Read, const TCHAR* Filename=NULL )=0;
-	virtual void Detach( const TCHAR* Filename )=0;
-	virtual void Init( const TCHAR* InSystem, const TCHAR* InUser, UBOOL RequireConfig )=0;
-	virtual void Exit()=0;
-	virtual void Dump( FOutputDevice& Ar )=0;
-	virtual ~FConfigCache() noexcept(false) {};
+	void Serialize( void* Data, INT Count, EName Event ) {};
 };
 
 // Any object that is capable of taking commands.
@@ -277,24 +246,6 @@ enum EFileRead
 {
 	FILEREAD_NoFail             = 0x01,
 };
-class CORE_API FFileManager
-{
-public:
-	virtual FArchive* CreateFileReader( const TCHAR* Filename, DWORD ReadFlags=0, FOutputDevice* Error=GNull )=0;
-	virtual FArchive* CreateFileWriter( const TCHAR* Filename, DWORD WriteFlags=0, FOutputDevice* Error=GNull )=0;
-	virtual INT FileSize( const TCHAR* Filename )=0;
-	virtual UBOOL Delete( const TCHAR* Filename, UBOOL RequireExists=0, UBOOL EvenReadOnly=0 )=0;
-	virtual UBOOL Copy( const TCHAR* Dest, const TCHAR* Src, UBOOL Replace=1, UBOOL EvenIfReadOnly=0, UBOOL Attributes=0, void (*Progress)(FLOAT Fraction)=NULL )=0;
-	virtual UBOOL Move( const TCHAR* Dest, const TCHAR* Src, UBOOL Replace=1, UBOOL EvenIfReadOnly=0, UBOOL Attributes=0 )=0;
-	virtual SQWORD GetGlobalTime( const TCHAR* Filename )=0;
-	virtual UBOOL SetGlobalTime( const TCHAR* Filename )=0;
-	virtual UBOOL MakeDirectory( const TCHAR* Path, UBOOL Tree=0 )=0;
-	virtual UBOOL DeleteDirectory( const TCHAR* Path, UBOOL RequireExists=0, UBOOL Tree=0 )=0;
-	virtual TArray<FString> FindFiles( const TCHAR* Filename, UBOOL Files, UBOOL Directories )=0;
-	virtual UBOOL SetDefaultDirectory( const TCHAR* Filename )=0;
-	virtual FString GetDefaultDirectory()=0;
-	virtual void Init(UBOOL Startup) {}
-};
 
 /*----------------------------------------------------------------------------
 	Global variables.
@@ -302,17 +253,14 @@ public:
 
 // Core globals.
 CORE_API extern FMemStack				GMem;
-CORE_API extern FOutputDevice*			GLog;
-CORE_API extern FOutputDevice*			GNull;
+CORE_API extern FLogOut					GOut;
+CORE_API extern FNullOut				GNull;
 CORE_API extern FOutputDevice*		    GThrow;
-CORE_API extern FOutputDeviceError*		GError;
+CORE_API extern FErrorOut				GError;
 CORE_API extern FFeedbackContext*		GWarn;
-CORE_API extern FConfigCache*			GConfig;
 CORE_API extern FTransactionBase*		GUndo;
 CORE_API extern FOutputDevice*			GLogHook;
 CORE_API extern FExec*					GExec;
-CORE_API extern FMalloc*				GMalloc;
-CORE_API extern FFileManager*			GFileManager;
 CORE_API extern USystem*				GSys;
 CORE_API extern UProperty*				GProperty;
 CORE_API extern BYTE*					GPropAddr;
@@ -371,6 +319,25 @@ extern "C" DLL_EXPORT TCHAR GPackage[];
 #include "UnCid.h"          // Cache ID's.
 #include "UnBits.h"         // Bitstream archiver.
 #include "UnMath.h"         // Vector math functions.
+
+// Configuration database cache.
+class FConfigCache
+{
+public:
+	static UBOOL GetBool(const TCHAR* Section, const TCHAR* Key, UBOOL& Value, const TCHAR* Filename = NULL) { return GetConfigBool(Section, Key, Value, Filename); };
+	static UBOOL GetInt(const TCHAR* Section, const TCHAR* Key, INT& Value, const TCHAR* Filename = NULL) { return GetConfigInt(Section, Key, Value, Filename); };
+	static UBOOL GetFloat(const TCHAR* Section, const TCHAR* Key, FLOAT& Value, const TCHAR* Filename = NULL) { return GetConfigFloat(Section, Key, Value, Filename); };
+	static UBOOL GetString(const TCHAR* Section, const TCHAR* Key, TCHAR* Value, INT Size, const TCHAR* Filename = NULL) { return GetConfigString(Section, Key, Value, Size, Filename); };
+	static UBOOL GetString(const TCHAR* Section, const TCHAR* Key, class FString& Str, const TCHAR* Filename = NULL) { return GetConfigString(Section, Key, Str, Filename); };
+	static const TCHAR* GetStr(const TCHAR* Section, const TCHAR* Key, const TCHAR* Filename = NULL) { return GetConfigStr(Section, Key, Filename); };
+	static UBOOL GetSection(const TCHAR* Section, TCHAR* Value, INT Size, const TCHAR* Filename = NULL) { return GetConfigSection(Section, Value, Size, Filename); };
+	static void EmptySection(const TCHAR* Section, const TCHAR* Filename = NULL) { EmptyConfigSection(Section, Filename); };
+	static void SetBool(const TCHAR* Section, const TCHAR* Key, UBOOL Value, const TCHAR* Filename = NULL) { SetConfigBool(Section, Key, Value, Filename); };
+	static void SetInt(const TCHAR* Section, const TCHAR* Key, INT Value, const TCHAR* Filename = NULL) { SetConfigInt(Section, Key, Value, Filename); };
+	static void SetFloat(const TCHAR* Section, const TCHAR* Key, FLOAT Value, const TCHAR* Filename = NULL) { SetConfigFloat(Section, Key, Value, Filename); };
+	static void SetString(const TCHAR* Section, const TCHAR* Key, const TCHAR* Value, const TCHAR* Filename = NULL) { SetConfigString(Section, Key, Value, Filename); };
+};
+extern FConfigCache* GConfig;
 
 /*-----------------------------------------------------------------------------
 	The End.

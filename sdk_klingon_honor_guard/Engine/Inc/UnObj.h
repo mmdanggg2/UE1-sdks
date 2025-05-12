@@ -387,6 +387,8 @@ class ENGINE_API UPolys : public UObject
 {
 	DECLARE_CLASS(UPolys,UObject,CLASS_RuntimeStatic)
 
+	UObject* dbOwner;
+
 	// Elements.
 	TTransArray<FPoly> Element;
 

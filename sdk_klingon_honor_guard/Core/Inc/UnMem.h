@@ -76,6 +76,7 @@ private:
 	};
 
 	// Variables.
+	DWORD unk;
 	BYTE*			Top;				// Top of current chunk (Top<=End).
 	BYTE*			End;				// End of current chunk.
 	INT				DefaultChunkSize;	// Maximum chunk size to allocate.

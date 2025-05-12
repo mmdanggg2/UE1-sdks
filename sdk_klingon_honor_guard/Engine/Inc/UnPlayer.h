@@ -13,19 +13,14 @@
 //
 // A player, the base class of UViewport (local players) and UNetConnection (remote players).
 //
-class ENGINE_API UPlayer : public UObject, public FOutputDevice, public FExec
+class ENGINE_API UPlayer : public UObject, public FOutputDevice
 {
 	DECLARE_ABSTRACT_CLASS(UPlayer,UObject,CLASS_Transient)
 
 	// Objects.
 	APlayerPawn*	Actor;
 	UConsole*		Console;
-	
-	BITFIELD		bWindowsMouseAvailable:1;
-	BITFIELD		bShowWindowsMouse:1;
-	FLOAT			WindowsMouseX;
-	FLOAT			WindowsMouseY;
-	BYTE			SelectedCursor;
+	FString			TravelItems;
 
 	// Constructor.
 	UPlayer();
@@ -33,9 +28,6 @@ class ENGINE_API UPlayer : public UObject, public FOutputDevice, public FExec
 	// UObject interface.
 	void Serialize( FArchive& Ar );
 	void Destroy();
-
-	// FExec interface.
-	UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar );
 
 	// UPlayer interface.
 	virtual void ReadInput( FLOAT DeltaSeconds )=0;

@@ -218,7 +218,6 @@ class ENGINE_API UMesh : public UPrimitive
 	TArray<FSphere>					BoundingSpheres;//!!currently broken
 	TLazyArray<INT>					VertLinks;
 	TArray<UTexture*>				Textures;
-	TArray<FLOAT>					TextureLOD;
 
 	// Counts.
 	INT						FrameVerts;
@@ -256,7 +255,7 @@ class ENGINE_API UMesh : public UPrimitive
 
 	// UMesh interface.
 	UMesh( INT NumPolys, INT NumVerts, INT NumFrames );
-	virtual const FMeshAnimSeq* GetAnimSeq( FName SeqName ) const
+	const FMeshAnimSeq* GetAnimSeq( FName SeqName ) const
 	{
 		guardSlow(UMesh::GetAnimSeq);
 		for( INT i=0; i<AnimSeqs.Num(); i++ )
@@ -265,7 +264,7 @@ class ENGINE_API UMesh : public UPrimitive
 		return NULL;
 		unguardSlow;
 	}
-	virtual FMeshAnimSeq* GetAnimSeq( FName SeqName )
+	FMeshAnimSeq* GetAnimSeq( FName SeqName )
 	{
 		guardSlow(UMesh::GetAnimSeq);
 		for( INT i=0; i<AnimSeqs.Num(); i++ )
@@ -274,14 +273,12 @@ class ENGINE_API UMesh : public UPrimitive
 		return NULL;
 		unguardSlow;
 	}
-	virtual void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner );
+	void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner );
 	void AMD3DGetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner );
-	virtual UTexture* GetTexture( INT Count, AActor* Owner )
+	UTexture* GetTexture( INT Count, AActor* Owner )
 	{
 		guardSlow(UMesh::GetTexture);
-		if( Owner && Owner->GetSkin( Count ) )
-			return Owner->GetSkin( Count );
-		else if( Count!=0 && Textures(Count) )
+		if( Count!=0 && Textures(Count) )
 			return Textures(Count);
 		else if( Owner && Owner->Skin )
 			return Owner->Skin;
@@ -289,63 +286,7 @@ class ENGINE_API UMesh : public UPrimitive
 			return Textures(Count);
 		unguardSlow;
 	}
-	virtual void SetScale( FVector NewScale );
-};
-
-/*-----------------------------------------------------------------------------
-	ULodMesh.
------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------
-	ULodMesh.
------------------------------------------------------------------------------*/
-
-//
-// A LodMesh, completely describing a 3D object (creature, weapon, etc) and
-// its animation sequences.  Does not reference textures.
-//
-class ENGINE_API ULodMesh : public UMesh
-{
-	DECLARE_CLASS(ULodMesh,UMesh,0)
-
-	// LOD-specific objects.
-	// Make lazy arrays where useful.
-	TArray<_WORD>			CollapsePointThus;  // Lod-collapse single-linked list for points.
-	TArray<_WORD>           FaceLevel;          // Minimum lod-level indicator for each face.
-	TArray<FMeshFace>       Faces;              // Faces 
-	TArray<_WORD>			CollapseWedgeThus;  // Lod-collapse single-linked list for the wedges.
-	TArray<FMeshWedge>		Wedges;             // 'Hoppe-style' textured vertices.
-	TArray<FMeshMaterial>   Materials;          // Materials
-	TArray<FMeshFace>       SpecialFaces;       // Invisible special-coordinate faces.
-
-	// Misc Internal.
-	INT    ModelVerts;     // Number of 'visible' vertices.
-	INT	   SpecialVerts;   // Number of 'invisible' (special attachment) vertices.
-
-	// Max of x/y/z mesh scale for LOD gauging (works on top of drawscale).
-	FLOAT  MeshScaleMax;
-
-	// Script-settable LOD controlling parameters.
-	FLOAT  LODStrength;    // Scales the (not necessarily linear) falloff of vertices with distance.
-	INT    LODMinVerts;    // Minimum number of vertices with which to draw a model.
-	FLOAT  LODMorph;       // >0.0 = allow morphing ; 0.0-1.0 = range of vertices to morph.
-	FLOAT  LODZDisplace;   // Z displacement for LOD distance-dependency tweaking.
-	FLOAT  LODHysteresis;  // Controls LOD-level change delay and morphing.
-
-	// Remapping of animation vertices.
-	TArray<_WORD> RemapAnimVerts;
-	INT    OldFrameVerts;  // Possibly different old per-frame vertex count.
-	
-	//  UObject interface.
-	ULodMesh(){};
-	void Serialize( FArchive& Ar );
-
-	//  UMesh interface.
 	void SetScale( FVector NewScale );
-	ULodMesh( INT NumPolys, INT NumVerts, INT NumFrames );
-	
-	// GetFrame for LOD.
-	void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner, INT& LODRequest );
 };
 
 /*----------------------------------------------------------------------------

@@ -27,7 +27,6 @@
 	UBOOL IsBlockedBy( const AActor* Other ) const;
 	UBOOL IsInZone( const AZoneInfo* Other ) const;
 	UBOOL IsBasedOn( const AActor *Other ) const;
-	virtual FLOAT GetNetPriority( AActor* Sent, FLOAT Time, FLOAT Lag );
 	virtual FLOAT WorldLightRadius() const {return 25.0 * ((int)LightRadius+1);}
 	virtual UBOOL Tick( FLOAT DeltaTime, enum ELevelTick TickType );
 	virtual void PostEditMove() {}
@@ -36,7 +35,6 @@
 	virtual void Spawned() {}
 	virtual void PreNetReceive();
 	virtual void PostNetReceive();
-	virtual UTexture* GetSkin( INT Index );
 	virtual FCoords ToLocal() const
 	{
 		return GMath.UnitCoords / Rotation / Location;

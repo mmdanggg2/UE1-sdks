@@ -45,7 +45,7 @@ enum EPackageFlags
 //
 // Internal enums.
 //
-enum ENativeConstructor    {EC_NativeConstructor};
+enum EIntrinsicConstructor    {EC_NativeConstructor};
 enum EInternal             {EC_Internal};
 enum ECppProperty          {EC_CppProperty};
 enum EInPlaceConstructor   {EC_InPlaceConstructor};
@@ -331,10 +331,9 @@ public: \
 			FGuid(TClass::GUID1,TClass::GUID2,TClass::GUID3,TClass::GUID4), \
 			TEXT(#TClass)+1, \
 			GPackage, \
-			StaticConfigName(), \
 			RF_Public | RF_Standalone | RF_Transient | RF_Native, \
 			(void(*)(void*))TClass::InternalConstructor, \
-			(void(UObject::*)())&TClass::StaticConstructor \
+			(void(*)(UClass*))TClass::StaticConstructor \
 		); \
 		extern "C" DLL_EXPORT UClass* autoclass##TClass;\
 		DLL_EXPORT UClass* autoclass##TClass = TClass::StaticClass();
@@ -350,7 +349,6 @@ public: \
 			FGuid(TClass::GUID1,TClass::GUID2,TClass::GUID3,TClass::GUID4), \
 			TEXT(#TClass)+1, \
 			GPackage, \
-			StaticConfigName(), \
 			RF_Public | RF_Standalone | RF_Transient | RF_Native, \
 			(void(*)(void*))TClass::InternalConstructor, \
 			(void(UObject::*)())&TClass::StaticConstructor \
@@ -389,7 +387,7 @@ class CORE_API UObject : public FUnknown
 	friend class FObjectIterator;
 	friend class ULinkerLoad;
 	friend class ULinkerSave;
-	friend class UPackageMap;
+	friend class FPackageMap;
 	friend class FArchiveTagUsed;
 
 private:
@@ -442,10 +440,10 @@ public:
 	// Constructors.
 	UObject();
 	UObject( const UObject& Src );
-	UObject( ENativeConstructor, UClass* InClass, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags );
+	UObject( EIntrinsicConstructor, UClass* InClass, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags );
 	UObject( EInPlaceConstructor, UClass* InClass, UObject* InOuter, FName InName, DWORD InFlags );
 	UObject& operator=( const UObject& );
-	void StaticConstructor();
+	static void StaticConstructor(UClass* clazz);
 	static void InternalConstructor( void* X )
 		{ new( (EInternal*)X )UObject; }
 
@@ -460,9 +458,10 @@ public:
 	virtual DWORD STDCALL Release();
 
 	// UObject interface.
-	virtual void ProcessEvent( UFunction* Function, void* Parms, void* Result=NULL );
+	virtual void ProcessEvent( UFunction* Function, void* Parms );
 	virtual void ProcessState( FLOAT DeltaSeconds );
 	virtual UBOOL ProcessRemoteFunction( UFunction* Function, void* Parms, FFrame* Stack );
+	virtual void ProcessInternal(FFrame&);
 	virtual void Modify();
 	virtual void PostLoad();
 	virtual void Destroy();
@@ -474,23 +473,22 @@ public:
 	virtual void ShutdownAfterError();
 	virtual void PostEditChange();
 	virtual void CallFunction( FFrame& TheStack, RESULT_DECL, UFunction* Function );
-	virtual UBOOL ScriptConsoleExec( const TCHAR* Cmd, FOutputDevice& Ar, UObject* Executor );
+	virtual UBOOL ScriptConsoleExec( const TCHAR* Cmd, FOutputDevice& Ar );
 	virtual void Register();
-	virtual void LanguageChange();
 
 	// Systemwide functions.
 	static UObject* StaticFindObject( UClass* Class, UObject* InOuter, const TCHAR* Name, UBOOL ExactClass=0 );
 	static UObject* StaticFindObjectChecked( UClass* Class, UObject* InOuter, const TCHAR* Name, UBOOL ExactClass=0 );
-	static UObject* StaticLoadObject( UClass* Class, UObject* InOuter, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox );
-	static UClass* StaticLoadClass( UClass* BaseClass, UObject* InOuter, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox );
-	static UObject* StaticAllocateObject( UClass* Class, UObject* InOuter=(UObject*)GetTransientPackage(), FName Name=NAME_None, DWORD SetFlags=0, UObject* Template=NULL, FOutputDevice* Error=GError, UObject* Ptr=NULL );
-	static UObject* StaticConstructObject( UClass* Class, UObject* InOuter=(UObject*)GetTransientPackage(), FName Name=NAME_None, DWORD SetFlags=0, UObject* Template=NULL, FOutputDevice* Error=GError );
+	static UObject* StaticLoadObject( UClass* Class, UObject* InOuter, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, FPackageMap* Sandbox );
+	static UClass* StaticLoadClass( UClass* BaseClass, UObject* InOuter, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, FPackageMap* Sandbox );
+	static UObject* StaticAllocateObject( UClass* Class, UObject* InOuter=(UObject*)GetTransientPackage(), FName Name=NAME_None, DWORD SetFlags=0, UObject* Template=NULL, FOutputDevice* Error=&GError );
+	static UObject* StaticConstructObject( UClass* Class, UObject* InOuter=(UObject*)GetTransientPackage(), FName Name=NAME_None, DWORD SetFlags=0, UObject* Template=NULL, FOutputDevice* Error=&GError );
 	static void StaticInit();
 	static void StaticExit();
-	static UBOOL StaticExec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog );
+	static UBOOL StaticExec( const TCHAR* Cmd, FOutputDevice& Ar=GOut );
 	static void StaticTick();
 	static UObject* LoadPackage( UObject* InOuter, const TCHAR* Filename, DWORD LoadFlags );
-	static UBOOL SavePackage( UObject* InOuter, UObject* Base, DWORD TopLevelFlags, const TCHAR* Filename, FOutputDevice* Error=GError, ULinkerLoad* Conform=NULL );
+	static UBOOL SavePackage( UObject* InOuter, UObject* Base, DWORD TopLevelFlags, const TCHAR* Filename, FOutputDevice* Error=&GError, ULinkerLoad* Conform=NULL );
 	static void CollectGarbage( DWORD KeepFlags );
 	static void SerializeRootSet( FArchive& Ar, DWORD KeepFlags, DWORD RequiredFlags );
 	static UBOOL IsReferenced( UObject*& Res, DWORD KeepFlags, UBOOL IgnoreReference );
@@ -501,7 +499,7 @@ public:
 	static void ExitProperties( BYTE* Data, UClass* Class );
 	static void ResetLoaders( UObject* InOuter, UBOOL DynamicOnly, UBOOL ForceLazyLoad );
 	static UPackage* CreatePackage( UObject* InOuter, const TCHAR* PkgName );
-	static ULinkerLoad* GetPackageLinker( UObject* InOuter, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox, FGuid* CompatibleGuid );
+	static ULinkerLoad* GetPackageLinker( UObject* InOuter, const TCHAR* Filename, DWORD LoadFlags, FPackageMap* Sandbox, FGuid* CompatibleGuid );
 	static void StaticShutdownAfterError();
 	static UObject* GetIndexedObject( INT Index );
 	static void GlobalSetProperty( const TCHAR* Value, UClass* Class, UProperty* Property, INT Offset, UBOOL Immediate );
@@ -528,7 +526,7 @@ public:
 	const TCHAR* GetPathName( UObject* StopOuter=NULL, TCHAR* Str=NULL ) const;
 	UBOOL IsValid();
 	void ConditionalRegister();
-	UBOOL ConditionalDestroy();
+	void ConditionalDestroy();
 	void ConditionalPostLoad();
 	void ConditionalShutdownAfterError();
 	UBOOL IsA( UClass* SomeBaseClass ) const;
@@ -911,13 +909,13 @@ template< class T > T* ConstructObject( UClass* Class, UObject* Outer=(UObject*)
 }
 
 // Load an object.
-template< class T > T* LoadObject( UObject* Outer, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox )
+template< class T > T* LoadObject( UObject* Outer, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, FPackageMap* Sandbox )
 {
 	return (T*)UObject::StaticLoadObject( T::StaticClass(), Outer, Name, Filename, LoadFlags, Sandbox );
 }
 
 // Load a class object.
-template< class T > UClass* LoadClass( UObject* Outer, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox )
+template< class T > UClass* LoadClass( UObject* Outer, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, FPackageMap* Sandbox )
 {
 	return UObject::StaticLoadClass( T::StaticClass(), Outer, Name, Filename, LoadFlags, Sandbox );
 }

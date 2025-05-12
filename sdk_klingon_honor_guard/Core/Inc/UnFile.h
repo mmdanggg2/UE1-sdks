@@ -41,7 +41,7 @@ CORE_API extern DWORD GCRCTable[];
 	Global init and exit.
 -----------------------------------------------------------------------------*/
 
-CORE_API void appInit( const TCHAR* InPackage, const TCHAR* InCmdLine, FMalloc* InMalloc, FOutputDevice* InLog, FOutputDeviceError* InError, FFeedbackContext* InWarn, FFileManager* InFileManager, FConfigCache*(*ConfigFactory)(), UBOOL RequireConfig );
+CORE_API void appInit();
 CORE_API void appPreExit();
 CORE_API void appExit();
 
@@ -49,15 +49,15 @@ CORE_API void appExit();
 	Logging and critical errors.
 -----------------------------------------------------------------------------*/
 
-CORE_API void appRequestExit( UBOOL Force );
+CORE_API void appRequestExit();
 
 CORE_API void VARARGS appFailAssert( const ANSICHAR* Expr, const ANSICHAR* File, INT Line );
 CORE_API void VARARGS appUnwindf( const TCHAR* Fmt, ... );
 CORE_API const TCHAR* appGetSystemErrorMessage( INT Error=0 );
 CORE_API const void appDebugMessagef( const TCHAR* Fmt, ... );
 
-#define debugf				GLog->Logf
-#define appErrorf			GError->Logf
+#define debugf				GOut.Logf
+#define appErrorf			GError.Logf
 
 #if DO_GUARD_SLOW
 	#define debugfSlow		GLog->Logf
@@ -243,7 +243,6 @@ CORE_API DOUBLE appSeconds();
 CORE_API void appSystemTime( INT& Year, INT& Month, INT& DayOfWeek, INT& Day, INT& Hour, INT& Min, INT& Sec, INT& MSec );
 CORE_API const TCHAR* appTimestamp();
 CORE_API DOUBLE appSecondsSlow();
-CORE_API void appSleep( FLOAT Seconds );
 
 /*-----------------------------------------------------------------------------
 	Character type functions.
@@ -275,7 +274,6 @@ inline UBOOL appIsAlnum( TCHAR c )
 -----------------------------------------------------------------------------*/
 
 CORE_API const ANSICHAR* appToAnsi( const TCHAR* Str );
-CORE_API const UNICHAR* appToUnicode( const TCHAR* Str );
 CORE_API const TCHAR* appFromAnsi( const ANSICHAR* Str );
 CORE_API const TCHAR* appFromUnicode( const UNICHAR* Str );
 CORE_API UBOOL appIsPureAnsi( const TCHAR* Str );
@@ -292,6 +290,13 @@ CORE_API INT appStrncmp( const TCHAR* String1, const TCHAR* String2, INT Count )
 CORE_API TCHAR* appStaticString1024();
 CORE_API ANSICHAR* appAnsiStaticString1024();
 
+__forceinline const UNICHAR* appToUnicode(const TCHAR* Str) { // hardcoded to return nullptr for some reason
+	UNICHAR* result = reinterpret_cast<UNICHAR*>(appStaticString1024());
+	int chars_converted = MultiByteToWideChar(CP_UTF8, 0, Str, -1, result, 512);
+	if (chars_converted <= 0) appErrorf(TEXT("Failed to convert str to unicode!"));
+	return result;
+};
+
 CORE_API const TCHAR* appSpc( int Num );
 CORE_API TCHAR* appStrncpy( TCHAR* Dest, const TCHAR* Src, int Max);
 CORE_API TCHAR* appStrncat( TCHAR* Dest, const TCHAR* Src, int Max);
@@ -306,7 +311,7 @@ CORE_API INT appStrnicmp( const TCHAR* A, const TCHAR* B, INT Count );
 CORE_API INT appSprintf( TCHAR* Dest, const TCHAR* Fmt, ... );
 
 #if _MSC_VER
-	CORE_API INT appGetVarArgs( TCHAR* Dest, INT Count, const TCHAR*& Fmt );
+	CORE_API INT appGetVarArgs( TCHAR* Dest, const TCHAR*& Fmt );
 #else
 	#include <stdio.h>
 	#include <stdarg.h>
@@ -398,10 +403,10 @@ CORE_API INT appCeil( FLOAT Value );
 -----------------------------------------------------------------------------*/
 
 // Core functions depending on TArray and FString.
-CORE_API UBOOL appLoadFileToArray( TArray<BYTE>& Result, const TCHAR* Filename, FFileManager* FileManager=GFileManager );
-CORE_API UBOOL appLoadFileToString( FString& Result, const TCHAR* Filename, FFileManager* FileManager=GFileManager );
-CORE_API UBOOL appSaveArrayToFile( const TArray<BYTE>& Array, const TCHAR* Filename, FFileManager* FileManager=GFileManager );
-CORE_API UBOOL appSaveStringToFile( const FString& String, const TCHAR* Filename, FFileManager* FileManager=GFileManager );
+CORE_API UBOOL appLoadFileToArray( TArray<BYTE>& Result, const TCHAR* Filename );
+CORE_API UBOOL appLoadFileToString( FString& Result, const TCHAR* Filename );
+CORE_API UBOOL appSaveArrayToFile( const TArray<BYTE>& Array, const TCHAR* Filename );
+CORE_API UBOOL appSaveStringToFile( const FString& String, const TCHAR* Filename );
 
 /*-----------------------------------------------------------------------------
 	Memory functions.
@@ -431,9 +436,9 @@ CORE_API void appMemzero( void* Dest, INT Count );
 #define appFree free
 #define appRealloc(data, size, tag) realloc(data, size)
 #else
-#define appMalloc     GMalloc->Malloc
-#define appFree       GMalloc->Free
-#define appRealloc    GMalloc->Realloc
+CORE_API void* appMalloc(DWORD Count, const TCHAR* Tag);
+CORE_API void appFree(void* Original);
+CORE_API void* appRealloc(void* Original, INT Count, const char* Tag);
 #endif
 
 #ifdef _MSC_VER  // turn off "operator new may not be declared inline"
@@ -523,6 +528,21 @@ CORE_API void appMD5Final( BYTE* digest, FMD5Context* context );
 CORE_API void appMD5Transform( DWORD* state, BYTE* block );
 CORE_API void appMD5Encode( BYTE* output, DWORD* input, INT len );
 CORE_API void appMD5Decode( DWORD* output, BYTE* input, INT len );
+
+// FConfigCache stuff
+
+CORE_API UBOOL GetConfigBool(const TCHAR* Section, const TCHAR* Key, UBOOL& Value, const TCHAR* FileName = NULL);
+CORE_API UBOOL GetConfigInt(const TCHAR* Section, const TCHAR* Key, INT& Value, const TCHAR* FileName = NULL);
+CORE_API UBOOL GetConfigFloat(const TCHAR* Section, const TCHAR* Key, FLOAT& Value, const TCHAR* FileName = NULL);
+CORE_API UBOOL GetConfigString(const TCHAR* Section, const TCHAR* Key, TCHAR* Value, INT Size, const TCHAR* FileName = NULL);
+CORE_API UBOOL GetConfigString(const TCHAR* Section, const TCHAR* Key, FString& Str, const TCHAR* FileName = NULL);
+CORE_API const TCHAR* GetConfigStr(const TCHAR* Section, const TCHAR* Key, const TCHAR* FileName = NULL);
+CORE_API UBOOL GetConfigSection(const TCHAR* Section, TCHAR* Value, INT Size, const TCHAR* FileName = NULL);
+CORE_API UBOOL EmptyConfigSection(const TCHAR* Section, const TCHAR* FileName = NULL);
+CORE_API void SetConfigBool(const TCHAR* Section, const TCHAR* Key, UBOOL Value, const TCHAR* FileName = NULL);
+CORE_API void SetConfigInt(const TCHAR* Section, const TCHAR* Key, INT Value, const TCHAR* FileName = NULL);
+CORE_API void SetConfigFloat(const TCHAR* Section, const TCHAR* Key, const FLOAT Value, const TCHAR* FileName = NULL);
+CORE_API void SetConfigString(const TCHAR* Section, const TCHAR* Key, const TCHAR* Value, const TCHAR* FileName = NULL);
 
 /*-----------------------------------------------------------------------------
 	The End.

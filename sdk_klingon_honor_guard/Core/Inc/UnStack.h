@@ -20,7 +20,7 @@ enum {MAX_FUNC_PARMS			= 16                };
 //
 // UnrealScript intrinsic return value declaration.
 //
-#define RESULT_DECL void*const Result
+#define RESULT_DECL BYTE*& Result
 
 //
 // guardexec mechanism for script debugging.

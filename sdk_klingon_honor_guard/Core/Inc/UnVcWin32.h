@@ -52,7 +52,7 @@ enum {CACHE_LINE_SIZE   = 32}; // Cache line size.
 #define ZEROARRAY                           /* Zero-length arrays in structs */
 
 // Variable arguments.
-#define GET_VARARGS(msg,len,fmt) appGetVarArgs(msg,len,fmt)
+#define GET_VARARGS(msg,len,fmt) appGetVarArgs(msg,fmt)
 
 // Compiler name.
 #ifdef _DEBUG

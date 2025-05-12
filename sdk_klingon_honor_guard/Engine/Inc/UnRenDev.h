@@ -27,8 +27,6 @@ class ENGINE_API URenderDevice : public USubsystem
 	DECLARE_ABSTRACT_CLASS(URenderDevice,USubsystem,CLASS_Config)
 
 	// Variables.
-	BYTE			DecompFormat;
-	INT				RecommendedLOD;
 	UViewport*		Viewport;
 	BITFIELD		SpanBased;
 	BITFIELD		FullscreenOnly;
@@ -59,8 +57,6 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void DrawComplexSurface( FSceneNode* Frame, FSurfaceInfo& Surface, FSurfaceFacet& Facet )=0;
 	virtual void DrawGouraudPolygon( FSceneNode* Frame, FTextureInfo& Info, FTransTexture** Pts, int NumPts, DWORD PolyFlags, FSpanBuffer* Span )=0;
 	virtual void DrawTile( FSceneNode* Frame, FTextureInfo& Info, FLOAT X, FLOAT Y, FLOAT XL, FLOAT YL, FLOAT U, FLOAT V, FLOAT UL, FLOAT VL, class FSpanBuffer* Span, FLOAT Z, FPlane Color, FPlane Fog, DWORD PolyFlags )=0;
-	virtual void Draw3DLine( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector OrigP, FVector OrigQ );
-	virtual void Draw2DClippedLine( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector P1, FVector P2 );
 	virtual void Draw2DLine( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector P1, FVector P2 )=0;
 	virtual void Draw2DPoint( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FLOAT X1, FLOAT Y1, FLOAT X2, FLOAT Y2, FLOAT Z )=0;
 	virtual void ClearZ( FSceneNode* Frame )=0;
@@ -69,19 +65,6 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void GetStats( TCHAR* Result )=0;
 	virtual void ReadPixels( FColor* Pixels )=0;
 	virtual void EndFlash() {}
-	virtual void DrawStats( FSceneNode* Frame ) {}
-	virtual void SetSceneNode( FSceneNode* Frame ) {}
-	virtual void PrecacheTexture( FTextureInfo& Info, DWORD PolyFlags ) {}
-
-	// Padding.
-	virtual void vtblPad0() {}
-	virtual void vtblPad1() {}
-	virtual void vtblPad2() {}
-	virtual void vtblPad3() {}
-	virtual void vtblPad4() {}
-	virtual void vtblPad5() {}
-	virtual void vtblPad6() {}
-	virtual void vtblPad7() {}
 };
 
 /*------------------------------------------------------------------------------------

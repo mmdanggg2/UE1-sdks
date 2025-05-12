@@ -71,12 +71,14 @@ struct ENGINE_API FSceneNode
 	// Precomputes.
 	FLOAT			FX, FY;			// Floating point X,Y.
 	FLOAT			FX15, FY15;		// (Floating point SXR + 1.0001)/2.0.
+	FLOAT			FX1, FY1;
 	FLOAT			FX2, FY2;		// Floating point SXR / 2.0.
 	FLOAT			Zoom;			// Zoom value, based on OrthoZoom and size.
 	FVector			Proj;      		// Projection vector.
 	FVector			RProj;			// Reverse projection vector.
 	FLOAT			PrjXM, PrjYM;	// Minus clipping numbers.
 	FLOAT			PrjXP, PrjYP;	// Plus clipping numbers.
+	FLOAT			Unk;
 	FVector			ViewSides [4];	// 4 unit vectors indicating view frustrum extent lines.
 	FPlane			ViewPlanes[4];	// 4 planes indicating view frustrum extent planes.
 
@@ -388,7 +390,7 @@ class ENGINE_API URenderBase : public USubsystem
 
 	// Init/exit functions.
 	virtual void Init( UEngine* InEngine ) {Engine=InEngine;}
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=*GLog )=0;
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar=GOut )=0;
 
 	// Prerender/postrender functions.
 	virtual void PreRender( FSceneNode* Frame )=0;
@@ -397,7 +399,6 @@ class ENGINE_API URenderBase : public USubsystem
 	// Scene frame management.
 	virtual FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds )=0;
 	virtual FSceneNode* CreateChildFrame( FSceneNode* Parent, FSpanBuffer* Span, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds )=0;
-	virtual void FinishMasterFrame()=0;
 
 	// Major rendering functions.
 	virtual void DrawWorld( FSceneNode* Frame )=0;
@@ -409,7 +410,10 @@ class ENGINE_API URenderBase : public USubsystem
 	virtual UBOOL BoundVisible( FSceneNode* Frame, FBox* Bound, FSpanBuffer* SpanBuffer, FScreenBounds& Results )=0;
 	virtual void GetVisibleSurfs( UViewport* Viewport, TArray<INT>& iSurfs )=0;
 	virtual void GlobalLighting( UBOOL Realtime, AActor* Owner, FLOAT& Brightness, FPlane& Color )=0;
-	virtual void Precache( UViewport* Viewport )=0;
+	
+	virtual void Draw2DClippedLine(FSceneNode*, FPlane, DWORD, FVector, FVector) = 0;
+	virtual void Draw3DLine(FSceneNode*, FPlane, DWORD, FVector, FVector) = 0;
+
 
 	// High level primitive drawing.
 	virtual void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius )=0;

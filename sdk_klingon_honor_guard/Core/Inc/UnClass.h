@@ -92,7 +92,7 @@ class CORE_API UField : public UObject
 	UField*			HashNext;
 
 	// Constructors.
-	UField( ENativeConstructor, UClass* InClass, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UField* InSuperField );
+	UField( EIntrinsicConstructor, UClass* InClass, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UField* InSuperField );
 	UField( UField* InSuperField );
 
 	// UObject interface.
@@ -199,7 +199,7 @@ class CORE_API UStruct : public UField
 	UProperty*			ConstructorLink;
 
 	// Constructors.
-	UStruct( ENativeConstructor, INT InSize, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UStruct* InSuperStruct );
+	UStruct( EIntrinsicConstructor, INT InSize, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UStruct* InSuperStruct );
 	UStruct( UStruct* InSuperStruct );
 
 	// UObject interface.
@@ -213,7 +213,7 @@ class CORE_API UStruct : public UField
 
 	// UStruct interface.
 	virtual UStruct* GetInheritanceSuper() {return GetSuperStruct();}
-	virtual void Link( FArchive& Ar, UBOOL Props );
+	virtual void Link( FArchive& Ar );
 	virtual void SerializeBin( FArchive& Ar, BYTE* Data );
 	virtual void SerializeTaggedProperties( FArchive& Ar, BYTE* Data, UClass* DefaultsClass );
 	virtual void CleanupDestroyed( BYTE* Data );
@@ -329,7 +329,7 @@ class CORE_API UState : public UStruct
 	UField* VfHash[HASH_COUNT];
 
 	// Constructors.
-	UState( ENativeConstructor, INT InSize, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UState* InSuperState );
+	UState( EIntrinsicConstructor, INT InSize, const TCHAR* InName, const TCHAR* InPackageName, DWORD InFlags, UState* InSuperState );
 	UState( UState* InSuperState );
 
 	// UObject interface.
@@ -400,13 +400,12 @@ class CORE_API UClass : public UState
 	INT					ClassUnique;
 	FGuid				ClassGuid;
 	UClass*				ClassWithin;
-	FName				ClassConfigName;
 	TArray<UField*>		NetFields;
 	TArray<FDependency> Dependencies;
 	TArray<FName>		PackageImports;
 	TArray<BYTE>		Defaults;
 	void(*ClassConstructor)(void*);
-	void(UObject::*ClassStaticConstructor)();
+	void(*ClassStaticConstructor)(void*);
 
 	// In memory only.
 	FString				DefaultPropText;
@@ -414,7 +413,7 @@ class CORE_API UClass : public UState
 	// Constructors.
 	UClass();
 	UClass( UClass* InSuperClass );
-	UClass( ENativeConstructor, DWORD InSize, DWORD InClassFlags, UClass* InBaseClass, UClass* InWithinClass, FGuid InGuid, const TCHAR* InNameStr, const TCHAR* InPackageName, const TCHAR* InClassConfigName, DWORD InFlags, void(*InClassConstructor)(void*), void(UObject::*InClassStaticConstructor)() );
+	UClass( EIntrinsicConstructor, DWORD InSize, DWORD InClassFlags, UClass* InBaseClass, UClass* InWithinClass, FGuid InGuid, const TCHAR* InNameStr, const TCHAR* InPackageName, DWORD InFlags, void(*InClassConstructor)(void*), void(*InClassStaticConstructor)(UClass*) );
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
