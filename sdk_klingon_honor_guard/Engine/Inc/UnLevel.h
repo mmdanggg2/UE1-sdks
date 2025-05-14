@@ -143,8 +143,9 @@ class ENGINE_API ULevel : public ULevelBase
 	TArray<FReachSpec>		ReachSpecs;
 	UModel*					Model;
 	UTextBuffer*			TextBlocks[NUM_LEVEL_TEXT_BLOCKS];
-	DOUBLE                  TimeSeconds;
-	TMap<FString,FString>	TravelInfo;
+	FLOAT                  TimeSeconds;
+	TArray<FString> TravelInfo1;
+	TArray<FString>	TravelInfo2;
 
 	// Only valid in memory.
 	FCollisionHashBase* Hash;
