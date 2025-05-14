@@ -246,7 +246,7 @@ class ENGINE_API ULevel : public ULevelBase
 	AZoneInfo* GetZoneActor( INT iZone )
 	{
 		guardSlow(ULevel::GetZoneActor);
-		return Model->Zones[iZone].ZoneActor ? Model->Zones[iZone].ZoneActor : GetLevelInfo();
+		return Model->Nodes->Zones[iZone].ZoneActor ? Model->Nodes->Zones[iZone].ZoneActor : GetLevelInfo();
 		unguardSlow;
 	}
 	void TraceVisible

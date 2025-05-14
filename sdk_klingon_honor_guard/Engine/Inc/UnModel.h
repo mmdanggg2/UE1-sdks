@@ -44,7 +44,11 @@ template <class T>
 class UDatabase : UObject, DBOwner, public TTransArray<T> {};
 
 class UVectors : public UDatabase<FVector> {};
-class UBspNodes : public UDatabase<FBspNode> {};
+class UBspNodes : public UDatabase<FBspNode> {
+public:
+	INT unk;
+	FZoneProperties Zones[FBspNode::MAX_ZONES];
+};
 class UBspSurfs: public UDatabase<FBspSurf> {};
 class UVerts : public UDatabase<FVert> {};
 
@@ -77,7 +81,6 @@ class ENGINE_API UModel : public UPrimitive
 	INT						MoverLink;
 	INT						NumSharedSides;
 	INT						NumZones;
-	FZoneProperties			Zones[FBspNode::MAX_ZONES];
 
 	// Constructors.
 	UModel()
