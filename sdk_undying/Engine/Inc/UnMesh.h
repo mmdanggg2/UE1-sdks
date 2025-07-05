@@ -69,9 +69,10 @@ struct FMeshFloatUV
 struct FMeshTri
 {
 	_WORD		iVertex[3];		// Vertex indices.
+	_WORD		iNormal[3];		// Normal indices.
 	FMeshUV		Tex[3];			// Texture UV coordinates.
+	SHORT			TextureIndex;	// Source texture index.
 	DWORD		PolyFlags;		// Surface flags.
-	INT			TextureIndex;	// Source texture index.
 	friend FArchive &operator<<( FArchive& Ar, FMeshTri& T )
 	{
 		Ar << T.iVertex[0] << T.iVertex[1] << T.iVertex[2];
@@ -199,40 +200,24 @@ class ENGINE_API UMesh : public UPrimitive
 	DECLARE_CLASS(UMesh,UPrimitive,0,Engine)
 
 	// Objects.
-	TLazyArray<FMeshVert>			Verts;
 	TLazyArray<FMeshTri>			Tris;
-	TArray<FMeshAnimSeq>			AnimSeqs;
-	TLazyArray<FMeshVertConnect>	Connects;
-	TArray<FBox>					BoundingBoxes;
-	TArray<FSphere>					BoundingSpheres;//!!currently broken
-	TLazyArray<INT>					VertLinks;
 	TArray<UTexture*>				Textures;
-	TArray<FLOAT>					TextureLOD;
-
-	// Counts.
-	INT						FrameVerts;
-	INT						AnimFrames;
-
-	// Render info.
-	DWORD					AndFlags;
-	DWORD					OrFlags;
-
-	// Scaling.
-	FVector					Scale;		// Mesh scaling.
-	FVector 				Origin;		// Origin in original coordinate system.
-	FRotator				RotOrigin;	// Amount to rotate when importing (mostly for yawing).
-
-	// Editing info.
-	INT						CurPoly;	// Index of selected polygon.
-	INT						CurVertex;	// Index of selected vertex.
+	FArray unk;
+	void* mrmMeshData;
+	INT _FrameVerts;
+	INT Normals;
+	BYTE unk90;
+	char _91[3];
+	DWORD unk94;
+	DWORD flags;
 
 	// UObject interface.
 	UMesh();
 	void Serialize( FArchive& Ar );
 
 	// UPrimitive interface.
-	virtual FBox GetRenderBoundingBox( const AActor* Owner, UBOOL Exact );
-	virtual FSphere GetRenderBoundingSphere( const AActor* Owner, UBOOL Exact );
+	FBox GetRenderBoundingBox( const AActor* Owner, UBOOL Exact );
+	FSphere GetRenderBoundingSphere( const AActor* Owner, UBOOL Exact );
 	UBOOL LineCheck
 	(
 		FCheckResult&	Result,
@@ -245,42 +230,23 @@ class ENGINE_API UMesh : public UPrimitive
 
 	// UMesh interface.
 	UMesh( INT NumPolys, INT NumVerts, INT NumFrames );
-	virtual const FMeshAnimSeq* GetAnimSeq( FName SeqName ) const
-	{
-		guardSlow(UMesh::GetAnimSeq);
-		for( INT i=0; i<AnimSeqs.Num(); i++ )
-			if( SeqName == AnimSeqs(i).Name )
-				return &AnimSeqs(i);
-		return NULL;
-		unguardSlow;
-	}
-	virtual FMeshAnimSeq* GetAnimSeq( FName SeqName )
-	{
-		guardSlow(UMesh::GetAnimSeq);
-		for( INT i=0; i<AnimSeqs.Num(); i++ )
-			if( SeqName == AnimSeqs(i).Name )
-				return &AnimSeqs(i);
-		return NULL;
-		unguardSlow;
-	}
-	virtual void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner );
-	void AMD3DGetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner );
-	virtual UTexture* GetTexture( INT Count, AActor* Owner )
-	{
-		guardSlow(UMesh::GetTexture);
-		if( Owner && Owner->MultiSkins[Count] )
-			return Owner->MultiSkins[Count];
-//		if( Owner && Owner->GetSkin( Count ) )
-//			return Owner->GetSkin( Count );
-		else if( Count!=0 && Textures(Count) )
-			return Textures(Count);
-		else if( Owner && Owner->Skin )
-			return Owner->Skin;
-		else
-			return Textures(Count);
-		unguardSlow;
-	}
-	virtual void SetScale( FVector NewScale );
+	virtual FCoords GetCoords(const FCoords&, const AActor*) const;
+	virtual UTexture* GetTexture(INT, AActor*);
+	virtual INT SetTexture(INT, UTexture*);
+	virtual void SetOrigin(FVector, FRotator);
+	virtual void SetScale(FVector);
+	virtual void GetFrame(FVector* Verts, INT Size, FCoords Coords, AActor* Owner, FSceneNode*);
+	virtual void GetFrameVU0(FVector* Verts, INT Size, FCoords Coords, AActor* Owner, FSceneNode*);
+	virtual void CreateNormalIndices(INT);
+	virtual INT FrameVerts(AActor*);
+	virtual FLOAT ResQuality(AActor*);
+	virtual void SetResolution(AActor*, FLOAT);
+	virtual void SetResolution(AActor*, INT);
+	virtual FMeshAnimSeq* GetAnimSeq(INT);
+	virtual FMeshAnimSeq* GetAnimSeq(FName SeqName);
+	virtual INT GetNumAnimSeqs();
+	virtual TArray<FMeshTri> GetTris(AActor*); // Really TRefArray which seems to not have ArrayMax
+	virtual INT MemorySize();
 };
 
 /*-----------------------------------------------------------------------------
@@ -295,9 +261,9 @@ class ENGINE_API UMesh : public UPrimitive
 // A LodMesh, completely describing a 3D object (creature, weapon, etc) and
 // its animation sequences.  Does not reference textures.
 //
-class ENGINE_API ULodMesh : public UMesh
+class ENGINE_API USkelMesh : public UMesh
 {
-	DECLARE_CLASS(ULodMesh,UMesh,0,Engine)
+	DECLARE_CLASS(USkelMesh,UMesh,0,Engine)
 
 	// LOD-specific objects.
 	// Make lazy arrays where useful.
@@ -328,12 +294,12 @@ class ENGINE_API ULodMesh : public UMesh
 	INT    OldFrameVerts;  // Possibly different old per-frame vertex count.
 	
 	//  UObject interface.
-	ULodMesh(){};
+	USkelMesh(){};
 	void Serialize( FArchive& Ar );
 
 	//  UMesh interface.
 	void SetScale( FVector NewScale );
-	ULodMesh( INT NumPolys, INT NumVerts, INT NumFrames );
+	USkelMesh( INT NumPolys, INT NumVerts, INT NumFrames );
 	
 	// GetFrame for LOD.
 	virtual void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner, INT& LODRequest );

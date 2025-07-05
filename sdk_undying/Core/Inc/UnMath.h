@@ -807,10 +807,10 @@ public:
 	// Constructors.
 	FPlane()
 	{}
-	FPlane( const FPlane& P )
-	:	FVector(P)
-	,	W(P.W)
-	{}
+	//FPlane( const FPlane& P )
+	//:	FVector(P)
+	//,	W(P.W)
+	//{}
 	FPlane( const FVector& V )
 	:	FVector(V)
 	,	W(0)
@@ -822,7 +822,7 @@ public:
 	FPlane( FVector InNormal, FLOAT InW )
 	:	FVector(InNormal), W(InW)
 	{}
-	FPlane( FVector InBase, const FVector &InNormal )
+	FPlane( const FVector& InBase, const FVector &InNormal )
 	:	FVector(InNormal)
 	,	W(InBase | InNormal)
 	{}
@@ -1122,7 +1122,7 @@ public:
 			appRound(FSnap(Roll, RotGrid.Roll))
 		);
 	}
-	FVector Vector();
+	FVector Vector() const;
 };
 
 /*-----------------------------------------------------------------------------
@@ -2293,7 +2293,7 @@ inline UBOOL FIntersectPlanes2( FVector& I, FVector& D, const FPlane& P1, const 
 //
 // Convert a rotation into a vector facing in its direction.
 //
-inline FVector FRotator::Vector()
+inline FVector FRotator::Vector() const
 {
 	return (GMath.UnitCoords / *this).XAxis;
 }

@@ -16,6 +16,8 @@
 #define AUTOGENERATE_FUNCTION(cls,idx,name)
 #endif
 
+#include "EngineAdditional.h"
+
 AUTOGENERATE_NAME(Spawned)
 AUTOGENERATE_NAME(Destroyed)
 AUTOGENERATE_NAME(GainedChild)
@@ -37,7 +39,6 @@ AUTOGENERATE_NAME(ActorEntered)
 AUTOGENERATE_NAME(ActorLeaving)
 AUTOGENERATE_NAME(KillCredit)
 AUTOGENERATE_NAME(AnimEnd)
-AUTOGENERATE_NAME(EndedRotation)
 AUTOGENERATE_NAME(InterpolateEnd)
 AUTOGENERATE_NAME(EncroachingOn)
 AUTOGENERATE_NAME(EncroachedBy)
@@ -55,61 +56,76 @@ AUTOGENERATE_NAME(HearNoise)
 AUTOGENERATE_NAME(UpdateEyeHeight)
 AUTOGENERATE_NAME(SpecialHandling)
 AUTOGENERATE_NAME(BotDesireability)
-AUTOGENERATE_NAME(Generate)
+AUTOGENERATE_NAME(ClientMessage)
+AUTOGENERATE_NAME(TakeDamage)
+AUTOGENERATE_NAME(PostBeginPlay)
+AUTOGENERATE_NAME(PreBeginPlay)
+AUTOGENERATE_NAME(ReceiveLocalizedMessage)
+AUTOGENERATE_NAME(BeginEvent)
+AUTOGENERATE_NAME(ChangedWeapon)
+AUTOGENERATE_NAME(EndEvent)
+AUTOGENERATE_NAME(TeamMessage)
+AUTOGENERATE_NAME(BroadcastLocalizedMessage)
+AUTOGENERATE_NAME(RenderOverlays)
+AUTOGENERATE_NAME(KilledBy)
+AUTOGENERATE_NAME(BroadcastMessage)
+AUTOGENERATE_NAME(BeginPlay)
+AUTOGENERATE_NAME(PostRender)
 AUTOGENERATE_NAME(PlayerCalcView)
-AUTOGENERATE_NAME(PlayerInput)
+AUTOGENERATE_NAME(PreRender)
+AUTOGENERATE_NAME(ClientTravel)
+AUTOGENERATE_NAME(TravelPostAccept)
+AUTOGENERATE_NAME(ServerTravel)
+AUTOGENERATE_NAME(StartLevel)
+AUTOGENERATE_NAME(Generate)
 AUTOGENERATE_NAME(PlayerTimeout)
-AUTOGENERATE_NAME(Possess)
-AUTOGENERATE_NAME(UnPossess)
+AUTOGENERATE_NAME(WeaponFireNotify)
+AUTOGENERATE_NAME(ForceGenerate)
+AUTOGENERATE_NAME(Accept)
+AUTOGENERATE_NAME(FellOutOfWorld)
+AUTOGENERATE_NAME(SpellCastNotify)
+AUTOGENERATE_NAME(PlayerReady)
+AUTOGENERATE_NAME(PreClientTravel)
+AUTOGENERATE_NAME(TravelPreAccept)
+AUTOGENERATE_NAME(LongFall)
+AUTOGENERATE_NAME(PostNetBeginPlay)
 AUTOGENERATE_NAME(PreTeleport)
-AUTOGENERATE_NAME(PostTeleport)
-AUTOGENERATE_NAME(Login)
+AUTOGENERATE_NAME(Possess)
+AUTOGENERATE_NAME(Warped)
+AUTOGENERATE_NAME(GetBeaconText)
 AUTOGENERATE_NAME(AcceptInventory)
 AUTOGENERATE_NAME(ClientHearSound)
-AUTOGENERATE_NAME(ClientMessage)
-AUTOGENERATE_NAME(LongFall)
-AUTOGENERATE_NAME(BeginEvent)
-AUTOGENERATE_NAME(EndEvent)
-AUTOGENERATE_NAME(KilledBy)
-AUTOGENERATE_NAME(TakeDamage)
-AUTOGENERATE_NAME(BeginPlay)
-AUTOGENERATE_NAME(PreBeginPlay)
-AUTOGENERATE_NAME(PostBeginPlay)
-AUTOGENERATE_NAME(TravelPreAccept)
-AUTOGENERATE_NAME(TravelPostAccept)
-AUTOGENERATE_NAME(PreRender)
-AUTOGENERATE_NAME(PostRender)
-AUTOGENERATE_NAME(ForceGenerate)
+AUTOGENERATE_NAME(UnPossess)
 AUTOGENERATE_NAME(InitGame)
-AUTOGENERATE_NAME(Accept)
-AUTOGENERATE_NAME(GetBeaconText)
 AUTOGENERATE_NAME(SetInitialState)
 AUTOGENERATE_NAME(PreLogin)
 AUTOGENERATE_NAME(DetailChange)
-AUTOGENERATE_NAME(ClientTravel)
 AUTOGENERATE_NAME(ShowUpgradeMenu)
-AUTOGENERATE_NAME(TeamMessage)
-AUTOGENERATE_NAME(FellOutOfWorld)
 AUTOGENERATE_NAME(SpecialCost)
-AUTOGENERATE_NAME(RenderOverlays)
 AUTOGENERATE_NAME(RenderTexture)
 AUTOGENERATE_NAME(GameEnding)
 AUTOGENERATE_NAME(WalkTexture)
-AUTOGENERATE_NAME(BroadcastMessage)
-AUTOGENERATE_NAME(ServerTravel)
 AUTOGENERATE_NAME(PostLogin)
 AUTOGENERATE_NAME(DemoPlaySound)
-AUTOGENERATE_NAME(PreClientTravel)
-AUTOGENERATE_NAME(BroadcastLocalizedMessage)
-AUTOGENERATE_NAME(ReceiveLocalizedMessage)
 AUTOGENERATE_NAME(LogGameSpecial)
-AUTOGENERATE_NAME(PostTouch)
 AUTOGENERATE_NAME(Update)
 AUTOGENERATE_NAME(AlterDestination)
 AUTOGENERATE_NAME(SpawnNotification)
+AUTOGENERATE_NAME(PlayerInput)
 AUTOGENERATE_NAME(UpdateTactics)
 AUTOGENERATE_NAME(LogGameSpecial2)
-AUTOGENERATE_NAME(PostNetBeginPlay)
+AUTOGENERATE_NAME(PreSkelAnim)
+AUTOGENERATE_NAME(SeeHatedPawn)
+AUTOGENERATE_NAME(HeldPropRequest)
+AUTOGENERATE_NAME(ProjectileStrikeNotify)
+AUTOGENERATE_NAME(LoadGameAdd)
+AUTOGENERATE_NAME(OwnerDead)
+AUTOGENERATE_NAME(ScryeBegin)
+AUTOGENERATE_NAME(PostTeleport)
+AUTOGENERATE_NAME(Login)
+AUTOGENERATE_NAME(ScryeEnd)
+AUTOGENERATE_NAME(PostLoadGame)
+AUTOGENERATE_NAME(AddSubtitle)
 
 #ifndef NAMES_ONLY
 
@@ -351,8 +367,8 @@ enum EInputKey
     IK_JoyV                 =233,
     IK_UnknownEA            =234,
     IK_UnknownEB            =235,
-    IK_MouseWheelUp         =236,
-    IK_MouseWheelDown       =237,
+    IK_MWheelUp             =236,
+    IK_MWheelDown           =237,
     IK_Unknown10E           =238,
     UK_Unknown10F           =239,
     IK_JoyPovUp             =240,
@@ -388,16 +404,12 @@ enum ETravelType
     TRAVEL_Relative         =2,
     TRAVEL_MAX              =3,
 };
-enum EDodgeDir
+enum ELightSource
 {
-    DODGE_None              =0,
-    DODGE_Left              =1,
-    DODGE_Right             =2,
-    DODGE_Forward           =3,
-    DODGE_Back              =4,
-    DODGE_Active            =5,
-    DODGE_Done              =6,
-    DODGE_MAX               =7,
+    LD_Point                =0,
+    LD_Plane                =1,
+    LD_Ambient              =2,
+    LD_MAX                  =3,
 };
 enum ELightEffect
 {
@@ -437,6 +449,23 @@ enum ELightType
     LT_TexturePaletteLoop   =9,
     LT_MAX                  =10,
 };
+enum EActEffects
+{
+    ACTFX_FadeIn            =0,
+    ACTFX_FadeOut           =1,
+    ACTFX_StutterSlow       =2,
+    ACTFX_StutterNormal     =3,
+    ACTFX_StutterFast       =4,
+    ACTFX_OscillateSlow     =5,
+    ACTFX_OscillateNormal   =6,
+    ACTFX_OscillateFast     =7,
+    ACTFX_LightShake        =8,
+    ACTFX_NormalShake       =9,
+    ACTFX_HardShake         =10,
+    ACTFX_Quick             =11,
+    ACTFX_Manual            =12,
+    ACTFX_MAX               =13,
+};
 enum EMusicTransition
 {
     MTRAN_None              =0,
@@ -458,6 +487,49 @@ enum ESoundSlot
     SLOT_Interface          =6,
     SLOT_MAX                =7,
 };
+enum ETextureType
+{
+    TID_Default             =0,
+    TID_Glass               =1,
+    TID_Water               =2,
+    TID_Leaves              =3,
+    TID_Snow                =4,
+    TID_Grass               =5,
+    TID_Organic             =6,
+    TID_Carpet              =7,
+    TID_Earth               =8,
+    TID_Sand                =9,
+    TID_WoodHollow          =10,
+    TID_WoodSolid           =11,
+    TID_Stone               =12,
+    TID_Metal               =13,
+    TID_Extra1              =14,
+    TID_Extra2              =15,
+    TID_Extra3              =16,
+    TID_Extra4              =17,
+    TID_Extra5              =18,
+    TID_Extra6              =19,
+    TID_MAX                 =20,
+};
+enum EImpactType
+{
+    IT_FootStep             =0,
+    IT_Land                 =1,
+    IT_Impact               =2,
+    IT_Scuff                =3,
+    IT_Slide                =4,
+    IT_MAX                  =5,
+};
+enum EObjectType
+{
+    OT_Default              =0,
+    OT_Dynamite             =1,
+    OT_Molotov              =2,
+    OT_Bullet               =3,
+    OT_Ectoplasm            =4,
+    OT_Skull                =5,
+    OT_MAX                  =6,
+};
 enum ERenderStyle
 {
     STY_None                =0,
@@ -465,7 +537,10 @@ enum ERenderStyle
     STY_Masked              =2,
     STY_Translucent         =3,
     STY_Modulated           =4,
-    STY_MAX                 =5,
+    STY_AlphaBlend          =5,
+    STY_Highlight           =6,
+    STY_AlphaBlendZ         =7,
+    STY_MAX                 =8,
 };
 enum EDrawType
 {
@@ -477,7 +552,8 @@ enum EDrawType
     DT_VerticalSprite       =5,
     DT_Terraform            =6,
     DT_SpriteAnimOnce       =7,
-    DT_MAX                  =8,
+    DT_Particles            =8,
+    DT_MAX                  =9,
 };
 enum ENetRole
 {
@@ -487,6 +563,21 @@ enum ENetRole
     ROLE_AutonomousProxy    =3,
     ROLE_Authority          =4,
     ROLE_MAX                =5,
+};
+enum ECombine
+{
+    COMBINE_Replace         =0,
+    COMBINE_Stack           =1,
+    COMBINE_Modulate        =2,
+    COMBINE_MAX             =3,
+};
+enum EMovement
+{
+    MOVE_None               =0,
+    MOVE_Velocity           =1,
+    MOVE_Anim               =2,
+    MOVE_AnimAbs            =3,
+    MOVE_MAX                =4,
 };
 enum EPhysics
 {
@@ -502,8 +593,22 @@ enum EPhysics
     PHYS_MovingBrush        =9,
     PHYS_Spider             =10,
     PHYS_Trailer            =11,
-    PHYS_MAX                =12,
+    PHYS_Attached           =12,
+    PHYS_MAX                =13,
 };
+#define UCONST_SOUND_NOPANNING 0x1000
+#define UCONST_SOUND_NOFALLOFF 0x0800
+#define UCONST_SOUND_MUSICINTRO 0x0400
+#define UCONST_SOUND_SCRYEONLY 0x0200
+#define UCONST_SOUND_NOWATERVOLUME 0x0100
+#define UCONST_SOUND_NOWATERPITCH 0x0080
+#define UCONST_SOUND_NOSCRYEVOLUME 0x0040
+#define UCONST_SOUND_NOSCRYEPITCH 0x0020
+#define UCONST_SOUND_VOICEOVER 0x0010
+#define UCONST_SOUND_BACKGROUND 0x0008
+#define UCONST_SOUND_AMBIENT 0x0004
+#define UCONST_SOUND_NOPAUSE 0x0002
+#define UCONST_SOUND_LOCKED 0x0001
 
 struct AActor_eventRenderTexture_Parms
 {
@@ -519,6 +624,16 @@ struct AActor_eventPostNetBeginPlay_Parms
 {
 };
 struct AActor_eventSetInitialState_Parms
+{
+};
+struct AActor_eventPlayerReady_Parms
+{
+    class APlayerPawn* Player;
+};
+struct AActor_eventStartLevel_Parms
+{
+};
+struct AActor_eventPostLoadGame_Parms
 {
 };
 struct AActor_eventPostBeginPlay_Parms
@@ -557,22 +672,30 @@ struct AActor_eventPreTeleport_Parms
     class ATeleporter* InTeleporter;
     BITFIELD ReturnValue;
 };
+struct AActor_eventScryeEnd_Parms
+{
+    class APlayerPawn* P;
+};
+struct AActor_eventScryeBegin_Parms
+{
+    class APlayerPawn* P;
+};
 struct AActor_eventDemoPlaySound_Parms
 {
     class USound* Sound;
-    BYTE Slot;
+    BYTE slot;
     FLOAT Volume;
     BITFIELD bNoOverride;
     FLOAT Radius;
     FLOAT Pitch;
+    INT flags;
 };
 struct AActor_eventTakeDamage_Parms
 {
-    INT Damage;
     class APawn* EventInstigator;
     FVector HitLocation;
     FVector Momentum;
-    FName DamageType;
+    FDamageInfo DInfo;
 };
 struct AActor_eventKilledBy_Parms
 {
@@ -581,8 +704,10 @@ struct AActor_eventKilledBy_Parms
 struct AActor_eventFellOutOfWorld_Parms
 {
 };
-struct AActor_eventEndedRotation_Parms
+struct AActor_eventHeldPropRequest_Parms
 {
+    INT idx;
+    class AActor* ReturnValue;
 };
 struct AActor_eventInterpolateEnd_Parms
 {
@@ -625,10 +750,6 @@ struct AActor_eventUnTouch_Parms
 {
     class AActor* Other;
 };
-struct AActor_eventPostTouch_Parms
-{
-    class AActor* Other;
-};
 struct AActor_eventTouch_Parms
 {
     class AActor* Other;
@@ -648,6 +769,7 @@ struct AActor_eventHitWall_Parms
 {
     FVector HitNormal;
     class AActor* HitWall;
+    BYTE TextureID;
 };
 struct AActor_eventTimer_Parms
 {
@@ -667,6 +789,10 @@ struct AActor_eventTrigger_Parms
 {
     class AActor* Other;
     class APawn* EventInstigator;
+};
+struct AActor_eventWarped_Parms
+{
+    FVector OldLocation;
 };
 struct AActor_eventTick_Parms
 {
@@ -698,16 +824,15 @@ public:
     BITFIELD bStatic:1 GCC_PACK(4);
     BITFIELD bHidden:1;
     BITFIELD bNoDelete:1;
-    BITFIELD bAnimFinished:1;
-    BITFIELD bAnimLoop:1;
-    BITFIELD bAnimNotify:1;
-    BITFIELD bAnimByOwner:1;
     BITFIELD bDeleteMe:1;
     BITFIELD bAssimilated:1;
     BITFIELD bTicked:1;
+    BITFIELD bIsAMovingBrush:1;
+    BITFIELD bIsRenderable:1;
     BITFIELD bLightChanged:1;
     BITFIELD bDynamicLight:1;
     BITFIELD bTimerLoop:1;
+    BITFIELD bSpawned:1;
     BITFIELD bCanTeleport:1;
     BITFIELD bOwnerNoSee:1;
     BITFIELD bOnlyOwnerSee:1;
@@ -725,7 +850,11 @@ public:
     BITFIELD bTrailerPrePivot:1;
     BITFIELD bClientAnim:1;
     BITFIELD bSimFall:1;
-    BYTE Physics GCC_PACK(4);
+    BITFIELD bTimedTick:1;
+    FLOAT MinTickTime GCC_PACK(4);
+    FLOAT TimeSinceTick;
+    INT Priority;
+    BYTE Physics;
     BYTE Role;
     BYTE RemoteRole;
     INT NetTag;
@@ -736,10 +865,6 @@ public:
     FLOAT TimerCounter;
     FLOAT LifeSpan;
     FName AnimSequence;
-    FLOAT AnimFrame;
-    FLOAT AnimRate;
-    FLOAT TweenRate;
-    class UAnimation* SkelAnim;
     FLOAT LODBias;
     class ALevelInfo* Level;
     class ULevel* XLevel;
@@ -750,28 +875,30 @@ public:
     class USound* AmbientSound;
     class AInventory* Inventory;
     class AActor* Base;
+    INT BaseJoint;
+    FPlace BasePlace;
     FPointRegion Region;
     FName AttachTag;
-    BYTE StandingCount;
+    FName AttachJointTag;
+    BITFIELD bSavable:1 GCC_PACK(4);
+    BYTE StandingCount GCC_PACK(4);
     BYTE MiscNumber;
     BYTE LatentByte;
     INT LatentInt;
     FLOAT LatentFloat;
-    class AActor* LatentActor;
-    class AActor* Touching[4];
+    class AActor* Touching[8];
     class AActor* Deleted;
     INT CollisionTag;
     INT LightingTag;
-    INT OtherTag;
     INT ExtraTag;
     INT SpecialTag;
+    FColor IncidentLight;
     FVector Location;
     FRotator Rotation;
     FVector OldLocation;
-    FVector ColLocation;
     FVector Velocity;
-    FVector Acceleration;
-    FLOAT OddsOfAppearing;
+    FRotator RotationRate;
+    FRotator DesiredRotation;
     BITFIELD bHiddenEd:1 GCC_PACK(4);
     BITFIELD bDirectional:1;
     BITFIELD bSelected:1;
@@ -796,8 +923,17 @@ public:
     class UTexture* Texture;
     class UTexture* Skin;
     class UMesh* Mesh;
+    class UAnimState* AnimState;
+    INT ShadowDrawn;
+    FLOAT ShadowImportance;
+    FLOAT ShadowRange;
+    INT CurrentMRMActorData;
+    class UMRMActorData* MRMActorData[2];
+    FLOAT BoundRenderRadius;
+    FLOAT BoundRenderDistance;
     class UModel* Brush;
     FLOAT DrawScale;
+    FLOAT PrevDrawScale;
     FVector PrePivot;
     FLOAT ScaleGlow;
     FLOAT VisibilityRadius;
@@ -805,6 +941,7 @@ public:
     BYTE AmbientGlow;
     BYTE Fatness;
     FLOAT SpriteProjForward;
+    FLOAT Opacity;
     BITFIELD bUnlit:1 GCC_PACK(4);
     BITFIELD bNoSmooth:1;
     BITFIELD bParticles:1;
@@ -812,6 +949,9 @@ public:
     BITFIELD bMeshEnviroMap:1;
     BITFIELD bMeshCurvy:1;
     BITFIELD bFilterByVolume:1;
+    BITFIELD bMRM:1;
+    BITFIELD bScryeOnly:1;
+    BITFIELD bDrawBehindOwner:1;
     BITFIELD bShadowCast:1;
     BITFIELD bHurtEntry:1;
     BITFIELD bGameRelevant:1;
@@ -823,16 +963,26 @@ public:
     BITFIELD bCollideWhenPlacing:1;
     BITFIELD bTravel:1;
     BITFIELD bMovable:1;
-    class UTexture* MultiSkins[8] GCC_PACK(4);
-    BYTE SoundRadius;
+    FLighting Lighting[2] GCC_PACK(4);
+    BITFIELD bSoundPositional:1 GCC_PACK(4);
+    BITFIELD bSoundLocked:1;
+    BYTE SoundRadius GCC_PACK(4);
+    BYTE SoundRadiusInner;
     BYTE SoundVolume;
     BYTE SoundPitch;
+    INT SoundFlags;
     FLOAT TransientSoundVolume;
     FLOAT TransientSoundRadius;
+    INT LastSoundID;
+    BYTE ImpactID;
+    INT LatentSoundId;
     FLOAT CollisionRadius;
     FLOAT CollisionHeight;
     BITFIELD bCollideActors:1 GCC_PACK(4);
+    BITFIELD bCollideJoints:1;
+    BITFIELD bCollideSkeleton:1;
     BITFIELD bCollideWorld:1;
+    BITFIELD bGroundMesh:1;
     BITFIELD bBlockActors:1;
     BITFIELD bBlockPlayers:1;
     BITFIELD bProjTarget:1;
@@ -842,9 +992,11 @@ public:
     BYTE LightHue;
     BYTE LightSaturation;
     BYTE LightRadius;
+    BYTE LightRadiusInner;
     BYTE LightPeriod;
     BYTE LightPhase;
     BYTE LightCone;
+    BYTE LightConeInner;
     BYTE VolumeBrightness;
     BYTE VolumeRadius;
     BYTE VolumeFog;
@@ -852,23 +1004,16 @@ public:
     BITFIELD bActorShadows:1;
     BITFIELD bCorona:1;
     BITFIELD bLensFlare:1;
-    BITFIELD bBounce:1;
+    BITFIELD bDarkLight:1;
+    BYTE LightSource GCC_PACK(4);
+    BITFIELD bBounce:1 GCC_PACK(4);
     BITFIELD bFixedRotationDir:1;
     BITFIELD bRotateToDesired:1;
     BITFIELD bInterpolating:1;
     BITFIELD bJustTeleported:1;
-    BYTE DodgeDir GCC_PACK(4);
-    FLOAT Mass;
-    FLOAT Buoyancy;
-    FRotator RotationRate;
-    FRotator DesiredRotation;
+    FLOAT Mass GCC_PACK(4);
     FLOAT PhysAlpha;
     FLOAT PhysRate;
-    class AActor* PendingTouch;
-    FLOAT AnimLast;
-    FLOAT AnimMinRate;
-    FLOAT OldAnimRate;
-    FPlane SimAnim;
     FLOAT NetPriority;
     FLOAT NetUpdateFrequency;
     BITFIELD bNetInitial:1 GCC_PACK(4);
@@ -881,7 +1026,9 @@ public:
     BITFIELD bDemoRecording:1;
     BITFIELD bClientDemoRecording:1;
     BITFIELD bClientDemoNetFunc:1;
-    class UClass* RenderIteratorClass GCC_PACK(4);
+    BITFIELD bShowDebugInfo:1;
+    INT LastJointHit GCC_PACK(4);
+    class UClass* RenderIteratorClass;
     class URenderIterator* RenderInterface;
     DECLARE_FUNCTION(execMultiply_ColorFloat);
     DECLARE_FUNCTION(execAdd_ColorColor);
@@ -902,29 +1049,58 @@ public:
     DECLARE_FUNCTION(execGetURLMap);
     DECLARE_FUNCTION(execGetNextSkin);
     DECLARE_FUNCTION(execGetMapName);
+    DECLARE_FUNCTION(execUnloadTexture);
     DECLARE_FUNCTION(execPlayerCanSeeMe);
     DECLARE_FUNCTION(execMakeNoise);
+    DECLARE_FUNCTION(execPlayImpactSound);
+    DECLARE_FUNCTION(execFinishSound);
     DECLARE_FUNCTION(execGetSoundDuration);
     DECLARE_FUNCTION(execDemoPlaySound);
     DECLARE_FUNCTION(execPlayOwnedSound);
+    DECLARE_FUNCTION(execStopSound);
     DECLARE_FUNCTION(execPlaySound);
     DECLARE_FUNCTION(execSetTimer);
     DECLARE_FUNCTION(execDestroy);
     DECLARE_FUNCTION(execSpawn);
+    DECLARE_FUNCTION(execTraceTexture);
     DECLARE_FUNCTION(execFastTrace);
     DECLARE_FUNCTION(execTrace);
     DECLARE_FUNCTION(execSetPhysics);
     DECLARE_FUNCTION(execFinishInterpolation);
-    DECLARE_FUNCTION(execLinkSkelAnim);
+    DECLARE_FUNCTION(execSetLimbTangible);
+    DECLARE_FUNCTION(execApplyMod);
+    DECLARE_FUNCTION(execDetachLimb);
+    DECLARE_FUNCTION(execDestroyLimb);
+    DECLARE_FUNCTION(execAddDynamic);
+    DECLARE_FUNCTION(execClearTargets);
+    DECLARE_FUNCTION(execClearTarget);
+    DECLARE_FUNCTION(execAddTargetRot);
+    DECLARE_FUNCTION(execAddTargetPos);
+    DECLARE_FUNCTION(execApplyAnim);
+    DECLARE_FUNCTION(execGetNotifyTime);
+    DECLARE_FUNCTION(execListAnims);
+    DECLARE_FUNCTION(execAnimMoveRate);
     DECLARE_FUNCTION(execHasAnim);
     DECLARE_FUNCTION(execFinishAnim);
     DECLARE_FUNCTION(execGetAnimGroup);
+    DECLARE_FUNCTION(execIsAnimResting);
     DECLARE_FUNCTION(execIsAnimating);
     DECLARE_FUNCTION(execTweenAnim);
     DECLARE_FUNCTION(execLoopAnim);
+    DECLARE_FUNCTION(execPlayAnimSound);
     DECLARE_FUNCTION(execPlayAnim);
+    DECLARE_FUNCTION(execJointParent);
+    DECLARE_FUNCTION(execStaticJointDir);
+    DECLARE_FUNCTION(execJointPlace);
+    DECLARE_FUNCTION(execJointIndex);
+    DECLARE_FUNCTION(execJointName);
+    DECLARE_FUNCTION(execNumJoints);
     DECLARE_FUNCTION(execSetOwner);
     DECLARE_FUNCTION(execSetBase);
+    DECLARE_FUNCTION(execResetLightCache);
+    DECLARE_FUNCTION(execLoadTextureFromBMP);
+    DECLARE_FUNCTION(execGetTexture);
+    DECLARE_FUNCTION(execSetTexture);
     DECLARE_FUNCTION(execAutonomousPhysics);
     DECLARE_FUNCTION(execMoveSmooth);
     DECLARE_FUNCTION(execSetRotation);
@@ -934,6 +1110,12 @@ public:
     DECLARE_FUNCTION(execSetCollision);
     DECLARE_FUNCTION(execSleep);
     DECLARE_FUNCTION(execError);
+    DECLARE_FUNCTION(execGetSaveGameList);
+    DECLARE_FUNCTION(execGetSaveGameSize);
+    DECLARE_FUNCTION(execLoadGame);
+    DECLARE_FUNCTION(execSaveGame);
+    DECLARE_FUNCTION(execLoadGameFromMemoryCard);
+    DECLARE_FUNCTION(execSaveGameToMemoryCard);
     DECLARE_FUNCTION(execConsoleCommand);
     void eventRenderTexture(class UScriptedTexture* Tex)
     {
@@ -956,6 +1138,20 @@ public:
     void eventSetInitialState()
     {
         ProcessEvent(FindFunctionChecked(ENGINE_SetInitialState),NULL);
+    }
+    void eventPlayerReady(class APlayerPawn* Player)
+    {
+        AActor_eventPlayerReady_Parms Parms;
+        Parms.Player=Player;
+        ProcessEvent(FindFunctionChecked(ENGINE_PlayerReady),&Parms);
+    }
+    void eventStartLevel()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_StartLevel),NULL);
+    }
+    void eventPostLoadGame()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_PostLoadGame),NULL);
     }
     void eventPostBeginPlay()
     {
@@ -1007,25 +1203,37 @@ public:
         ProcessEvent(FindFunctionChecked(ENGINE_PreTeleport),&Parms);
         return Parms.ReturnValue;
     }
-    void eventDemoPlaySound(class USound* Sound, BYTE Slot, FLOAT Volume, BITFIELD bNoOverride, FLOAT Radius, FLOAT Pitch)
+    void eventScryeEnd(class APlayerPawn* P)
+    {
+        AActor_eventScryeEnd_Parms Parms;
+        Parms.P=P;
+        ProcessEvent(FindFunctionChecked(ENGINE_ScryeEnd),&Parms);
+    }
+    void eventScryeBegin(class APlayerPawn* P)
+    {
+        AActor_eventScryeBegin_Parms Parms;
+        Parms.P=P;
+        ProcessEvent(FindFunctionChecked(ENGINE_ScryeBegin),&Parms);
+    }
+    void eventDemoPlaySound(class USound* Sound, BYTE slot, FLOAT Volume, BITFIELD bNoOverride, FLOAT Radius, FLOAT Pitch, INT flags)
     {
         AActor_eventDemoPlaySound_Parms Parms;
         Parms.Sound=Sound;
-        Parms.Slot=Slot;
+        Parms.slot=slot;
         Parms.Volume=Volume;
         Parms.bNoOverride=bNoOverride;
         Parms.Radius=Radius;
         Parms.Pitch=Pitch;
+        Parms.flags=flags;
         ProcessEvent(FindFunctionChecked(ENGINE_DemoPlaySound),&Parms);
     }
-    void eventTakeDamage(INT Damage, class APawn* EventInstigator, FVector HitLocation, FVector Momentum, FName DamageType)
+    void eventTakeDamage(class APawn* EventInstigator, FVector HitLocation, FVector Momentum, FDamageInfo DInfo)
     {
         AActor_eventTakeDamage_Parms Parms;
-        Parms.Damage=Damage;
         Parms.EventInstigator=EventInstigator;
         Parms.HitLocation=HitLocation;
         Parms.Momentum=Momentum;
-        Parms.DamageType=DamageType;
+        Parms.DInfo=DInfo;
         ProcessEvent(FindFunctionChecked(ENGINE_TakeDamage),&Parms);
     }
     void eventKilledBy(class APawn* EventInstigator)
@@ -1038,9 +1246,13 @@ public:
     {
         ProcessEvent(FindFunctionChecked(ENGINE_FellOutOfWorld),NULL);
     }
-    void eventEndedRotation()
+    class AActor* eventHeldPropRequest(INT idx)
     {
-        ProcessEvent(FindFunctionChecked(ENGINE_EndedRotation),NULL);
+        AActor_eventHeldPropRequest_Parms Parms;
+        Parms.idx=idx;
+        Parms.ReturnValue=0;
+        ProcessEvent(FindFunctionChecked(ENGINE_HeldPropRequest),&Parms);
+        return Parms.ReturnValue;
     }
     void eventInterpolateEnd(class AActor* Other)
     {
@@ -1104,12 +1316,6 @@ public:
         Parms.Other=Other;
         ProcessEvent(FindFunctionChecked(ENGINE_UnTouch),&Parms);
     }
-    void eventPostTouch(class AActor* Other)
-    {
-        AActor_eventPostTouch_Parms Parms;
-        Parms.Other=Other;
-        ProcessEvent(FindFunctionChecked(ENGINE_PostTouch),&Parms);
-    }
     void eventTouch(class AActor* Other)
     {
         AActor_eventTouch_Parms Parms;
@@ -1132,11 +1338,12 @@ public:
     {
         ProcessEvent(FindFunctionChecked(ENGINE_Falling),NULL);
     }
-    void eventHitWall(FVector HitNormal, class AActor* HitWall)
+    void eventHitWall(FVector HitNormal, class AActor* HitWall, BYTE TextureID)
     {
         AActor_eventHitWall_Parms Parms;
         Parms.HitNormal=HitNormal;
         Parms.HitWall=HitWall;
+        Parms.TextureID=TextureID;
         ProcessEvent(FindFunctionChecked(ENGINE_HitWall),&Parms);
     }
     void eventTimer()
@@ -1164,6 +1371,12 @@ public:
         Parms.Other=Other;
         Parms.EventInstigator=EventInstigator;
         ProcessEvent(FindFunctionChecked(ENGINE_Trigger),&Parms);
+    }
+    void eventWarped(FVector OldLocation)
+    {
+        AActor_eventWarped_Parms Parms;
+        Parms.OldLocation=OldLocation;
+        ProcessEvent(FindFunctionChecked(ENGINE_Warped),&Parms);
     }
     void eventTick(FLOAT DeltaTime)
     {
@@ -1203,660 +1416,30 @@ public:
     #include "AActor.h"
 };
 
-enum EIntelligence
-{
-    BRAINS_NONE             =0,
-    BRAINS_REPTILE          =1,
-    BRAINS_MAMMAL           =2,
-    BRAINS_HUMAN            =3,
-    BRAINS_MAX              =4,
-};
-enum EAttitude
-{
-    ATTITUDE_Fear           =0,
-    ATTITUDE_Hate           =1,
-    ATTITUDE_Frenzy         =2,
-    ATTITUDE_Threaten       =3,
-    ATTITUDE_Ignore         =4,
-    ATTITUDE_Friendly       =5,
-    ATTITUDE_Follow         =6,
-    ATTITUDE_MAX            =7,
-};
 
-struct APawn_eventPainTimer_Parms
-{
-};
-struct APawn_eventSpeechTimer_Parms
-{
-};
-struct APawn_eventHeadZoneChange_Parms
-{
-    class AZoneInfo* newHeadZone;
-};
-struct APawn_eventFootZoneChange_Parms
-{
-    class AZoneInfo* newFootZone;
-};
-struct APawn_eventWalkTexture_Parms
-{
-    class UTexture* Texture;
-    FVector StepLocation;
-    FVector StepNormal;
-};
-struct APawn_eventEnemyNotVisible_Parms
-{
-};
-struct APawn_eventUpdateTactics_Parms
-{
-    FLOAT DeltaTime;
-};
-struct APawn_eventUpdateEyeHeight_Parms
-{
-    FLOAT DeltaTime;
-};
-struct APawn_eventSeePlayer_Parms
-{
-    class AActor* Seen;
-};
-struct APawn_eventHearNoise_Parms
-{
-    FLOAT Loudness;
-    class AActor* NoiseMaker;
-};
-struct APawn_eventClientHearSound_Parms
-{
-    class AActor* Actor;
-    INT Id;
-    class USound* S;
-    FVector SoundLocation;
-    FVector Parameters;
-};
-struct APawn_eventLongFall_Parms
-{
-};
-struct APawn_eventPlayerTimeout_Parms
-{
-};
-struct APawn_eventReceiveLocalizedMessage_Parms
-{
-    class UClass* Message;
-    INT Switch;
-    class APlayerReplicationInfo* RelatedPRI_1;
-    class APlayerReplicationInfo* RelatedPRI_2;
-    class UObject* OptionalObject;
-};
-struct APawn_eventTeamMessage_Parms
-{
-    class APlayerReplicationInfo* PRI;
-    FString S;
-    FName Type;
-    BITFIELD bBeep;
-};
-struct APawn_eventClientMessage_Parms
-{
-    FString S;
-    FName Type;
-    BITFIELD bBeep;
-};
-struct APawn_eventAlterDestination_Parms
-{
-};
-struct APawn_eventMayFall_Parms
-{
-};
-class ENGINE_API APawn : public AActor
+class ENGINE_API AInvisible : public AActor
 {
 public:
-    BITFIELD bBehindView:1 GCC_PACK(4);
-    BITFIELD bIsPlayer:1;
-    BITFIELD bJustLanded:1;
-    BITFIELD bUpAndOut:1;
-    BITFIELD bIsWalking:1;
-    BITFIELD bHitSlopedWall:1;
-    BITFIELD bNeverSwitchOnPickup:1;
-    BITFIELD bWarping:1;
-    BITFIELD bUpdatingDisplay:1;
-    BITFIELD bCanStrafe:1;
-    BITFIELD bFixedStart:1;
-    BITFIELD bReducedSpeed:1;
-    BITFIELD bCanJump:1;
-    BITFIELD bCanWalk:1;
-    BITFIELD bCanSwim:1;
-    BITFIELD bCanFly:1;
-    BITFIELD bCanOpenDoors:1;
-    BITFIELD bCanDoSpecial:1;
-    BITFIELD bDrowning:1;
-    BITFIELD bLOSflag:1;
-    BITFIELD bFromWall:1;
-    BITFIELD bHunting:1;
-    BITFIELD bAvoidLedges:1;
-    BITFIELD bStopAtLedges:1;
-    BITFIELD bJumpOffPawn:1;
-    BITFIELD bShootSpecial:1;
-    BITFIELD bAutoActivate:1;
-    BITFIELD bIsHuman:1;
-    BITFIELD bIsFemale:1;
-    BITFIELD bIsMultiSkinned:1;
-    BITFIELD bCountJumps:1;
-    BITFIELD bAdvancedTactics:1;
-    BITFIELD bViewTarget:1;
-    FLOAT SightCounter GCC_PACK(4);
-    FLOAT PainTime;
-    FLOAT SpeechTime;
-    FLOAT AvgPhysicsTime;
-    FPointRegion FootRegion;
-    FPointRegion HeadRegion;
-    FLOAT MoveTimer;
-    class AActor* MoveTarget;
-    class AActor* FaceTarget;
-    FVector Destination;
-    FVector Focus;
-    FLOAT DesiredSpeed;
-    FLOAT MaxDesiredSpeed;
-    FLOAT MeleeRange;
-    FLOAT GroundSpeed;
-    FLOAT WaterSpeed;
-    FLOAT AirSpeed;
-    FLOAT AccelRate;
-    FLOAT JumpZ;
-    FLOAT MaxStepHeight;
-    FLOAT AirControl;
-    FLOAT MinHitWall;
-    BYTE Visibility;
-    FLOAT Alertness;
-    FLOAT Stimulus;
-    FLOAT SightRadius;
-    FLOAT PeripheralVision;
-    FLOAT HearingThreshold;
-    FVector LastSeenPos;
-    FVector LastSeeingPos;
-    FLOAT LastSeenTime;
-    class APawn* Enemy;
-    class AWeapon* Weapon;
-    class AWeapon* PendingWeapon;
-    class AInventory* SelectedItem;
-    FRotator ViewRotation;
-    FVector WalkBob;
-    FLOAT BaseEyeHeight;
-    FLOAT EyeHeight;
-    FVector Floor;
-    FLOAT SplashTime;
-    FLOAT OrthoZoom;
-    FLOAT FovAngle;
-    INT DieCount;
-    INT ItemCount;
-    INT KillCount;
-    INT SecretCount;
-    INT Spree;
-    INT Health;
-    FStringNoInit SelectionMesh;
-    FStringNoInit SpecialMesh;
-    FName ReducedDamageType;
-    FLOAT ReducedDamagePct;
-    class UClass* DropWhenKilled;
-    FLOAT UnderWaterTime;
-    BYTE AttitudeToPlayer;
-    BYTE Intelligence;
-    FLOAT Skill;
-    class AActor* SpecialGoal;
-    FLOAT SpecialPause;
-    FVector noise1spot;
-    FLOAT noise1time;
-    class APawn* noise1other;
-    FLOAT noise1loudness;
-    FVector noise2spot;
-    FLOAT noise2time;
-    class APawn* noise2other;
-    FLOAT noise2loudness;
-    FLOAT LastPainSound;
-    class APawn* nextPawn;
-    class USound* HitSound1;
-    class USound* HitSound2;
-    class USound* Land;
-    class USound* Die;
-    class USound* WaterStep;
-    BYTE bZoom;
-    BYTE bRun;
-    BYTE bLook;
-    BYTE bDuck;
-    BYTE bSnapLevel;
-    BYTE bStrafe;
-    BYTE bFire;
-    BYTE bAltFire;
-    BYTE bFreeLook;
-    BYTE bExtra0;
-    BYTE bExtra1;
-    BYTE bExtra2;
-    BYTE bExtra3;
-    FLOAT CombatStyle;
-    class ANavigationPoint* home;
-    FName NextState;
-    FName NextLabel;
-    FLOAT SoundDampening;
-    FLOAT DamageScaling;
-    FName AlarmTag;
-    FName SharedAlarmTag;
-    class ADecoration* carriedDecoration;
-    FName PlayerReStartState;
-    FStringNoInit MenuName;
-    FStringNoInit NameArticle;
-    BYTE VoicePitch;
-    FStringNoInit VoiceType;
-    FLOAT OldMessageTime;
-    class ANavigationPoint* RouteCache[16];
-    class UClass* PlayerReplicationInfoClass;
-    class APlayerReplicationInfo* PlayerReplicationInfo;
-    class ADecal* Shadow;
-    DECLARE_FUNCTION(execClientHearSound);
-    DECLARE_FUNCTION(execCheckValidSkinPackage);
-    DECLARE_FUNCTION(execStopWaiting);
-    DECLARE_FUNCTION(execPickAnyTarget);
-    DECLARE_FUNCTION(execPickTarget);
-    DECLARE_FUNCTION(execRemovePawn);
-    DECLARE_FUNCTION(execAddPawn);
-    DECLARE_FUNCTION(execFindBestInventoryPath);
-    DECLARE_FUNCTION(execWaitForLanding);
-    DECLARE_FUNCTION(execFindStairRotation);
-    DECLARE_FUNCTION(execPickWallAdjust);
-    DECLARE_FUNCTION(execactorReachable);
-    DECLARE_FUNCTION(execpointReachable);
-    DECLARE_FUNCTION(execEAdjustJump);
-    DECLARE_FUNCTION(execClearPaths);
-    DECLARE_FUNCTION(execFindRandomDest);
-    DECLARE_FUNCTION(execFindPathToward);
-    DECLARE_FUNCTION(execFindPathTo);
-    DECLARE_FUNCTION(execCanSee);
-    DECLARE_FUNCTION(execLineOfSightTo);
-    DECLARE_FUNCTION(execTurnToward);
-    DECLARE_FUNCTION(execTurnTo);
-    DECLARE_FUNCTION(execStrafeFacing);
-    DECLARE_FUNCTION(execStrafeTo);
-    DECLARE_FUNCTION(execMoveToward);
-    DECLARE_FUNCTION(execMoveTo);
-    void eventPainTimer()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_PainTimer),NULL);
-    }
-    void eventSpeechTimer()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_SpeechTimer),NULL);
-    }
-    void eventHeadZoneChange(class AZoneInfo* newHeadZone)
-    {
-        APawn_eventHeadZoneChange_Parms Parms;
-        Parms.newHeadZone=newHeadZone;
-        ProcessEvent(FindFunctionChecked(ENGINE_HeadZoneChange),&Parms);
-    }
-    void eventFootZoneChange(class AZoneInfo* newFootZone)
-    {
-        APawn_eventFootZoneChange_Parms Parms;
-        Parms.newFootZone=newFootZone;
-        ProcessEvent(FindFunctionChecked(ENGINE_FootZoneChange),&Parms);
-    }
-    void eventWalkTexture(class UTexture* Texture, FVector StepLocation, FVector StepNormal)
-    {
-        APawn_eventWalkTexture_Parms Parms;
-        Parms.Texture=Texture;
-        Parms.StepLocation=StepLocation;
-        Parms.StepNormal=StepNormal;
-        ProcessEvent(FindFunctionChecked(ENGINE_WalkTexture),&Parms);
-    }
-    void eventEnemyNotVisible()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_EnemyNotVisible),NULL);
-    }
-    void eventUpdateTactics(FLOAT DeltaTime)
-    {
-        APawn_eventUpdateTactics_Parms Parms;
-        Parms.DeltaTime=DeltaTime;
-        ProcessEvent(FindFunctionChecked(ENGINE_UpdateTactics),&Parms);
-    }
-    void eventUpdateEyeHeight(FLOAT DeltaTime)
-    {
-        APawn_eventUpdateEyeHeight_Parms Parms;
-        Parms.DeltaTime=DeltaTime;
-        ProcessEvent(FindFunctionChecked(ENGINE_UpdateEyeHeight),&Parms);
-    }
-    void eventSeePlayer(class AActor* Seen)
-    {
-        APawn_eventSeePlayer_Parms Parms;
-        Parms.Seen=Seen;
-        ProcessEvent(FindFunctionChecked(ENGINE_SeePlayer),&Parms);
-    }
-    void eventHearNoise(FLOAT Loudness, class AActor* NoiseMaker)
-    {
-        APawn_eventHearNoise_Parms Parms;
-        Parms.Loudness=Loudness;
-        Parms.NoiseMaker=NoiseMaker;
-        ProcessEvent(FindFunctionChecked(ENGINE_HearNoise),&Parms);
-    }
-    void eventClientHearSound(class AActor* Actor, INT Id, class USound* S, FVector SoundLocation, FVector Parameters)
-    {
-        APawn_eventClientHearSound_Parms Parms;
-        Parms.Actor=Actor;
-        Parms.Id=Id;
-        Parms.S=S;
-        Parms.SoundLocation=SoundLocation;
-        Parms.Parameters=Parameters;
-        ProcessEvent(FindFunctionChecked(ENGINE_ClientHearSound),&Parms);
-    }
-    void eventLongFall()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_LongFall),NULL);
-    }
-    void eventPlayerTimeout()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_PlayerTimeout),NULL);
-    }
-    void eventReceiveLocalizedMessage(class UClass* Message, INT Switch, class APlayerReplicationInfo* RelatedPRI_1, class APlayerReplicationInfo* RelatedPRI_2, class UObject* OptionalObject)
-    {
-        APawn_eventReceiveLocalizedMessage_Parms Parms;
-        Parms.Message=Message;
-        Parms.Switch=Switch;
-        Parms.RelatedPRI_1=RelatedPRI_1;
-        Parms.RelatedPRI_2=RelatedPRI_2;
-        Parms.OptionalObject=OptionalObject;
-        ProcessEvent(FindFunctionChecked(ENGINE_ReceiveLocalizedMessage),&Parms);
-    }
-    void eventTeamMessage(class APlayerReplicationInfo* PRI, const FString& S, FName Type, BITFIELD bBeep)
-    {
-        APawn_eventTeamMessage_Parms Parms;
-        Parms.PRI=PRI;
-        Parms.S=S;
-        Parms.Type=Type;
-        Parms.bBeep=bBeep;
-        ProcessEvent(FindFunctionChecked(ENGINE_TeamMessage),&Parms);
-    }
-    void eventClientMessage(const FString& S, FName Type, BITFIELD bBeep)
-    {
-        APawn_eventClientMessage_Parms Parms;
-        Parms.S=S;
-        Parms.Type=Type;
-        Parms.bBeep=bBeep;
-        ProcessEvent(FindFunctionChecked(ENGINE_ClientMessage),&Parms);
-    }
-    void eventAlterDestination()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_AlterDestination),NULL);
-    }
-    void eventMayFall()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_MayFall),NULL);
-    }
-    DECLARE_CLASS(APawn,AActor,0|CLASS_Config|CLASS_NativeReplication,Engine)
-    #include "APawn.h"
+    DECLARE_CLASS(AInvisible,AActor,0|CLASS_NativeReplication,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AInvisible)
 };
 
 
-struct APlayerPawn_eventPlayerCalcView_Parms
-{
-    class AActor* ViewActor;
-    FVector CameraLocation;
-    FRotator CameraRotation;
-};
-struct APlayerPawn_eventPlayerTick_Parms
-{
-    FLOAT Time;
-};
-struct APlayerPawn_eventUnPossess_Parms
-{
-};
-struct APlayerPawn_eventPossess_Parms
-{
-};
-struct APlayerPawn_eventPlayerInput_Parms
-{
-    FLOAT DeltaTime;
-};
-struct APlayerPawn_eventShowUpgradeMenu_Parms
-{
-};
-struct APlayerPawn_eventPostRender_Parms
-{
-    class UCanvas* Canvas;
-};
-struct APlayerPawn_eventPreRender_Parms
-{
-    class UCanvas* Canvas;
-};
-struct APlayerPawn_eventPreClientTravel_Parms
-{
-};
-struct APlayerPawn_eventClientTravel_Parms
-{
-    FString URL;
-    BYTE TravelType;
-    BITFIELD bItems;
-};
-class ENGINE_API APlayerPawn : public APawn
+class ENGINE_API AWind : public AInvisible
 {
 public:
-    class UPlayer* Player;
-    FStringNoInit Password;
-    FLOAT DodgeClickTimer;
-    FLOAT DodgeClickTime;
-    FLOAT Bob;
-    FLOAT LandBob;
-    FLOAT AppliedBob;
-    FLOAT bobtime;
-    INT ShowFlags;
-    INT RendMap;
-    INT Misc1;
-    INT Misc2;
-    class AActor* ViewTarget;
-    FVector FlashScale;
-    FVector FlashFog;
-    class AHUD* myHUD;
-    class AScoreBoard* Scoring;
-    class UClass* HUDType;
-    class UClass* ScoringType;
-    FLOAT DesiredFlashScale;
-    FLOAT ConstantGlowScale;
-    FLOAT InstantFlash;
-    FVector DesiredFlashFog;
-    FVector ConstantGlowFog;
-    FVector InstantFog;
-    FLOAT DesiredFOV;
-    FLOAT DefaultFOV;
-    class UMusic* Song;
-    BYTE SongSection;
-    BYTE CdTrack;
-    BYTE Transition;
-    FLOAT shaketimer;
-    INT shakemag;
-    FLOAT shakevert;
-    FLOAT maxshake;
-    FLOAT verttimer;
-    class UClass* CarcassType;
-    FLOAT MyAutoAim;
-    FLOAT Handedness;
-    class USound* JumpSound;
-    BITFIELD bAdmin:1 GCC_PACK(4);
-    BITFIELD bLookUpStairs:1;
-    BITFIELD bSnapToLevel:1;
-    BITFIELD bAlwaysMouseLook:1;
-    BITFIELD bKeyboardLook:1;
-    BITFIELD bWasForward:1;
-    BITFIELD bWasBack:1;
-    BITFIELD bWasLeft:1;
-    BITFIELD bWasRight:1;
-    BITFIELD bEdgeForward:1;
-    BITFIELD bEdgeBack:1;
-    BITFIELD bEdgeLeft:1;
-    BITFIELD bEdgeRight:1;
-    BITFIELD bIsCrouching:1;
-    BITFIELD bShakeDir:1;
-    BITFIELD bAnimTransition:1;
-    BITFIELD bIsTurning:1;
-    BITFIELD bFrozen:1;
-    BITFIELD bBadConnectionAlert:1;
-    BITFIELD bInvertMouse:1;
-    BITFIELD bShowScores:1;
-    BITFIELD bShowMenu:1;
-    BITFIELD bSpecialMenu:1;
-    BITFIELD bWokeUp:1;
-    BITFIELD bPressedJump:1;
-    BITFIELD bUpdatePosition:1;
-    BITFIELD bDelayedCommand:1;
-    BITFIELD bRising:1;
-    BITFIELD bReducedVis:1;
-    BITFIELD bCenterView:1;
-    BITFIELD bMaxMouseSmoothing:1;
-    BITFIELD bMouseZeroed:1;
-    BITFIELD bReadyToPlay:1;
-    BITFIELD bNoFlash:1;
-    BITFIELD bNoVoices:1;
-    BITFIELD bMessageBeep:1;
-    BITFIELD bZooming:1;
-    BITFIELD bSinglePlayer:1;
-    BITFIELD bJustFired:1;
-    BITFIELD bJustAltFired:1;
-    BITFIELD bIsTyping:1;
-    BITFIELD bFixedCamera:1;
-    BITFIELD bNeverAutoSwitch:1;
-    BITFIELD bJumpStatus:1;
-    BITFIELD bUpdating:1;
-    BITFIELD bCheatsEnabled:1;
-    FLOAT ZoomLevel GCC_PACK(4);
-    class UClass* SpecialMenu;
-    FStringNoInit DelayedCommand;
-    FLOAT MouseSensitivity;
-    FName WeaponPriority[50];
-    FLOAT SmoothMouseX;
-    FLOAT SmoothMouseY;
-    FLOAT BorrowedMouseX;
-    FLOAT BorrowedMouseY;
-    FLOAT MouseSmoothThreshold;
-    FLOAT MouseZeroTime;
-    FLOAT aBaseX;
-    FLOAT aBaseY;
-    FLOAT aBaseZ;
-    FLOAT aMouseX;
-    FLOAT aMouseY;
-    FLOAT aForward;
-    FLOAT aTurn;
-    FLOAT aStrafe;
-    FLOAT aUp;
-    FLOAT aLookUp;
-    FLOAT aExtra4;
-    FLOAT aExtra3;
-    FLOAT aExtra2;
-    FLOAT aExtra1;
-    FLOAT aExtra0;
-    class ASavedMove* SavedMoves;
-    class ASavedMove* FreeMoves;
-    class ASavedMove* PendingMove;
-    FLOAT CurrentTimeStamp;
-    FLOAT LastUpdateTime;
-    FLOAT ServerTimeStamp;
-    FLOAT TimeMargin;
-    FLOAT ClientUpdateTime;
-    FLOAT MaxTimeMargin;
-    FStringNoInit ProgressMessage[8];
-    FColor ProgressColor[8];
-    FLOAT ProgressTimeOut;
-    FStringNoInit QuickSaveString;
-    FStringNoInit NoPauseMessage;
-    FStringNoInit ViewingFrom;
-    FStringNoInit OwnCamera;
-    FStringNoInit FailedView;
-    class AGameReplicationInfo* GameReplicationInfo;
-    FStringNoInit ngWorldSecret;
-    BITFIELD ngSecretSet:1 GCC_PACK(4);
-    BITFIELD ReceivedSecretChecksum:1;
-    FRotator TargetViewRotation GCC_PACK(4);
-    FLOAT TargetEyeHeight;
-    FVector TargetWeaponViewOffset;
-    INT DemoViewPitch;
-    INT DemoViewYaw;
-    FLOAT LastPlaySound;
-    FLOAT LastMessageWindow;
-    DECLARE_FUNCTION(execPasteFromClipboard);
-    DECLARE_FUNCTION(execCopyToClipboard);
-    DECLARE_FUNCTION(execConsoleCommand);
-    DECLARE_FUNCTION(execGetPlayerNetworkAddress);
-    DECLARE_FUNCTION(execGetEntryLevel);
-    DECLARE_FUNCTION(execGetDefaultURL);
-    DECLARE_FUNCTION(execUpdateURL);
-    DECLARE_FUNCTION(execResetKeyboard);
-    DECLARE_FUNCTION(execClientTravel);
-    void eventPlayerCalcView(class AActor*& ViewActor, FVector& CameraLocation, FRotator& CameraRotation)
-    {
-        APlayerPawn_eventPlayerCalcView_Parms Parms;
-        Parms.ViewActor=ViewActor;
-        Parms.CameraLocation=CameraLocation;
-        Parms.CameraRotation=CameraRotation;
-        ProcessEvent(FindFunctionChecked(ENGINE_PlayerCalcView),&Parms);
-        ViewActor=Parms.ViewActor;
-        CameraLocation=Parms.CameraLocation;
-        CameraRotation=Parms.CameraRotation;
-    }
-    void eventPlayerTick(FLOAT Time)
-    {
-        APlayerPawn_eventPlayerTick_Parms Parms;
-        Parms.Time=Time;
-        ProcessEvent(FindFunctionChecked(ENGINE_PlayerTick),&Parms);
-    }
-    void eventUnPossess()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_UnPossess),NULL);
-    }
-    void eventPossess()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_Possess),NULL);
-    }
-    void eventPlayerInput(FLOAT DeltaTime)
-    {
-        APlayerPawn_eventPlayerInput_Parms Parms;
-        Parms.DeltaTime=DeltaTime;
-        ProcessEvent(FindFunctionChecked(ENGINE_PlayerInput),&Parms);
-    }
-    void eventShowUpgradeMenu()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_ShowUpgradeMenu),NULL);
-    }
-    void eventPostRender(class UCanvas* Canvas)
-    {
-        APlayerPawn_eventPostRender_Parms Parms;
-        Parms.Canvas=Canvas;
-        ProcessEvent(FindFunctionChecked(ENGINE_PostRender),&Parms);
-    }
-    void eventPreRender(class UCanvas* Canvas)
-    {
-        APlayerPawn_eventPreRender_Parms Parms;
-        Parms.Canvas=Canvas;
-        ProcessEvent(FindFunctionChecked(ENGINE_PreRender),&Parms);
-    }
-    void eventPreClientTravel()
-    {
-        ProcessEvent(FindFunctionChecked(ENGINE_PreClientTravel),NULL);
-    }
-    void eventClientTravel(const FString& URL, BYTE TravelType, BITFIELD bItems)
-    {
-        APlayerPawn_eventClientTravel_Parms Parms;
-        Parms.URL=URL;
-        Parms.TravelType=TravelType;
-        Parms.bItems=bItems;
-        ProcessEvent(FindFunctionChecked(ENGINE_ClientTravel),&Parms);
-    }
-    DECLARE_CLASS(APlayerPawn,APawn,0|CLASS_Config|CLASS_NativeReplication,Engine)
-    #include "APlayerPawn.h"
-};
-
-
-class ENGINE_API ACamera : public APlayerPawn
-{
-public:
-    DECLARE_CLASS(ACamera,APlayerPawn,0|CLASS_Config,Engine)
-    #include "ACamera.h"
-};
-
-
-class ENGINE_API AScout : public APawn
-{
-public:
-    DECLARE_CLASS(AScout,APawn,0|CLASS_Config,Engine)
-    NO_DEFAULT_CONSTRUCTOR(AScout)
+    FLOAT WindSpeed;
+    BYTE WindRadius;
+    BYTE WindRadiusInner;
+    BYTE WindFluctuation;
+    BYTE WindFlucPeriod;
+    BYTE WindSource;
+    BITFIELD bPermeating:1 GCC_PACK(4);
+    FVector Fluc GCC_ALIGN(16);
+    FVector FlucVel;
+    DECLARE_FUNCTION(execGetWind);
+    DECLARE_CLASS(AWind,AInvisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AWind)
 };
 
 enum ECsgOper
@@ -1869,7 +1452,7 @@ enum ECsgOper
     CSG_MAX                 =5,
 };
 
-class ENGINE_API ABrush : public AActor
+class ENGINE_API ABrush : public AInvisible
 {
 public:
     BYTE CsgOper;
@@ -1881,7 +1464,7 @@ public:
     FColor BrushColor;
     INT PolyFlags;
     BITFIELD bColored:1 GCC_PACK(4);
-    DECLARE_CLASS(ABrush,AActor,0,Engine)
+    DECLARE_CLASS(ABrush,AInvisible,0,Engine)
     #include "ABrush.h"
 };
 
@@ -1927,6 +1510,7 @@ public:
     BITFIELD bUseTriggered:1;
     BITFIELD bDamageTriggered:1;
     BITFIELD bDynamicLightMover:1;
+    BITFIELD bTossPlayer:1;
     FName PlayerBumpEvent GCC_PACK(4);
     FName BumpEvent;
     class AActor* SavedTrigger;
@@ -1936,13 +1520,18 @@ public:
     class AMover* Follower;
     FName ReturnGroup;
     FLOAT DelayTime;
-    class USound* OpeningSound;
+    BITFIELD bLoop:1 GCC_PACK(4);
+    class USound* OpeningSound GCC_PACK(4);
+    FSoundProps OpeningProps;
     class USound* OpenedSound;
+    FSoundProps OpenedProps;
     class USound* ClosingSound;
+    FSoundProps ClosingProps;
     class USound* ClosedSound;
+    FSoundProps ClosedProps;
     class USound* MoveAmbientSound;
-    FVector KeyPos[8];
-    FRotator KeyRot[8];
+    FVector KeyPos[32];
+    FRotator KeyRot[32];
     FVector BasePos;
     FVector OldPos;
     FVector OldPrePivot;
@@ -1972,185 +1561,12 @@ public:
 };
 
 
-struct AInventory_eventBotDesireability_Parms
-{
-    class APawn* Bot;
-    FLOAT ReturnValue;
-};
-class ENGINE_API AInventory : public AActor
-{
-public:
-    BYTE AutoSwitchPriority;
-    BYTE InventoryGroup;
-    BITFIELD bActivatable:1 GCC_PACK(4);
-    BITFIELD bDisplayableInv:1;
-    BITFIELD bActive:1;
-    BITFIELD bSleepTouch:1;
-    BITFIELD bHeldItem:1;
-    BITFIELD bTossedOut:1;
-    BITFIELD bAmbientGlow:1;
-    BITFIELD bInstantRespawn:1;
-    BITFIELD bRotatingPickup:1;
-    FStringNoInit PickupMessage GCC_PACK(4);
-    FStringNoInit ItemName;
-    FStringNoInit ItemArticle;
-    FLOAT RespawnTime;
-    FName PlayerLastTouched;
-    FVector PlayerViewOffset;
-    class UMesh* PlayerViewMesh;
-    FLOAT PlayerViewScale;
-    FLOAT BobDamping;
-    class UMesh* PickupViewMesh;
-    FLOAT PickupViewScale;
-    class UMesh* ThirdPersonMesh;
-    FLOAT ThirdPersonScale;
-    class UTexture* StatusIcon;
-    FName ProtectionType1;
-    FName ProtectionType2;
-    INT Charge;
-    INT ArmorAbsorption;
-    BITFIELD bIsAnArmor:1 GCC_PACK(4);
-    INT AbsorptionPriority GCC_PACK(4);
-    class AInventory* NextArmor;
-    FLOAT MaxDesireability;
-    class AInventorySpot* myMarker;
-    BITFIELD bSteadyFlash3rd:1 GCC_PACK(4);
-    BITFIELD bFirstFrame:1;
-    BITFIELD bMuzzleFlashParticles:1;
-    BITFIELD bToggleSteadyFlash:1;
-    BITFIELD bSteadyToggle:1;
-    BYTE FlashCount GCC_PACK(4);
-    BYTE OldFlashCount;
-    BYTE MuzzleFlashStyle;
-    class UMesh* MuzzleFlashMesh;
-    FLOAT MuzzleFlashScale;
-    class UTexture* MuzzleFlashTexture;
-    class USound* PickupSound;
-    class USound* ActivateSound;
-    class USound* DeActivateSound;
-    class USound* RespawnSound;
-    class UTexture* Icon;
-    FStringNoInit M_Activated;
-    FStringNoInit M_Selected;
-    FStringNoInit M_Deactivated;
-    class UClass* PickupMessageClass;
-    class UClass* ItemMessageClass;
-    FLOAT eventBotDesireability(class APawn* Bot)
-    {
-        AInventory_eventBotDesireability_Parms Parms;
-        Parms.Bot=Bot;
-        Parms.ReturnValue=0;
-        ProcessEvent(FindFunctionChecked(ENGINE_BotDesireability),&Parms);
-        return Parms.ReturnValue;
-    }
-    DECLARE_CLASS(AInventory,AActor,0|CLASS_NativeReplication,Engine)
-    #include "AInventory.h"
-};
-
-
-class ENGINE_API APickup : public AInventory
-{
-public:
-    class AInventory* Inv;
-    INT NumCopies;
-    BITFIELD bCanHaveMultipleCopies:1 GCC_PACK(4);
-    BITFIELD bCanActivate:1;
-    FStringNoInit ExpireMessage GCC_PACK(4);
-    BITFIELD bAutoActivate:1 GCC_PACK(4);
-    DECLARE_CLASS(APickup,AInventory,0|CLASS_NativeReplication,Engine)
-    #include "APickup.h"
-};
-
-
-class ENGINE_API AAmmo : public APickup
-{
-public:
-    INT AmmoAmount;
-    INT MaxAmmo;
-    class UClass* ParentAmmo;
-    BYTE UsedInWeaponSlot[10];
-    class AAmmo* PAmmo;
-    DECLARE_CLASS(AAmmo,APickup,0|CLASS_NativeReplication,Engine)
-    #include "AAmmo.h"
-};
-
-
-class ENGINE_API AWeapon : public AInventory
-{
-public:
-    FLOAT MaxTargetRange;
-    class UClass* AmmoName;
-    BYTE ReloadCount;
-    INT PickupAmmoCount;
-    class AAmmo* AmmoType;
-    BITFIELD bPointing:1 GCC_PACK(4);
-    BITFIELD bInstantHit:1;
-    BITFIELD bAltInstantHit:1;
-    BITFIELD bWarnTarget:1;
-    BITFIELD bAltWarnTarget:1;
-    BITFIELD bWeaponUp:1;
-    BITFIELD bChangeWeapon:1;
-    BITFIELD bLockedOn:1;
-    BITFIELD bSplashDamage:1;
-    BITFIELD bCanThrow:1;
-    BITFIELD bRecommendSplashDamage:1;
-    BITFIELD bRecommendAltSplashDamage:1;
-    BITFIELD bWeaponStay:1;
-    BITFIELD bOwnsCrosshair:1;
-    BITFIELD bHideWeapon:1;
-    BITFIELD bMeleeWeapon:1;
-    BITFIELD bRapidFire:1;
-    BITFIELD bSpecialIcon:1;
-    FLOAT FiringSpeed GCC_PACK(4);
-    FVector FireOffset;
-    class UClass* ProjectileClass;
-    class UClass* AltProjectileClass;
-    FName MyDamageType;
-    FName AltDamageType;
-    FLOAT ProjectileSpeed;
-    FLOAT AltProjectileSpeed;
-    FLOAT aimerror;
-    FLOAT shakemag;
-    FLOAT shaketime;
-    FLOAT shakevert;
-    FLOAT AIRating;
-    FLOAT RefireRate;
-    FLOAT AltRefireRate;
-    class USound* FireSound;
-    class USound* AltFireSound;
-    class USound* CockingSound;
-    class USound* SelectSound;
-    class USound* Misc1Sound;
-    class USound* Misc2Sound;
-    class USound* Misc3Sound;
-    FStringNoInit MessageNoAmmo;
-    FStringNoInit DeathMessage;
-    FColor NameColor;
-    FRotator AdjustedAim;
-    BITFIELD bSetFlashTime:1 GCC_PACK(4);
-    BITFIELD bDrawMuzzleFlash:1;
-    BYTE bMuzzleFlash GCC_PACK(4);
-    FLOAT FlashTime;
-    FLOAT MuzzleScale;
-    FLOAT FlashY;
-    FLOAT FlashO;
-    FLOAT FlashC;
-    FLOAT FlashLength;
-    INT FlashS;
-    class UTexture* MFTexture;
-    class UTexture* MuzzleFlare;
-    FLOAT FlareOffset;
-    DECLARE_CLASS(AWeapon,AInventory,0|CLASS_NativeReplication,Engine)
-    #include "AWeapon.h"
-};
-
-
 struct ASpawnNotify_eventSpawnNotification_Parms
 {
     class AActor* A;
     class AActor* ReturnValue;
 };
-class ENGINE_API ASpawnNotify : public AActor
+class ENGINE_API ASpawnNotify : public AInvisible
 {
 public:
     class UClass* ActorClass;
@@ -2163,38 +1579,15 @@ public:
         ProcessEvent(FindFunctionChecked(ENGINE_SpawnNotification),&Parms);
         return Parms.ReturnValue;
     }
-    DECLARE_CLASS(ASpawnNotify,AActor,0,Engine)
+    DECLARE_CLASS(ASpawnNotify,AInvisible,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(ASpawnNotify)
 };
 
 
-struct ADecal_eventUpdate_Parms
-{
-    class AActor* L;
-};
-class ENGINE_API ADecal : public AActor
+class ENGINE_API AKeypoint : public AInvisible
 {
 public:
-    INT MultiDecalLevel;
-    FLOAT LastRenderedTime;
-    TArray<INT> SurfList;
-    DECLARE_FUNCTION(execDetachDecal);
-    DECLARE_FUNCTION(execAttachDecal);
-    void eventUpdate(class AActor* L)
-    {
-        ADecal_eventUpdate_Parms Parms;
-        Parms.L=L;
-        ProcessEvent(FindFunctionChecked(ENGINE_Update),&Parms);
-    }
-    DECLARE_CLASS(ADecal,AActor,0,Engine)
-    NO_DEFAULT_CONSTRUCTOR(ADecal)
-};
-
-
-class ENGINE_API AKeypoint : public AActor
-{
-public:
-    DECLARE_CLASS(AKeypoint,AActor,0,Engine)
+    DECLARE_CLASS(AKeypoint,AInvisible,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(AKeypoint)
 };
 
@@ -2236,10 +1629,10 @@ public:
 };
 
 
-class ENGINE_API AInfo : public AActor
+class ENGINE_API AInfo : public AInvisible
 {
 public:
-    DECLARE_CLASS(AInfo,AActor,0,Engine)
+    DECLARE_CLASS(AInfo,AInvisible,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(AInfo)
 };
 
@@ -2395,6 +1788,33 @@ public:
     NO_DEFAULT_CONSTRUCTOR(AStatLogFile)
 };
 
+enum EStatDataType
+{
+    SDT_Percent             =0,
+    SDT_Absolute            =1,
+    SDT_MAX                 =2,
+};
+enum EStatDisplayMode
+{
+    ESM_Off                 =0,
+    ESM_FrameRate           =1,
+    ESM_NoFrameRate         =2,
+    ESM_Always              =3,
+    ESM_MAX                 =4,
+};
+
+class ENGINE_API AStatManager : public AInfo
+{
+public:
+    FStatInfo Entries[16];
+    BYTE DisplayMode;
+    BITFIELD bUseFrameRate:1 GCC_PACK(4);
+    BYTE MinFrameRate GCC_PACK(4);
+    FLOAT MaxFrameTime;
+    DECLARE_CLASS(AStatManager,AInfo,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AStatManager)
+};
+
 
 class ENGINE_API AInternetInfo : public AInfo
 {
@@ -2414,14 +1834,23 @@ public:
     BITFIELD bDuck:1;
     BITFIELD bPressedJump:1;
     BITFIELD bFire:1;
-    BITFIELD bAltFire:1;
     BITFIELD bForceFire:1;
-    BITFIELD bForceAltFire:1;
-    BYTE DodgeMove GCC_PACK(4);
+    BITFIELD bFireAttSpell:1;
+    BITFIELD bForceFireAttSpell:1;
+    BITFIELD bFireDefSpell:1;
+    BITFIELD bForceFireDefSpell:1;
+    FVector Acceleration GCC_ALIGN(16);
     DECLARE_CLASS(ASavedMove,AInfo,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(ASavedMove)
 };
 
+enum EWeather
+{
+    Weather_Clear           =0,
+    Weather_Rain            =1,
+    Weather_Snow            =2,
+    Weather_MAX             =3,
+};
 
 struct AZoneInfo_eventActorLeaving_Parms
 {
@@ -2434,6 +1863,9 @@ struct AZoneInfo_eventActorEntered_Parms
 class ENGINE_API AZoneInfo : public AInfo
 {
 public:
+    FLOAT WeatherStrength;
+    BYTE Weather;
+    FName SkyZoneTag;
     FName ZoneTag;
     FVector ZoneGravity;
     FVector ZoneVelocity;
@@ -2454,7 +1886,8 @@ public:
     class UClass* EntryActor;
     class UClass* ExitActor;
     class ASkyZoneInfo* SkyZone;
-    BITFIELD bWaterZone:1 GCC_PACK(4);
+    BITFIELD bSkyZone:1 GCC_PACK(4);
+    BITFIELD bWaterZone:1;
     BITFIELD bFogZone:1;
     BITFIELD bKillZone:1;
     BITFIELD bNeutralZone:1;
@@ -2464,6 +1897,7 @@ public:
     BITFIELD bNoInventory:1;
     BITFIELD bMoveProjectiles:1;
     BITFIELD bBounceVelocity:1;
+    BITFIELD bMagicalDamage:1;
     BYTE AmbientBrightness GCC_PACK(4);
     BYTE AmbientHue;
     BYTE AmbientSaturation;
@@ -2524,6 +1958,7 @@ public:
     class UObject* OtherSideLevel;
     FStringNoInit Destinations[8];
     INT numDestinations;
+    INT iNextDest;
     DECLARE_FUNCTION(execUnWarp);
     DECLARE_FUNCTION(execWarp);
     void eventForceGenerate()
@@ -2542,6 +1977,9 @@ public:
 class ENGINE_API ASkyZoneInfo : public AZoneInfo
 {
 public:
+    BITFIELD bRotating:1 GCC_PACK(4);
+    FLOAT DegreesPerSec GCC_PACK(4);
+    INT DeltaRot;
     DECLARE_CLASS(ASkyZoneInfo,AZoneInfo,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(ASkyZoneInfo)
 };
@@ -2559,9 +1997,10 @@ enum ELevelAction
     LEVACT_None             =0,
     LEVACT_Loading          =1,
     LEVACT_Saving           =2,
-    LEVACT_Connecting       =3,
-    LEVACT_Precaching       =4,
-    LEVACT_MAX              =5,
+    LEVACT_DoneSave         =3,
+    LEVACT_Connecting       =4,
+    LEVACT_Precaching       =5,
+    LEVACT_MAX              =6,
 };
 
 struct ALevelInfo_eventServerTravel_Parms
@@ -2573,7 +2012,8 @@ class ENGINE_API ALevelInfo : public AZoneInfo
 {
 public:
     FLOAT TimeDilation;
-    FLOAT TimeSeconds;
+    BITFIELD bRealTickTime:1 GCC_PACK(4);
+    FLOAT TimeSeconds GCC_PACK(4);
     INT Year;
     INT Month;
     INT Day;
@@ -2589,9 +2029,10 @@ public:
     INT RecommendedTeammates;
     FStringNoInit LevelEnterText;
     FStringNoInit LocalizedPkg;
+    INT LevelIndex;
     FStringNoInit Pauser;
     class ULevelSummary* Summary;
-    FStringNoInit VisibleGroups;
+    class ADecalManager* DMan;
     BITFIELD bLonePlayer:1 GCC_PACK(4);
     BITFIELD bBegunPlay:1;
     BITFIELD bPlayersOnly:1;
@@ -2603,10 +2044,18 @@ public:
     BITFIELD bNoCheating:1;
     BITFIELD bAllowFOV:1;
     BITFIELD bLowRes:1;
+    BITFIELD bAllowFlight:1;
+    BITFIELD bDebugMessaging:1;
+    BITFIELD bDontAllowSavegame:1;
+    BITFIELD bSepiaOverlay:1;
+    BITFIELD bIsCutsceneLevel:1;
+    BITFIELD bSoftWeatherTransitions:1;
     class UMusic* Song GCC_PACK(4);
     BYTE SongSection;
     BYTE CdTrack;
     FLOAT PlayerDoppler;
+    BITFIELD bPSX2Level:1 GCC_PACK(4);
+    FLOAT UnitsPerMeter GCC_PACK(4);
     FLOAT Brightness;
     class UTexture* Screenshot;
     class UTexture* DefaultTexture;
@@ -2628,8 +2077,12 @@ public:
     FLOAT AvgAITime;
     BITFIELD bCheckWalkSurfaces:1 GCC_PACK(4);
     class ASpawnNotify* SpawnNotify GCC_PACK(4);
+    TArray<class UClass*> PreloadClasses;
+    BITFIELD bLoadBootShellPSX2:1 GCC_PACK(4);
     DECLARE_FUNCTION(execGetAddressURL);
     DECLARE_FUNCTION(execGetLocalURL);
+    DECLARE_FUNCTION(execGetTotalWind);
+    DECLARE_FUNCTION(execGetZone);
     void eventServerTravel(const FString& URL, BITFIELD bItems)
     {
         ALevelInfo_eventServerTravel_Parms Parms;
@@ -2705,7 +2158,6 @@ public:
     BITFIELD bOverTime:1;
     BITFIELD bAlternateMode:1;
     BITFIELD bCanViewOthers:1;
-    BITFIELD bExternalBatcher:1;
     FLOAT AutoAim GCC_PACK(4);
     FLOAT GameSpeed;
     FLOAT StartTime;
@@ -2768,7 +2220,6 @@ public:
     class UClass* StatLogClass;
     INT DemoBuild;
     INT DemoHasTuts;
-    FStringNoInit EnabledMutators;
     DECLARE_FUNCTION(execParseKillMessage);
     DECLARE_FUNCTION(execGetNetworkNumber);
     void eventAcceptInventory(class APawn* PlayerPawn)
@@ -2868,7 +2319,7 @@ struct ANavigationPoint_eventSpecialCost_Parms
     class APawn* Seeker;
     INT ReturnValue;
 };
-class ENGINE_API ANavigationPoint : public AActor
+class ENGINE_API ANavigationPoint : public AInvisible
 {
 public:
     FName ownerTeam;
@@ -2878,7 +2329,7 @@ public:
     INT PrunedPaths[16];
     class ANavigationPoint* VisNoReachPaths[16];
     INT visitedWeight;
-    class AActor* RouteCache;
+    class AActor* routeCache;
     INT bestPathWeight;
     class ANavigationPoint* nextNavigationPoint;
     class ANavigationPoint* nextOrdered;
@@ -2895,6 +2346,8 @@ public:
     BITFIELD bNeverUseStrafing:1;
     BITFIELD bAutoBuilt:1;
     BITFIELD bTwoWay:1;
+    BITFIELD bNoFlight:1;
+    BITFIELD bNoMinCollision:1;
     DECLARE_FUNCTION(execdescribeSpec);
     BITFIELD eventAccept(class AActor* Incoming, class AActor* Source)
     {
@@ -2913,7 +2366,7 @@ public:
         ProcessEvent(FindFunctionChecked(ENGINE_SpecialCost),&Parms);
         return Parms.ReturnValue;
     }
-    DECLARE_CLASS(ANavigationPoint,AActor,0,Engine)
+    DECLARE_CLASS(ANavigationPoint,AInvisible,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(ANavigationPoint)
 };
 
@@ -2990,6 +2443,7 @@ public:
     BITFIELD bSinglePlayerStart:1 GCC_PACK(4);
     BITFIELD bCoopStart:1;
     BITFIELD bEnabled:1;
+    BITFIELD bCutScene:1;
     DECLARE_CLASS(APlayerStart,ANavigationPoint,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(APlayerStart)
 };
@@ -2999,6 +2453,7 @@ class ENGINE_API ATeleporter : public ANavigationPoint
 {
 public:
     FStringNoInit URL;
+    FStringNoInit URL_PSX2;
     FName ProductRequired;
     BITFIELD bChangesVelocity:1 GCC_PACK(4);
     BITFIELD bChangesYaw:1;
@@ -3006,7 +2461,12 @@ public:
     BITFIELD bReversesY:1;
     BITFIELD bReversesZ:1;
     BITFIELD bEnabled:1;
-    FVector TargetVelocity GCC_PACK(4);
+    BITFIELD bForcePlayerTouch:1;
+    BITFIELD bUseTransitionScreen:1;
+    FStringNoInit TransitionScreenName[6] GCC_PACK(4);
+    class USound* EntrySound;
+    class USound* ExitSound;
+    FVector TargetVelocity;
     class AActor* TriggerActor;
     class AActor* TriggerActor2;
     FLOAT LastFired;
@@ -3023,7 +2483,1430 @@ public:
 };
 
 
-class ENGINE_API ADecoration : public AActor
+class ENGINE_API AMenu : public AInvisible
+{
+public:
+    class AMenu* ParentMenu;
+    INT Selection;
+    INT MenuLength;
+    BITFIELD bConfigChanged:1 GCC_PACK(4);
+    BITFIELD bExitAllMenus:1;
+    class APlayerPawn* PlayerOwner GCC_PACK(4);
+    FStringNoInit HelpMessage[24];
+    FStringNoInit MenuList[24];
+    FStringNoInit LeftString;
+    FStringNoInit RightString;
+    FStringNoInit CenterString;
+    FStringNoInit EnabledString;
+    FStringNoInit DisabledString;
+    FStringNoInit MenuTitle;
+    FStringNoInit YesString;
+    FStringNoInit NoString;
+    DECLARE_CLASS(AMenu,AInvisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AMenu)
+};
+
+
+struct AHUD_eventAddSubtitle_Parms
+{
+    FString NewSubtitle;
+    FString SoundName;
+};
+struct AHUD_eventPostRender_Parms
+{
+    class UCanvas* Canvas;
+};
+struct AHUD_eventPreRender_Parms
+{
+    class UCanvas* Canvas;
+};
+class ENGINE_API AHUD : public AInvisible
+{
+public:
+    INT HudMode;
+    INT Crosshair;
+    class UClass* MainMenuType;
+    FStringNoInit HUDConfigWindowType;
+    FColor WhiteColor;
+    class AMenu* MainMenu;
+    class AMutator* HUDMutator;
+    class APlayerPawn* PlayerOwner;
+    BITFIELD bLetterbox:1 GCC_PACK(4);
+    FLOAT LetterboxAspectRatio GCC_PACK(4);
+    FLOAT LetterboxFadeRate;
+    FLOAT LetterboxFadeTime;
+    INT LetterboxHeight;
+    INT LastDamageInflicted;
+    FStringNoInit ReplayMessage;
+    FSubtitleInfo Subtitle;
+    void eventAddSubtitle(const FString& NewSubtitle, const FString& SoundName)
+    {
+        AHUD_eventAddSubtitle_Parms Parms;
+        Parms.NewSubtitle=NewSubtitle;
+        Parms.SoundName=SoundName;
+        ProcessEvent(FindFunctionChecked(ENGINE_AddSubtitle),&Parms);
+    }
+    void eventPostRender(class UCanvas* Canvas)
+    {
+        AHUD_eventPostRender_Parms Parms;
+        Parms.Canvas=Canvas;
+        ProcessEvent(FindFunctionChecked(ENGINE_PostRender),&Parms);
+    }
+    void eventPreRender(class UCanvas* Canvas)
+    {
+        AHUD_eventPreRender_Parms Parms;
+        Parms.Canvas=Canvas;
+        ProcessEvent(FindFunctionChecked(ENGINE_PreRender),&Parms);
+    }
+    DECLARE_CLASS(AHUD,AInvisible,0|CLASS_Config,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AHUD)
+};
+
+
+class ENGINE_API ATriggers : public AInvisible
+{
+public:
+    DECLARE_CLASS(ATriggers,AInvisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(ATriggers)
+};
+
+enum ETriggerType
+{
+    TT_PlayerProximity      =0,
+    TT_PawnProximity        =1,
+    TT_ClassProximity       =2,
+    TT_AnyProximity         =3,
+    TT_Shoot                =4,
+    TT_MAX                  =5,
+};
+
+class ENGINE_API ATrigger : public ATriggers
+{
+public:
+    BYTE TriggerType;
+    FStringNoInit Message;
+    BITFIELD bTriggerOnceOnly:1 GCC_PACK(4);
+    BITFIELD bPassThru:1;
+    BITFIELD bInitiallyActive:1;
+    BITFIELD bFirstTick:1;
+    class UClass* ClassProximityType GCC_PACK(4);
+    FLOAT RepeatTriggerTime;
+    FLOAT RepeatRandomTime;
+    FLOAT ReTriggerDelay;
+    FLOAT TriggerTime;
+    FLOAT DamageThreshold;
+    FName ConditionalGameEvent;
+    BITFIELD Condition:1 GCC_PACK(4);
+    class AActor* TriggerActor GCC_PACK(4);
+    class AActor* TriggerActor2;
+    DECLARE_CLASS(ATrigger,ATriggers,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(ATrigger)
+};
+
+
+class ENGINE_API ALight : public AInvisible
+{
+public:
+    DECLARE_CLASS(ALight,AInvisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(ALight)
+};
+
+
+class ENGINE_API AVisible : public AActor
+{
+public:
+    FRotator Facing;
+    FVector Acceleration;
+    FLOAT Buoyancy;
+    class USound* ImpactSound[3];
+    FLOAT ImpactVolume;
+    FLOAT ImpactVolumeVar;
+    FLOAT ImpactPitch;
+    FLOAT ImpactPitchVar;
+    class UClass* ImpactSoundClass;
+    BYTE AnimStream[64];
+    DECLARE_CLASS(AVisible,AActor,0|CLASS_NativeReplication,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AVisible)
+};
+
+enum EIntelligence
+{
+    BRAINS_None             =0,
+    BRAINS_Reptile          =1,
+    BRAINS_Mammal           =2,
+    BRAINS_Human            =3,
+    BRAINS_MAX              =4,
+};
+enum EAttitude
+{
+    ATTITUDE_Fear           =0,
+    ATTITUDE_Hate           =1,
+    ATTITUDE_Frenzy         =2,
+    ATTITUDE_Threaten       =3,
+    ATTITUDE_Ignore         =4,
+    ATTITUDE_Friendly       =5,
+    ATTITUDE_Follow         =6,
+    ATTITUDE_MAX            =7,
+};
+
+struct APawn_eventPainTimer_Parms
+{
+};
+struct APawn_eventSpeechTimer_Parms
+{
+};
+struct APawn_eventHeadZoneChange_Parms
+{
+    class AZoneInfo* newHeadZone;
+};
+struct APawn_eventFootZoneChange_Parms
+{
+    class AZoneInfo* newFootZone;
+};
+struct APawn_eventWalkTexture_Parms
+{
+    class UTexture* Texture;
+    FVector StepLocation;
+    FVector StepNormal;
+};
+struct APawn_eventEnemyNotVisible_Parms
+{
+};
+struct APawn_eventUpdateTactics_Parms
+{
+    FLOAT DeltaTime;
+};
+struct APawn_eventUpdateEyeHeight_Parms
+{
+    FLOAT DeltaTime;
+};
+struct APawn_eventSeeHatedPawn_Parms
+{
+    class APawn* aPawn;
+};
+struct APawn_eventSeePlayer_Parms
+{
+    class AActor* Seen;
+};
+struct APawn_eventHearNoise_Parms
+{
+    FLOAT Loudness;
+    class AActor* NoiseMaker;
+};
+struct APawn_eventClientHearSound_Parms
+{
+    class AActor* Actor;
+    INT Id;
+    class USound* S;
+    FVector SoundLocation;
+    FVector Parameters;
+};
+struct APawn_eventLongFall_Parms
+{
+};
+struct APawn_eventPlayerTimeout_Parms
+{
+};
+struct APawn_eventChangedWeapon_Parms
+{
+};
+struct APawn_eventReceiveLocalizedMessage_Parms
+{
+    class UClass* Message;
+    INT Switch;
+    class APlayerReplicationInfo* RelatedPRI_1;
+    class APlayerReplicationInfo* RelatedPRI_2;
+    class UObject* OptionalObject;
+};
+struct APawn_eventTeamMessage_Parms
+{
+    class APlayerReplicationInfo* PRI;
+    FString S;
+    FName Type;
+    BITFIELD bBeep;
+};
+struct APawn_eventClientMessage_Parms
+{
+    FString S;
+    FName Type;
+    BITFIELD bBeep;
+};
+struct APawn_eventProjectileStrikeNotify_Parms
+{
+    class APawn* P;
+};
+struct APawn_eventSpellCastNotify_Parms
+{
+    FName SpellName;
+    class APawn* Caster;
+};
+struct APawn_eventWeaponFireNotify_Parms
+{
+    FName WeaponName;
+    class APawn* Attacker;
+};
+struct APawn_eventAlterDestination_Parms
+{
+};
+struct APawn_eventMayFall_Parms
+{
+};
+struct APawn_eventPreSkelAnim_Parms
+{
+};
+class ENGINE_API APawn : public AVisible
+{
+public:
+    BITFIELD bBehindView:1 GCC_PACK(4);
+    BITFIELD bIsPlayer:1;
+    BITFIELD bJustLanded:1;
+    BITFIELD bUpAndOut:1;
+    BITFIELD bIsWalking:1;
+    BITFIELD bIsCreeping:1;
+    BITFIELD bHitSlopedWall:1;
+    BITFIELD bNeverSwitchOnPickup:1;
+    BITFIELD bWarping:1;
+    BITFIELD bUpdatingDisplay:1;
+    BITFIELD bNoDetect:1;
+    BITFIELD bBloodyFootprints:1;
+    BITFIELD bForceClimb:1;
+    BITFIELD bIsClimbing:1;
+    class UClass* BackRightDecalClass GCC_PACK(4);
+    class UClass* BackLeftDecalClass;
+    class UClass* FrontRightDecalClass;
+    class UClass* FrontLeftDecalClass;
+    class UClass* BackRightSnowDecalClass;
+    class UClass* BackLeftSnowDecalClass;
+    class UClass* FrontRightSnowDecalClass;
+    class UClass* FrontLeftSnowDecalClass;
+    BITFIELD bCanStrafe:1 GCC_PACK(4);
+    BITFIELD bFixedStart:1;
+    BITFIELD bReducedSpeed:1;
+    BITFIELD bCanJump:1;
+    BITFIELD bCanWalk:1;
+    BITFIELD bCanSwim:1;
+    BITFIELD bCanFly:1;
+    BITFIELD bCanOpenDoors:1;
+    BITFIELD bCanDoSpecial:1;
+    BITFIELD bDrowning:1;
+    BITFIELD bLOSflag:1;
+    BITFIELD bFromWall:1;
+    BITFIELD bHunting:1;
+    BITFIELD bAvoidLedges:1;
+    BITFIELD bStopAtLedges:1;
+    BITFIELD bJumpOffPawn:1;
+    BITFIELD bShootSpecial:1;
+    BITFIELD bAutoActivate:1;
+    BITFIELD bIsHuman:1;
+    BITFIELD bIsFemale:1;
+    BITFIELD bIsMultiSkinned:1;
+    BITFIELD bCountJumps:1;
+    BITFIELD bAdvancedTactics:1;
+    BITFIELD bViewTarget:1;
+    BITFIELD bIsLit:1;
+    INT LitAmplitude GCC_PACK(4);
+    FLOAT VolumeMultiplier;
+    FLOAT SightCounter;
+    FLOAT PainTime;
+    FLOAT SpeechTime;
+    FLOAT AvgPhysicsTime;
+    FPointRegion FootRegion;
+    FPointRegion HeadRegion;
+    class AFireModifier* FireMod;
+    class AWetModifier* WetMod;
+    class AGlowModifier* GlowMod;
+    class ABloodFootprintModifier* BloodMod;
+    FLOAT MoveTimer;
+    class AActor* MoveTarget;
+    class AActor* FaceTarget;
+    FVector Destination;
+    FVector Focus;
+    FLOAT DesiredSpeed;
+    FLOAT MaxDesiredSpeed;
+    BITFIELD bReverseMove:1 GCC_PACK(4);
+    FLOAT MeleeRange GCC_PACK(4);
+    INT YawThreshold;
+    FLOAT GroundSpeed;
+    FLOAT GroundFriction;
+    FLOAT WaterSpeed;
+    FLOAT AirSpeed;
+    FLOAT AccelRate;
+    FLOAT JumpZ;
+    FLOAT MaxStepHeight;
+    FLOAT AirControl;
+    FName LookJoint;
+    FLOAT MinHitWall;
+    BYTE Visibility;
+    FLOAT Alertness;
+    FLOAT Stimulus;
+    FLOAT SightRadius;
+    FLOAT PeripheralVision;
+    FLOAT HearingThreshold;
+    FVector LastSeenPos;
+    FVector LastSeeingPos;
+    FLOAT LastSeenTime;
+    class APawn* Enemy;
+    class UClass* HatedClass;
+    FName HatedTag;
+    FName HatedID;
+    BITFIELD bIsHated:1 GCC_PACK(4);
+    class AWeapon* Weapon GCC_PACK(4);
+    class AWeapon* PendingWeapon;
+    class AInventory* SelectedItem;
+    BITFIELD bAcceptDamage:1 GCC_PACK(4);
+    BITFIELD bAcceptMagicDamage:1;
+    BITFIELD bWetFeet:1;
+    class ASpell* AttSpell GCC_PACK(4);
+    class ASpell* DefSpell;
+    class ASpell* PendingAttSpell;
+    class ASpell* PendingDefSpell;
+    INT Mana;
+    INT ManaCapacity;
+    INT ManaRefreshAmt;
+    FLOAT ManaRefreshTime;
+    BITFIELD bRunMode:1 GCC_PACK(4);
+    FRotator ViewRotation GCC_PACK(4);
+    FVector WalkBob;
+    FLOAT BaseEyeHeight;
+    FLOAT EyeHeight;
+    FVector Floor;
+    FLOAT SplashTime;
+    FLOAT Climb;
+    FLOAT ClimbRate;
+    FLOAT ClimbDirection;
+    FVector VelocityBias;
+    FLOAT OrthoZoom;
+    FLOAT FovAngle;
+    FRotator BehindViewOffset;
+    INT DieCount;
+    INT ItemCount;
+    INT KillCount;
+    INT SecretCount;
+    INT Spree;
+    FLOAT Health;
+    class UClass* OnFireParticles;
+    class UClass* OnFireSmokeParticles;
+    class UClass* GlowFX;
+    class UClass* WaterParticles;
+    FStringNoInit SelectionMesh;
+    FStringNoInit SpecialMesh;
+    FName ReducedDamageType;
+    FLOAT ReducedDamagePct;
+    class UClass* DropWhenKilled;
+    FLOAT UnderWaterTime;
+    BYTE AttitudeToPlayer;
+    BYTE Intelligence;
+    FLOAT Skill;
+    class AActor* SpecialGoal;
+    FLOAT SpecialPause;
+    FVector noise1spot;
+    FLOAT noise1time;
+    class APawn* noise1other;
+    FLOAT noise1loudness;
+    FVector noise2spot;
+    FLOAT noise2time;
+    class APawn* noise2other;
+    FLOAT noise2loudness;
+    FLOAT LastPainSound;
+    class UClass* SoundSet;
+    FImpactSoundParams PI_StabSound;
+    FImpactSoundParams PI_BiteSound;
+    FImpactSoundParams PI_BluntSound;
+    FImpactSoundParams PI_BulletSound;
+    FImpactSoundParams PI_RipSliceSound;
+    FImpactSoundParams PI_GenLargeSound;
+    FImpactSoundParams PI_GenMediumSound;
+    FImpactSoundParams PI_GenSmallSound;
+    class UClass* PE_StabEffect;
+    class UClass* PE_StabKilledEffect;
+    class UClass* PE_BiteEffect;
+    class UClass* PE_BiteKilledEffect;
+    class UClass* PE_BluntEffect;
+    class UClass* PE_BluntKilledEffect;
+    class UClass* PE_BulletEffect;
+    class UClass* PE_BulletKilledEffect;
+    class UClass* PE_RipSliceEffect;
+    class UClass* PE_RipSliceKilledEffect;
+    class UClass* PE_GenLargeEffect;
+    class UClass* PE_GenLargeKilledEffect;
+    class UClass* PE_GenMediumEffect;
+    class UClass* PE_GenMediumKilledEffect;
+    class UClass* PE_GenSmallEffect;
+    class UClass* PE_GenSmallKilledEffect;
+    class UClass* PD_StabDecal;
+    class UClass* PD_BiteDecal;
+    class UClass* PD_BluntDecal;
+    class UClass* PD_BulletDecal;
+    class UClass* PD_RipSliceDecal;
+    class UClass* PD_GenLargeDecal;
+    class UClass* PD_GenMediumDecal;
+    class UClass* PD_GenSmallDecal;
+    class UClass* StabWound;
+    class UClass* BiteWound;
+    class UClass* BluntWound;
+    class UClass* BulletWound;
+    class UClass* RipSliceWound;
+    class UClass* GenLargeWound;
+    class UClass* GenMediumWound;
+    class UClass* GenSmallWound;
+    class APawn* nextPawn;
+    BYTE LastFootStep;
+    class USound* HitSound1;
+    class USound* HitSound2;
+    class USound* Land;
+    class USound* Die;
+    class USound* WaterStep;
+    class UClass* FootSoundClass;
+    FLOAT FootSoundRadius;
+    BYTE bZoom;
+    BYTE bRun;
+    BYTE bLook;
+    BYTE bDuck;
+    BYTE bSnapLevel;
+    BYTE bStrafe;
+    BYTE bFire;
+    BYTE bFreeLook;
+    BYTE bFireAttSpell;
+    BYTE bFireDefSpell;
+    BYTE bExtra0;
+    BYTE bJump;
+    BYTE bExtra2;
+    BYTE bExtra3;
+    class ANavigationPoint* home;
+    class ANavigationPoint* routeCache[16];
+    FName NextState;
+    FName NextLabel;
+    FLOAT DamageScaling;
+    FLOAT GibDamageThresh;
+    class UClass* PersistentBlood;
+    class AParticleFX* PBlood;
+    INT HeartRate;
+    INT BloodPressure;
+    class ADecoration* carriedDecoration;
+    FName PlayerReStartState;
+    FStringNoInit MenuName;
+    FStringNoInit NameArticle;
+    BYTE VoicePitch;
+    FStringNoInit VoiceType;
+    FLOAT OldMessageTime;
+    class UClass* PlayerReplicationInfoClass;
+    class APlayerReplicationInfo* PlayerReplicationInfo;
+    class ADecal* Shadow;
+    DECLARE_FUNCTION(execClientHearSound);
+    DECLARE_FUNCTION(execStopWaiting);
+    DECLARE_FUNCTION(execPlaySound_P);
+    DECLARE_FUNCTION(execPlayFootSound);
+    DECLARE_FUNCTION(execPickAnyTarget);
+    DECLARE_FUNCTION(execPickTarget);
+    DECLARE_FUNCTION(execRemovePawn);
+    DECLARE_FUNCTION(execAddPawn);
+    DECLARE_FUNCTION(execFindBestInventoryPath);
+    DECLARE_FUNCTION(execWaitForLanding);
+    DECLARE_FUNCTION(execFindStairRotation);
+    DECLARE_FUNCTION(execPickWallAdjust);
+    DECLARE_FUNCTION(execactorReachable);
+    DECLARE_FUNCTION(execpointReachable);
+    DECLARE_FUNCTION(execEAdjustJump);
+    DECLARE_FUNCTION(execClearPaths);
+    DECLARE_FUNCTION(execFindRandomDest);
+    DECLARE_FUNCTION(execFindPathToward);
+    DECLARE_FUNCTION(execFindPathTo);
+    DECLARE_FUNCTION(execPopRouteCache);
+    DECLARE_FUNCTION(execCanSee);
+    DECLARE_FUNCTION(execLineOfSightTo);
+    DECLARE_FUNCTION(execRotateToView);
+    DECLARE_FUNCTION(execTurnToward);
+    DECLARE_FUNCTION(execTurnTo);
+    DECLARE_FUNCTION(execStrafeFacing);
+    DECLARE_FUNCTION(execStrafeTo);
+    DECLARE_FUNCTION(execMoveToward);
+    DECLARE_FUNCTION(execMoveTo);
+    void eventPainTimer()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_PainTimer),NULL);
+    }
+    void eventSpeechTimer()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_SpeechTimer),NULL);
+    }
+    void eventHeadZoneChange(class AZoneInfo* newHeadZone)
+    {
+        APawn_eventHeadZoneChange_Parms Parms;
+        Parms.newHeadZone=newHeadZone;
+        ProcessEvent(FindFunctionChecked(ENGINE_HeadZoneChange),&Parms);
+    }
+    void eventFootZoneChange(class AZoneInfo* newFootZone)
+    {
+        APawn_eventFootZoneChange_Parms Parms;
+        Parms.newFootZone=newFootZone;
+        ProcessEvent(FindFunctionChecked(ENGINE_FootZoneChange),&Parms);
+    }
+    void eventWalkTexture(class UTexture* Texture, FVector StepLocation, FVector StepNormal)
+    {
+        APawn_eventWalkTexture_Parms Parms;
+        Parms.Texture=Texture;
+        Parms.StepLocation=StepLocation;
+        Parms.StepNormal=StepNormal;
+        ProcessEvent(FindFunctionChecked(ENGINE_WalkTexture),&Parms);
+    }
+    void eventEnemyNotVisible()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_EnemyNotVisible),NULL);
+    }
+    void eventUpdateTactics(FLOAT DeltaTime)
+    {
+        APawn_eventUpdateTactics_Parms Parms;
+        Parms.DeltaTime=DeltaTime;
+        ProcessEvent(FindFunctionChecked(ENGINE_UpdateTactics),&Parms);
+    }
+    void eventUpdateEyeHeight(FLOAT DeltaTime)
+    {
+        APawn_eventUpdateEyeHeight_Parms Parms;
+        Parms.DeltaTime=DeltaTime;
+        ProcessEvent(FindFunctionChecked(ENGINE_UpdateEyeHeight),&Parms);
+    }
+    void eventSeeHatedPawn(class APawn* aPawn)
+    {
+        APawn_eventSeeHatedPawn_Parms Parms;
+        Parms.aPawn=aPawn;
+        ProcessEvent(FindFunctionChecked(ENGINE_SeeHatedPawn),&Parms);
+    }
+    void eventSeePlayer(class AActor* Seen)
+    {
+        APawn_eventSeePlayer_Parms Parms;
+        Parms.Seen=Seen;
+        ProcessEvent(FindFunctionChecked(ENGINE_SeePlayer),&Parms);
+    }
+    void eventHearNoise(FLOAT Loudness, class AActor* NoiseMaker)
+    {
+        APawn_eventHearNoise_Parms Parms;
+        Parms.Loudness=Loudness;
+        Parms.NoiseMaker=NoiseMaker;
+        ProcessEvent(FindFunctionChecked(ENGINE_HearNoise),&Parms);
+    }
+    void eventClientHearSound(class AActor* Actor, INT Id, class USound* S, FVector SoundLocation, FVector Parameters)
+    {
+        APawn_eventClientHearSound_Parms Parms;
+        Parms.Actor=Actor;
+        Parms.Id=Id;
+        Parms.S=S;
+        Parms.SoundLocation=SoundLocation;
+        Parms.Parameters=Parameters;
+        ProcessEvent(FindFunctionChecked(ENGINE_ClientHearSound),&Parms);
+    }
+    void eventLongFall()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_LongFall),NULL);
+    }
+    void eventPlayerTimeout()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_PlayerTimeout),NULL);
+    }
+    void eventChangedWeapon()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_ChangedWeapon),NULL);
+    }
+    void eventReceiveLocalizedMessage(class UClass* Message, INT Switch, class APlayerReplicationInfo* RelatedPRI_1, class APlayerReplicationInfo* RelatedPRI_2, class UObject* OptionalObject)
+    {
+        APawn_eventReceiveLocalizedMessage_Parms Parms;
+        Parms.Message=Message;
+        Parms.Switch=Switch;
+        Parms.RelatedPRI_1=RelatedPRI_1;
+        Parms.RelatedPRI_2=RelatedPRI_2;
+        Parms.OptionalObject=OptionalObject;
+        ProcessEvent(FindFunctionChecked(ENGINE_ReceiveLocalizedMessage),&Parms);
+    }
+    void eventTeamMessage(class APlayerReplicationInfo* PRI, const FString& S, FName Type, BITFIELD bBeep)
+    {
+        APawn_eventTeamMessage_Parms Parms;
+        Parms.PRI=PRI;
+        Parms.S=S;
+        Parms.Type=Type;
+        Parms.bBeep=bBeep;
+        ProcessEvent(FindFunctionChecked(ENGINE_TeamMessage),&Parms);
+    }
+    void eventClientMessage(const FString& S, FName Type, BITFIELD bBeep)
+    {
+        APawn_eventClientMessage_Parms Parms;
+        Parms.S=S;
+        Parms.Type=Type;
+        Parms.bBeep=bBeep;
+        ProcessEvent(FindFunctionChecked(ENGINE_ClientMessage),&Parms);
+    }
+    void eventProjectileStrikeNotify(class APawn* P)
+    {
+        APawn_eventProjectileStrikeNotify_Parms Parms;
+        Parms.P=P;
+        ProcessEvent(FindFunctionChecked(ENGINE_ProjectileStrikeNotify),&Parms);
+    }
+    void eventSpellCastNotify(FName SpellName, class APawn* Caster)
+    {
+        APawn_eventSpellCastNotify_Parms Parms;
+        Parms.SpellName=SpellName;
+        Parms.Caster=Caster;
+        ProcessEvent(FindFunctionChecked(ENGINE_SpellCastNotify),&Parms);
+    }
+    void eventWeaponFireNotify(FName WeaponName, class APawn* Attacker)
+    {
+        APawn_eventWeaponFireNotify_Parms Parms;
+        Parms.WeaponName=WeaponName;
+        Parms.Attacker=Attacker;
+        ProcessEvent(FindFunctionChecked(ENGINE_WeaponFireNotify),&Parms);
+    }
+    void eventAlterDestination()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_AlterDestination),NULL);
+    }
+    void eventMayFall()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_MayFall),NULL);
+    }
+    void eventPreSkelAnim()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_PreSkelAnim),NULL);
+    }
+    DECLARE_CLASS(APawn,AVisible,0|CLASS_Config|CLASS_NativeReplication,Engine)
+    #include "APawn.h"
+};
+
+enum EActError
+{
+    ACT_NoError             =0,
+    ACT_ContError           =1,
+    ACT_ContBusy            =2,
+    ACT_AllocError          =3,
+    ACT_InvalidCombo        =4,
+    ACT_InvalidActuator     =5,
+    ACT_InvalidOption       =6,
+    ACT_AlignReset          =7,
+    ACT_TransmitError       =8,
+    ACT_MAX                 =9,
+};
+
+struct APlayerPawn_eventPlayerCalcView_Parms
+{
+    class AActor* ViewActor;
+    FVector CameraLocation;
+    FRotator CameraRotation;
+};
+struct APlayerPawn_eventPlayerTick_Parms
+{
+    FLOAT DeltaTime;
+};
+struct APlayerPawn_eventUnPossess_Parms
+{
+};
+struct APlayerPawn_eventPossess_Parms
+{
+};
+struct APlayerPawn_eventPlayerInput_Parms
+{
+    FLOAT DeltaTime;
+};
+struct APlayerPawn_eventShowUpgradeMenu_Parms
+{
+};
+struct APlayerPawn_eventPostRender_Parms
+{
+    class UCanvas* Canvas;
+};
+struct APlayerPawn_eventPreRender_Parms
+{
+    class UCanvas* Canvas;
+};
+struct APlayerPawn_eventPreClientTravel_Parms
+{
+};
+struct APlayerPawn_eventClientTravel_Parms
+{
+    FString URL;
+    BYTE TravelType;
+    BITFIELD bItems;
+};
+class ENGINE_API APlayerPawn : public APawn
+{
+public:
+    class UPlayer* Player;
+    FStringNoInit Password;
+    FColor InvokeColor;
+    FColor CrossHairColor;
+    FColor LitCrossHairColor;
+    FLOAT CrossHairAlpha;
+    FColor CrossHairInvokeColor;
+    class APlayerModifier* SpeedMod;
+    FLOAT Bob;
+    FLOAT LandBob;
+    FLOAT AppliedBob;
+    FLOAT bobtime;
+    BITFIELD bCanRestart:1 GCC_PACK(4);
+    BITFIELD bRenderSelf:1;
+    BITFIELD bAmplifySpell:1;
+    FLOAT CrouchCollisionHeight GCC_PACK(4);
+    FLOAT CrouchEyeHeight;
+    FLOAT CrouchRate;
+    FLOAT CrouchSpeedScale;
+    FLOAT CrouchTime;
+    FLOAT WalkingSpeedScale;
+    BITFIELD bAllowMove:1 GCC_PACK(4);
+    class AStatManager* IconsofShame GCC_PACK(4);
+    INT ShowFlags;
+    INT RendMap;
+    INT Misc1;
+    INT Misc2;
+    class AActor* ViewTarget;
+    FVector FlashScale;
+    FVector FlashFog;
+    class AHUD* myHUD;
+    class AScoreBoard* Scoring;
+    class UClass* HUDType;
+    class UClass* ScoringType;
+    FLOAT DesiredFlashScale;
+    FLOAT ConstantGlowScale;
+    FLOAT InstantFlash;
+    FVector DesiredFlashFog;
+    FVector ConstantGlowFog;
+    FVector InstantFog;
+    FLOAT DesiredFOV;
+    FLOAT DefaultFOV;
+    FLOAT ZoomFOV;
+    FVector EyeTraceLoc;
+    FVector EyeTraceNormal;
+    INT EyeTraceJoint;
+    class AActor* EyeTraceActor;
+    class UMusic* Song;
+    BYTE SongSection;
+    BYTE CdTrack;
+    BYTE Transition;
+    FLOAT shaketimer;
+    INT shakemag;
+    FLOAT shakevert;
+    FLOAT maxshake;
+    FLOAT verttimer;
+    FLOAT ScryeTimer;
+    FLOAT ScryeFullTime;
+    FLOAT ScryeRampTime;
+    class UClass* CarcassType;
+    FLOAT MyAutoAim;
+    FLOAT Handedness;
+    class USound* JumpSound[2];
+    BITFIELD bAdmin:1 GCC_PACK(4);
+    BITFIELD bLookUpStairs:1;
+    BITFIELD bSnapToLevel:1;
+    BITFIELD bAlwaysMouseLook:1;
+    BITFIELD bKeyboardLook:1;
+    BITFIELD bWasForward:1;
+    BITFIELD bWasBack:1;
+    BITFIELD bWasLeft:1;
+    BITFIELD bWasRight:1;
+    BITFIELD bEdgeForward:1;
+    BITFIELD bEdgeBack:1;
+    BITFIELD bEdgeLeft:1;
+    BITFIELD bEdgeRight:1;
+    BITFIELD bIsCrouching:1;
+    BITFIELD bShakeDir:1;
+    BITFIELD bAnimTransition:1;
+    BITFIELD bIsTurning:1;
+    BITFIELD bFrozen:1;
+    BITFIELD bBadConnectionAlert:1;
+    BITFIELD bInvertMouse:1;
+    BITFIELD bShowScores:1;
+    BITFIELD bShowMenu:1;
+    BITFIELD bSpecialMenu:1;
+    BITFIELD bWokeUp:1;
+    BITFIELD bPressedJump:1;
+    BITFIELD bUpdatePosition:1;
+    BITFIELD bDelayedCommand:1;
+    BITFIELD bRising:1;
+    BITFIELD bReducedVis:1;
+    BITFIELD bCenterView:1;
+    BITFIELD bMouseDecel:1;
+    BITFIELD bMouseSmoothing:1;
+    BITFIELD bMaxMouseSmoothing:1;
+    BITFIELD bMouseZeroed:1;
+    BITFIELD bReadyToPlay:1;
+    BITFIELD bNoFlash:1;
+    BITFIELD bNoVoices:1;
+    BITFIELD bMessageBeep:1;
+    BITFIELD bZooming:1;
+    BITFIELD bSinglePlayer:1;
+    BITFIELD bJustFired:1;
+    BITFIELD bJustFiredAttSpell:1;
+    BITFIELD bJustFiredDefSpell:1;
+    BITFIELD bIsTyping:1;
+    BITFIELD bFixedCamera:1;
+    BITFIELD bNeverAutoSwitch:1;
+    BITFIELD bJumpStatus:1;
+    BITFIELD bUpdating:1;
+    BITFIELD bCheatsEnabled:1;
+    BITFIELD bHaveTarget:1;
+    BITFIELD bUsingAutoAim:1;
+    BITFIELD bCanExitSpecialState:1;
+    BITFIELD bUpdateInventorySelect:1;
+    FLOAT ZoomLevel GCC_PACK(4);
+    class UClass* SpecialMenu;
+    FStringNoInit DelayedCommand;
+    FLOAT MouseSensitivity;
+    FLOAT GoreLevel;
+    BITFIELD bReloading:1 GCC_PACK(4);
+    FName WeaponPriority[50] GCC_PACK(4);
+    class UTexture* MultiSkins[8];
+    FLOAT SmoothMouseX;
+    FLOAT SmoothMouseY;
+    FLOAT BorrowedMouseX;
+    FLOAT BorrowedMouseY;
+    FLOAT MouseSmoothThreshold;
+    FLOAT MouseZeroTime;
+    FLOAT aBaseX;
+    FLOAT aBaseY;
+    FLOAT aBaseZ;
+    FLOAT aMouseX;
+    FLOAT aMouseY;
+    FLOAT aForward;
+    FLOAT aTurn;
+    FLOAT aStrafe;
+    FLOAT aUp;
+    FLOAT aLookUp;
+    FLOAT aExtra4;
+    FLOAT aExtra3;
+    FLOAT aExtra2;
+    FLOAT aExtra1;
+    FLOAT aExtra0;
+    BYTE bCtrl;
+    BYTE bSelectWeapon;
+    BYTE bSelectAttSpell;
+    BYTE bSelectDefSpell;
+    BYTE bScrollWeapon;
+    BYTE bScrollAttSpell;
+    BYTE bScrollDefSpell;
+    BYTE bAxisLeft;
+    BYTE bAxisRight;
+    BYTE bAxisUp;
+    BYTE bAxisDown;
+    BITFIELD bDigitalStickPSX2:1 GCC_PACK(4);
+    FLOAT cJoyX GCC_PACK(4);
+    FLOAT cJoyY;
+    FLOAT cJoyZ;
+    FLOAT cJoyR;
+    INT Port;
+    INT slot;
+    FLOAT Time;
+    INT NoActuators;
+    INT MaxActuators;
+    FActData ActuatorData[5];
+    INT NoComboLists;
+    INT MaxCombo;
+    INT ComboData[100];
+    INT ActiveList;
+    BYTE ActiveActuators;
+    BITFIELD bModeFlag:1 GCC_PACK(4);
+    BITFIELD bVibrateOn:1;
+    class ASavedMove* SavedMoves GCC_PACK(4);
+    class ASavedMove* FreeMoves;
+    class ASavedMove* PendingMove;
+    FLOAT CurrentTimeStamp;
+    FLOAT LastUpdateTime;
+    FLOAT ServerTimeStamp;
+    FLOAT TimeMargin;
+    FLOAT ClientUpdateTime;
+    FLOAT MaxTimeMargin;
+    FStringNoInit ProgressMessage[8];
+    FColor ProgressColor[8];
+    FLOAT ProgressTimeOut;
+    FStringNoInit QuickSaveString;
+    FStringNoInit NoPauseMessage;
+    FStringNoInit ViewingFrom;
+    FStringNoInit OwnCamera;
+    FStringNoInit FailedView;
+    class APawn* Killer;
+    class AGameReplicationInfo* GameReplicationInfo;
+    FStringNoInit ngWorldSecret;
+    BITFIELD ngSecretSet:1 GCC_PACK(4);
+    BITFIELD ReceivedSecretChecksum:1;
+    FRotator TargetViewRotation GCC_PACK(4);
+    FLOAT TargetEyeHeight;
+    FVector TargetWeaponViewOffset;
+    INT DemoViewPitch;
+    INT DemoViewYaw;
+    FLOAT LastPlaySound;
+    DECLARE_FUNCTION(execGUIExit);
+    DECLARE_FUNCTION(execGUIEnter);
+    DECLARE_FUNCTION(execRunActuator);
+    DECLARE_FUNCTION(execActivateActuator);
+    DECLARE_FUNCTION(execGetNoActuators);
+    DECLARE_FUNCTION(execResetAct);
+    DECLARE_FUNCTION(execInitAct);
+    DECLARE_FUNCTION(execPasteFromClipboard);
+    DECLARE_FUNCTION(execCopyToClipboard);
+    DECLARE_FUNCTION(execConsoleCommand);
+    DECLARE_FUNCTION(execGetPlayerNetworkAddress);
+    DECLARE_FUNCTION(execGetEntryLevel);
+    DECLARE_FUNCTION(execGetDefaultURL);
+    DECLARE_FUNCTION(execUpdateURL);
+    DECLARE_FUNCTION(execResetKeyboard);
+    DECLARE_FUNCTION(execClientTravel);
+    void eventPlayerCalcView(class AActor*& ViewActor, FVector& CameraLocation, FRotator& CameraRotation)
+    {
+        APlayerPawn_eventPlayerCalcView_Parms Parms;
+        Parms.ViewActor=ViewActor;
+        Parms.CameraLocation=CameraLocation;
+        Parms.CameraRotation=CameraRotation;
+        ProcessEvent(FindFunctionChecked(ENGINE_PlayerCalcView),&Parms);
+        ViewActor=Parms.ViewActor;
+        CameraLocation=Parms.CameraLocation;
+        CameraRotation=Parms.CameraRotation;
+    }
+    void eventPlayerTick(FLOAT DeltaTime)
+    {
+        APlayerPawn_eventPlayerTick_Parms Parms;
+        Parms.DeltaTime=DeltaTime;
+        ProcessEvent(FindFunctionChecked(ENGINE_PlayerTick),&Parms);
+    }
+    void eventUnPossess()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_UnPossess),NULL);
+    }
+    void eventPossess()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_Possess),NULL);
+    }
+    void eventPlayerInput(FLOAT DeltaTime)
+    {
+        APlayerPawn_eventPlayerInput_Parms Parms;
+        Parms.DeltaTime=DeltaTime;
+        ProcessEvent(FindFunctionChecked(ENGINE_PlayerInput),&Parms);
+    }
+    void eventShowUpgradeMenu()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_ShowUpgradeMenu),NULL);
+    }
+    void eventPostRender(class UCanvas* Canvas)
+    {
+        APlayerPawn_eventPostRender_Parms Parms;
+        Parms.Canvas=Canvas;
+        ProcessEvent(FindFunctionChecked(ENGINE_PostRender),&Parms);
+    }
+    void eventPreRender(class UCanvas* Canvas)
+    {
+        APlayerPawn_eventPreRender_Parms Parms;
+        Parms.Canvas=Canvas;
+        ProcessEvent(FindFunctionChecked(ENGINE_PreRender),&Parms);
+    }
+    void eventPreClientTravel()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_PreClientTravel),NULL);
+    }
+    void eventClientTravel(const FString& URL, BYTE TravelType, BITFIELD bItems)
+    {
+        APlayerPawn_eventClientTravel_Parms Parms;
+        Parms.URL=URL;
+        Parms.TravelType=TravelType;
+        Parms.bItems=bItems;
+        ProcessEvent(FindFunctionChecked(ENGINE_ClientTravel),&Parms);
+    }
+    DECLARE_CLASS(APlayerPawn,APawn,0|CLASS_Config|CLASS_NativeReplication,Engine)
+    #include "APlayerPawn.h"
+};
+
+
+class ENGINE_API ACamera : public APlayerPawn
+{
+public:
+    DECLARE_CLASS(ACamera,APlayerPawn,0|CLASS_Config,Engine)
+    #include "ACamera.h"
+};
+
+
+class ENGINE_API AScout : public APawn
+{
+public:
+    DECLARE_CLASS(AScout,APawn,0|CLASS_Config,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AScout)
+};
+
+enum EDistributionType
+{
+    DIST_Random             =0,
+    DIST_Uniform            =1,
+    DIST_MAX                =2,
+};
+enum EParticlePrimitive
+{
+    PPRIM_Line              =0,
+    PPRIM_Billboard         =1,
+    PPRIM_Liquid            =2,
+    PPRIM_Shard             =3,
+    PPRIM_TriTube           =4,
+    PPRIM_MAX               =5,
+};
+
+class ENGINE_API AParticleFX : public AVisible
+{
+public:
+    FFloatParams ParticlesPerSec;
+    FFloatParams SourceWidth;
+    FFloatParams SourceHeight;
+    FFloatParams SourceDepth;
+    FFloatParams Period;
+    FFloatParams Decay;
+    FFloatParams AngularSpreadWidth;
+    FFloatParams AngularSpreadHeight;
+    BITFIELD bSteadyState:1 GCC_PACK(4);
+    BITFIELD bPrime:1;
+    FFloatParams Speed GCC_PACK(4);
+    FFloatParams Lifetime;
+    FColorParams ColorStart;
+    FColorParams ColorEnd;
+    FFloatParams AlphaStart;
+    FFloatParams AlphaEnd;
+    FFloatParams SizeWidth;
+    FFloatParams SizeLength;
+    FFloatParams SizeEndScale;
+    FFloatParams SpinRate;
+    FFloatParams DripTime;
+    BITFIELD bUpdate:1 GCC_PACK(4);
+    BITFIELD bVelocityRelative:1;
+    BITFIELD bSystemRelative:1;
+    FLOAT Strength GCC_PACK(4);
+    FLOAT LOD;
+    FLOAT AlphaDelay;
+    FLOAT ColorDelay;
+    FLOAT SizeDelay;
+    FLOAT Chaos;
+    FLOAT ChaosDelay;
+    FLOAT Elasticity;
+    FVector Attraction;
+    FLOAT Damping;
+    BYTE Distribution;
+    FLOAT WindModifier;
+    BITFIELD bWindPerParticle:1 GCC_PACK(4);
+    FLOAT GravityModifier GCC_PACK(4);
+    FVector Gravity;
+    INT ParticlesAlive;
+    INT ParticlesMax;
+    class UTexture* Textures[5];
+    class UTexture* ColorPalette;
+    BYTE RenderPrimitive;
+    class UParticleList* ParticleList;
+    FLOAT EmitDelay;
+    FVector LastUpdateLocation;
+    FVector LastEmitLocation;
+    FRotator LastUpdateRotation;
+    FLOAT EmissionResidue;
+    FLOAT Age;
+    FLOAT ElapsedTime;
+    BITFIELD bShuttingDown:1 GCC_PACK(4);
+    FPlane LightColor GCC_ALIGN(16);
+    INT CurrentPriorityTag;
+    BITFIELD bShellOnly:1 GCC_PACK(4);
+    DECLARE_FUNCTION(execRecomputeDeltas);
+    DECLARE_FUNCTION(execSetParticleParams);
+    DECLARE_FUNCTION(execGetParticleParams);
+    DECLARE_FUNCTION(execAddParticle);
+    DECLARE_FUNCTION(execNumParticles);
+    DECLARE_CLASS(AParticleFX,AVisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(AParticleFX)
+};
+
+enum EItemType
+{
+    ITEM_None               =0,
+    ITEM_Inventory          =1,
+    WEAPON_Conventional     =2,
+    SPELL_Offensive         =3,
+    SPELL_Defensive         =4,
+    SPELL_Active            =5,
+    ITEM_MAX                =6,
+};
+
+struct AInventory_eventLoadGameAdd_Parms
+{
+    class APawn* Player;
+};
+struct AInventory_eventBotDesireability_Parms
+{
+    class APawn* Bot;
+    FLOAT ReturnValue;
+};
+class ENGINE_API AInventory : public AVisible
+{
+public:
+    BYTE ItemType;
+    BYTE AutoSwitchPriority;
+    BYTE InventoryGroup;
+    BITFIELD bActivatable:1 GCC_PACK(4);
+    BITFIELD bDisplayableInv:1;
+    BITFIELD bActive:1;
+    BITFIELD bSleepTouch:1;
+    BITFIELD bHeldItem:1;
+    BITFIELD bTossedOut:1;
+    BITFIELD bHaveTokens:1;
+    FName ConditionalEvent GCC_PACK(4);
+    BITFIELD bActiveToggle:1 GCC_PACK(4);
+    BITFIELD bAmbientGlow:1;
+    BITFIELD bInstantRespawn:1;
+    BITFIELD bRotatingPickup:1;
+    FStringNoInit PickupMessage GCC_PACK(4);
+    FStringNoInit ItemName;
+    FStringNoInit ItemArticle;
+    FLOAT RespawnTime;
+    FName PlayerLastTouched;
+    FVector PlayerViewOffset;
+    class UMesh* PlayerViewMesh;
+    FLOAT PlayerViewScale;
+    FLOAT BobDamping;
+    class UMesh* PickupViewMesh;
+    FLOAT PickupViewScale;
+    class UMesh* ThirdPersonMesh;
+    FLOAT ThirdPersonScale;
+    class UTexture* StatusIcon;
+    FName ProtectionType1;
+    FName ProtectionType2;
+    INT Charge;
+    INT ArmorAbsorption;
+    BITFIELD bIsAnArmor:1 GCC_PACK(4);
+    INT AbsorptionPriority GCC_PACK(4);
+    class AInventory* NextArmor;
+    FLOAT MaxDesireability;
+    class AInventorySpot* myMarker;
+    FRotator AutoAimDir;
+    BITFIELD bSteadyFlash3rd:1 GCC_PACK(4);
+    BITFIELD bFirstFrame:1;
+    BITFIELD bMuzzleFlashParticles:1;
+    BITFIELD bToggleSteadyFlash:1;
+    BITFIELD bSteadyToggle:1;
+    BYTE FlashCount GCC_PACK(4);
+    BYTE OldFlashCount;
+    BYTE MuzzleFlashStyle;
+    class UMesh* MuzzleFlashMesh;
+    FLOAT MuzzleFlashScale;
+    class UTexture* MuzzleFlashTexture;
+    class USound* PickupSound;
+    class USound* ActivateSound;
+    class USound* DeactivateSound;
+    class USound* RespawnSound;
+    class UTexture* Icon;
+    FStringNoInit M_Activated;
+    FStringNoInit M_Selected;
+    FStringNoInit M_Deactivated;
+    class UClass* PickupMessageClass;
+    class UClass* ItemMessageClass;
+    void eventLoadGameAdd(class APawn* Player)
+    {
+        AInventory_eventLoadGameAdd_Parms Parms;
+        Parms.Player=Player;
+        ProcessEvent(FindFunctionChecked(ENGINE_LoadGameAdd),&Parms);
+    }
+    FLOAT eventBotDesireability(class APawn* Bot)
+    {
+        AInventory_eventBotDesireability_Parms Parms;
+        Parms.Bot=Bot;
+        Parms.ReturnValue=0;
+        ProcessEvent(FindFunctionChecked(ENGINE_BotDesireability),&Parms);
+        return Parms.ReturnValue;
+    }
+    DECLARE_CLASS(AInventory,AVisible,0|CLASS_NativeReplication,Engine)
+    #include "AInventory.h"
+};
+
+
+class ENGINE_API APickup : public AInventory
+{
+public:
+    class AInventory* inv;
+    INT NumCopies;
+    BITFIELD bCanHaveMultipleCopies:1 GCC_PACK(4);
+    BITFIELD bCanActivate:1;
+    FStringNoInit ExpireMessage GCC_PACK(4);
+    BITFIELD bAutoActivate:1 GCC_PACK(4);
+    DECLARE_CLASS(APickup,AInventory,0|CLASS_NativeReplication,Engine)
+    #include "APickup.h"
+};
+
+
+class ENGINE_API AAmmo : public APickup
+{
+public:
+    INT AmmoAmount;
+    INT MaxAmmo;
+    class UClass* ParentAmmo;
+    BYTE UsedInWeaponSlot[10];
+    class USound* ExplodeSound;
+    class UClass* ExplosionDecal;
+    class AAmmo* PAmmo;
+    DECLARE_CLASS(AAmmo,APickup,0|CLASS_NativeReplication,Engine)
+    #include "AAmmo.h"
+};
+
+
+struct ASpell_eventOwnerDead_Parms
+{
+};
+class ENGINE_API ASpell : public AInventory
+{
+public:
+    INT CastingLevel;
+    INT LocalCastingLevel;
+    INT amplitudeBonus;
+    INT manaCostPerLevel[6];
+    INT damagePerLevel[6];
+    BITFIELD bInControl:1 GCC_PACK(4);
+    BITFIELD bPassControl:1;
+    FLOAT MaxTargetRange GCC_PACK(4);
+    BITFIELD bPointing:1 GCC_PACK(4);
+    BITFIELD bInstantHit:1;
+    BITFIELD bWaterFire:1;
+    BITFIELD bWarnTarget:1;
+    BITFIELD bSpellUp:1;
+    BITFIELD bChangeSpell:1;
+    BITFIELD bSplashDamage:1;
+    BITFIELD bRecommendSplashDamage:1;
+    BITFIELD bOwnsCrosshair:1;
+    BITFIELD bHideSpell:1;
+    FVector FireOffset GCC_ALIGN(16);
+    class UClass* ProjectileClass;
+    FName MyDamageType;
+    FLOAT ProjectileSpeed;
+    FLOAT aimerror;
+    FLOAT shakemag;
+    FLOAT shaketime;
+    FLOAT shakevert;
+    FLOAT AIRating;
+    FLOAT RefireRate;
+    FLOAT Accuracy;
+    FLOAT ExtraFireDelay;
+    FLOAT ExtraSpellUpDelay;
+    FLOAT ExtraSpellDownDelay;
+    class USound* FireSound;
+    class USound* FizzleSound;
+    class USound* SelectSound;
+    class USound* Misc1Sound;
+    class USound* Misc2Sound;
+    class USound* Misc3Sound;
+    FStringNoInit MessageNoMana;
+    FStringNoInit DeathMessage;
+    FRotator AdjustedAim;
+    BITFIELD bFiring:1 GCC_PACK(4);
+    BITFIELD bSetFlashTime:1;
+    BITFIELD bDrawMuzzleFlash:1;
+    BYTE bMuzzleFlash GCC_PACK(4);
+    FLOAT FlashTime;
+    FLOAT MuzzleScale;
+    FLOAT FlashY;
+    FLOAT FlashO;
+    FLOAT FlashC;
+    FLOAT FlashLength;
+    INT FlashS;
+    class UTexture* MFTexture;
+    class UTexture* MuzzleFlare;
+    FLOAT FlareOffset;
+    void eventOwnerDead()
+    {
+        ProcessEvent(FindFunctionChecked(ENGINE_OwnerDead),NULL);
+    }
+    DECLARE_CLASS(ASpell,AInventory,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(ASpell)
+};
+
+
+class ENGINE_API AWeapon : public AInventory
+{
+public:
+    FLOAT MaxTargetRange;
+    class UClass* AmmoName;
+    class UClass* AltAmmoName;
+    BYTE ReloadCount;
+    INT PickupAmmoCount;
+    class AAmmo* AmmoType;
+    BITFIELD bPointing:1 GCC_PACK(4);
+    BITFIELD bInstantHit:1;
+    BITFIELD bWarnTarget:1;
+    BITFIELD bAltWarnTarget:1;
+    BITFIELD bWeaponUp:1;
+    BITFIELD bChangeWeapon:1;
+    BITFIELD bLockedOn:1;
+    BITFIELD bSplashDamage:1;
+    BITFIELD bRecommendSplashDamage:1;
+    BITFIELD bRecommendAltSplashDamage:1;
+    BITFIELD bWeaponStay:1;
+    BITFIELD bOwnsCrosshair:1;
+    BITFIELD bHideWeapon:1;
+    BITFIELD bMeleeWeapon:1;
+    BITFIELD bRapidFire:1;
+    BITFIELD bSpecialIcon:1;
+    FLOAT FiringSpeed GCC_PACK(4);
+    FVector FireOffset;
+    class UClass* ProjectileClass;
+    class UClass* AltProjectileClass;
+    FName MyDamageType;
+    FName AltDamageType;
+    FLOAT ProjectileSpeed;
+    FLOAT AltProjectileSpeed;
+    FLOAT aimerror;
+    FLOAT shakemag;
+    FLOAT shaketime;
+    FLOAT shakevert;
+    FLOAT AIRating;
+    FLOAT RefireRate;
+    FLOAT Accuracy;
+    class USound* FireSound;
+    class USound* AltFireSound;
+    class USound* CockingSound;
+    class USound* SelectSound;
+    class USound* Misc1Sound;
+    class USound* Misc2Sound;
+    class USound* Misc3Sound;
+    FStringNoInit MessageNoAmmo;
+    FStringNoInit DeathMessage;
+    FColor NameColor;
+    FRotator AdjustedAim;
+    BITFIELD bAltAmmo:1 GCC_PACK(4);
+    BITFIELD bSetFlashTime:1;
+    BITFIELD bDrawMuzzleFlash:1;
+    BYTE bMuzzleFlash GCC_PACK(4);
+    FLOAT FlashTime;
+    FLOAT MuzzleScale;
+    FLOAT FlashY;
+    FLOAT FlashX;
+    FLOAT FlashLength;
+    class UTexture* MFTexture0;
+    class UTexture* MFTexture1;
+    BYTE FlashStyle0;
+    BYTE FlashStyle1;
+    DECLARE_CLASS(AWeapon,AInventory,0|CLASS_NativeReplication,Engine)
+    #include "AWeapon.h"
+};
+
+
+struct ADecal_eventUpdate_Parms
+{
+    class AActor* L;
+};
+class ENGINE_API ADecal : public AVisible
+{
+public:
+    FLOAT Priority;
+    FLOAT DecalLifetime;
+    FLOAT FadeTime;
+    BITFIELD bAlwaysVisible:1 GCC_PACK(4);
+    INT MultiDecalLevel GCC_PACK(4);
+    FLOAT LastRenderedTime;
+    FLOAT Age;
+    FLOAT AgePct;
+    TArray<INT> SurfList;
+    DECLARE_FUNCTION(execDetachDecal);
+    DECLARE_FUNCTION(execAttachDecal);
+    void eventUpdate(class AActor* L)
+    {
+        ADecal_eventUpdate_Parms Parms;
+        Parms.L=L;
+        ProcessEvent(FindFunctionChecked(ENGINE_Update),&Parms);
+    }
+    DECLARE_CLASS(ADecal,AVisible,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(ADecal)
+};
+
+
+class ENGINE_API ADecoration : public AVisible
 {
 public:
     class UClass* EffectWhenDestroyed;
@@ -3034,12 +3917,15 @@ public:
     BITFIELD bWasCarried:1;
     class USound* PushSound GCC_PACK(4);
     INT numLandings;
+    class UClass* SpawnCreature;
     class UClass* contents;
     class UClass* content2;
     class UClass* content3;
     class USound* EndPushSound;
     BITFIELD bPushSoundPlaying:1 GCC_PACK(4);
-    DECLARE_CLASS(ADecoration,AActor,0,Engine)
+    class USound* DestroySound[3] GCC_PACK(4);
+    INT SoundID;
+    DECLARE_CLASS(ADecoration,AVisible,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(ADecoration)
 };
 
@@ -3061,125 +3947,31 @@ public:
 };
 
 
-class ENGINE_API AMenu : public AActor
+class ENGINE_API AProjectile : public AVisible
 {
 public:
-    class AMenu* ParentMenu;
-    INT Selection;
-    INT MenuLength;
-    BITFIELD bConfigChanged:1 GCC_PACK(4);
-    BITFIELD bExitAllMenus:1;
-    class APlayerPawn* PlayerOwner GCC_PACK(4);
-    FStringNoInit HelpMessage[24];
-    FStringNoInit MenuList[24];
-    FStringNoInit LeftString;
-    FStringNoInit RightString;
-    FStringNoInit CenterString;
-    FStringNoInit EnabledString;
-    FStringNoInit DisabledString;
-    FStringNoInit MenuTitle;
-    FStringNoInit YesString;
-    FStringNoInit NoString;
-    DECLARE_CLASS(AMenu,AActor,0,Engine)
-    NO_DEFAULT_CONSTRUCTOR(AMenu)
-};
-
-
-struct AHUD_eventPostRender_Parms
-{
-    class UCanvas* Canvas;
-};
-struct AHUD_eventPreRender_Parms
-{
-    class UCanvas* Canvas;
-};
-class ENGINE_API AHUD : public AActor
-{
-public:
-    INT HudMode;
-    INT Crosshair;
-    class UClass* MainMenuType;
-    FStringNoInit HUDConfigWindowType;
-    FColor WhiteColor;
-    class AMenu* MainMenu;
-    class AMutator* HUDMutator;
-    class APlayerPawn* PlayerOwner;
-    void eventPostRender(class UCanvas* Canvas)
-    {
-        AHUD_eventPostRender_Parms Parms;
-        Parms.Canvas=Canvas;
-        ProcessEvent(FindFunctionChecked(ENGINE_PostRender),&Parms);
-    }
-    void eventPreRender(class UCanvas* Canvas)
-    {
-        AHUD_eventPreRender_Parms Parms;
-        Parms.Canvas=Canvas;
-        ProcessEvent(FindFunctionChecked(ENGINE_PreRender),&Parms);
-    }
-    DECLARE_CLASS(AHUD,AActor,0|CLASS_Config,Engine)
-    NO_DEFAULT_CONSTRUCTOR(AHUD)
-};
-
-
-class ENGINE_API ATriggers : public AActor
-{
-public:
-    DECLARE_CLASS(ATriggers,AActor,0,Engine)
-    NO_DEFAULT_CONSTRUCTOR(ATriggers)
-};
-
-enum ETriggerType
-{
-    TT_PlayerProximity      =0,
-    TT_PawnProximity        =1,
-    TT_ClassProximity       =2,
-    TT_AnyProximity         =3,
-    TT_Shoot                =4,
-    TT_MAX                  =5,
-};
-
-class ENGINE_API ATrigger : public ATriggers
-{
-public:
-    BYTE TriggerType;
-    FStringNoInit Message;
-    BITFIELD bTriggerOnceOnly:1 GCC_PACK(4);
-    BITFIELD bInitiallyActive:1;
-    class UClass* ClassProximityType GCC_PACK(4);
-    FLOAT RepeatTriggerTime;
-    FLOAT ReTriggerDelay;
-    FLOAT TriggerTime;
-    FLOAT DamageThreshold;
-    class AActor* TriggerActor;
-    class AActor* TriggerActor2;
-    DECLARE_CLASS(ATrigger,ATriggers,0,Engine)
-    NO_DEFAULT_CONSTRUCTOR(ATrigger)
-};
-
-
-class ENGINE_API AProjectile : public AActor
-{
-public:
-    FLOAT speed;
+    BITFIELD bCanHitInstigator:1 GCC_PACK(4);
+    BITFIELD bHasBeenReflected:1;
+    FLOAT Speed GCC_PACK(4);
     FLOAT MaxSpeed;
     FLOAT Damage;
     INT MomentumTransfer;
     FName MyDamageType;
-    class USound* SpawnSound;
-    class USound* ImpactSound;
+    FStringNoInit MyDamageString;
+    BITFIELD bMagical:1 GCC_PACK(4);
+    class USound* SpawnSound GCC_PACK(4);
+    class USound* ProjImpactSound;
+    class USound* PawnImpactSound;
     class USound* MiscSound;
     FLOAT ExploWallOut;
     class UClass* ExplosionDecal;
-    DECLARE_CLASS(AProjectile,AActor,0,Engine)
+    class UClass* GlassStrikeDecal;
+    FVector spawnLoc;
+    class USound* RicochetSounds[3];
+    FVector EnterWaterLocation;
+    FLOAT HeadShotMult;
+    DECLARE_CLASS(AProjectile,AVisible,0|CLASS_Transient,Engine)
     NO_DEFAULT_CONSTRUCTOR(AProjectile)
-};
-
-
-class ENGINE_API ALight : public AActor
-{
-public:
-    DECLARE_CLASS(ALight,AActor,0,Engine)
-    NO_DEFAULT_CONSTRUCTOR(ALight)
 };
 
 
@@ -3196,43 +3988,54 @@ public:
     #include "ULevelSummary.h"
 };
 
+
+class ENGINE_API UAnimState : public UObject
+{
+public:
+    DECLARE_CLASS(UAnimState,UObject,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(UAnimState)
+};
+
+
+class ENGINE_API UModifier : public UObject
+{
+public:
+    DECLARE_CLASS(UModifier,UObject,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(UModifier)
+};
+
+
+class ENGINE_API UCloth : public UModifier
+{
+public:
+    FLOAT StiffnessStretch;
+    FLOAT StiffnessFlex;
+    FLOAT StiffnessShape;
+    FLOAT Damping;
+    FLOAT Drag;
+    FLOAT Friction;
+    FLOAT GravityScale;
+    FVector LocalWind;
+    BITFIELD CollideMesh:1 GCC_PACK(4);
+    BITFIELD CollideWorld:1;
+    FVector FixDir GCC_ALIGN(16);
+    FLOAT Step;
+    DECLARE_CLASS(UCloth,UModifier,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(UCloth)
+};
+
+
+class ENGINE_API URope : public UCloth
+{
+public:
+    BITFIELD AffectRoot:1 GCC_PACK(4);
+    DECLARE_CLASS(URope,UCloth,0,Engine)
+    NO_DEFAULT_CONSTRUCTOR(URope)
+};
+
 #endif
 
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execPasteFromClipboard);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execCopyToClipboard);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execConsoleCommand);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetPlayerNetworkAddress);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetEntryLevel);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetDefaultURL);
-AUTOGENERATE_FUNCTION(APlayerPawn,546,execUpdateURL);
-AUTOGENERATE_FUNCTION(APlayerPawn,544,execResetKeyboard);
-AUTOGENERATE_FUNCTION(APlayerPawn,-1,execClientTravel);
-AUTOGENERATE_FUNCTION(APawn,-1,execClientHearSound);
-AUTOGENERATE_FUNCTION(APawn,-1,execCheckValidSkinPackage);
-AUTOGENERATE_FUNCTION(APawn,-1,execStopWaiting);
-AUTOGENERATE_FUNCTION(APawn,534,execPickAnyTarget);
-AUTOGENERATE_FUNCTION(APawn,531,execPickTarget);
-AUTOGENERATE_FUNCTION(APawn,530,execRemovePawn);
-AUTOGENERATE_FUNCTION(APawn,529,execAddPawn);
-AUTOGENERATE_FUNCTION(APawn,540,execFindBestInventoryPath);
-AUTOGENERATE_FUNCTION(APawn,527,execWaitForLanding);
-AUTOGENERATE_FUNCTION(APawn,524,execFindStairRotation);
-AUTOGENERATE_FUNCTION(APawn,526,execPickWallAdjust);
-AUTOGENERATE_FUNCTION(APawn,520,execactorReachable);
-AUTOGENERATE_FUNCTION(APawn,521,execpointReachable);
-AUTOGENERATE_FUNCTION(APawn,523,execEAdjustJump);
-AUTOGENERATE_FUNCTION(APawn,522,execClearPaths);
-AUTOGENERATE_FUNCTION(APawn,525,execFindRandomDest);
-AUTOGENERATE_FUNCTION(APawn,517,execFindPathToward);
-AUTOGENERATE_FUNCTION(APawn,518,execFindPathTo);
-AUTOGENERATE_FUNCTION(APawn,533,execCanSee);
-AUTOGENERATE_FUNCTION(APawn,514,execLineOfSightTo);
-AUTOGENERATE_FUNCTION(APawn,510,execTurnToward);
-AUTOGENERATE_FUNCTION(APawn,508,execTurnTo);
-AUTOGENERATE_FUNCTION(APawn,506,execStrafeFacing);
-AUTOGENERATE_FUNCTION(APawn,504,execStrafeTo);
-AUTOGENERATE_FUNCTION(APawn,502,execMoveToward);
-AUTOGENERATE_FUNCTION(APawn,500,execMoveTo);
+AUTOGENERATE_FUNCTION(AWind,425,execGetWind);
 AUTOGENERATE_FUNCTION(AActor,552,execMultiply_ColorFloat);
 AUTOGENERATE_FUNCTION(AActor,551,execAdd_ColorColor);
 AUTOGENERATE_FUNCTION(AActor,550,execMultiply_FloatColor);
@@ -3252,29 +4055,58 @@ AUTOGENERATE_FUNCTION(AActor,-1,execGetNextInt);
 AUTOGENERATE_FUNCTION(AActor,547,execGetURLMap);
 AUTOGENERATE_FUNCTION(AActor,545,execGetNextSkin);
 AUTOGENERATE_FUNCTION(AActor,539,execGetMapName);
+AUTOGENERATE_FUNCTION(AActor,542,execUnloadTexture);
 AUTOGENERATE_FUNCTION(AActor,532,execPlayerCanSeeMe);
 AUTOGENERATE_FUNCTION(AActor,512,execMakeNoise);
+AUTOGENERATE_FUNCTION(AActor,400,execPlayImpactSound);
+AUTOGENERATE_FUNCTION(AActor,402,execFinishSound);
 AUTOGENERATE_FUNCTION(AActor,-1,execGetSoundDuration);
 AUTOGENERATE_FUNCTION(AActor,-1,execDemoPlaySound);
 AUTOGENERATE_FUNCTION(AActor,-1,execPlayOwnedSound);
+AUTOGENERATE_FUNCTION(AActor,265,execStopSound);
 AUTOGENERATE_FUNCTION(AActor,264,execPlaySound);
 AUTOGENERATE_FUNCTION(AActor,280,execSetTimer);
 AUTOGENERATE_FUNCTION(AActor,279,execDestroy);
 AUTOGENERATE_FUNCTION(AActor,278,execSpawn);
+AUTOGENERATE_FUNCTION(AActor,285,execTraceTexture);
 AUTOGENERATE_FUNCTION(AActor,548,execFastTrace);
 AUTOGENERATE_FUNCTION(AActor,277,execTrace);
 AUTOGENERATE_FUNCTION(AActor,3970,execSetPhysics);
 AUTOGENERATE_FUNCTION(AActor,301,execFinishInterpolation);
-AUTOGENERATE_FUNCTION(AActor,-1,execLinkSkelAnim);
+AUTOGENERATE_FUNCTION(AActor,417,execSetLimbTangible);
+AUTOGENERATE_FUNCTION(AActor,421,execApplyMod);
+AUTOGENERATE_FUNCTION(AActor,410,execDetachLimb);
+AUTOGENERATE_FUNCTION(AActor,409,execDestroyLimb);
+AUTOGENERATE_FUNCTION(AActor,426,execAddDynamic);
+AUTOGENERATE_FUNCTION(AActor,408,execClearTargets);
+AUTOGENERATE_FUNCTION(AActor,407,execClearTarget);
+AUTOGENERATE_FUNCTION(AActor,406,execAddTargetRot);
+AUTOGENERATE_FUNCTION(AActor,405,execAddTargetPos);
+AUTOGENERATE_FUNCTION(AActor,424,execApplyAnim);
+AUTOGENERATE_FUNCTION(AActor,423,execGetNotifyTime);
+AUTOGENERATE_FUNCTION(AActor,422,execListAnims);
+AUTOGENERATE_FUNCTION(AActor,420,execAnimMoveRate);
 AUTOGENERATE_FUNCTION(AActor,263,execHasAnim);
 AUTOGENERATE_FUNCTION(AActor,261,execFinishAnim);
 AUTOGENERATE_FUNCTION(AActor,293,execGetAnimGroup);
+AUTOGENERATE_FUNCTION(AActor,292,execIsAnimResting);
 AUTOGENERATE_FUNCTION(AActor,282,execIsAnimating);
 AUTOGENERATE_FUNCTION(AActor,294,execTweenAnim);
 AUTOGENERATE_FUNCTION(AActor,260,execLoopAnim);
+AUTOGENERATE_FUNCTION(AActor,274,execPlayAnimSound);
 AUTOGENERATE_FUNCTION(AActor,259,execPlayAnim);
+AUTOGENERATE_FUNCTION(AActor,416,execJointParent);
+AUTOGENERATE_FUNCTION(AActor,415,execStaticJointDir);
+AUTOGENERATE_FUNCTION(AActor,414,execJointPlace);
+AUTOGENERATE_FUNCTION(AActor,413,execJointIndex);
+AUTOGENERATE_FUNCTION(AActor,412,execJointName);
+AUTOGENERATE_FUNCTION(AActor,411,execNumJoints);
 AUTOGENERATE_FUNCTION(AActor,272,execSetOwner);
 AUTOGENERATE_FUNCTION(AActor,298,execSetBase);
+AUTOGENERATE_FUNCTION(AActor,322,execResetLightCache);
+AUTOGENERATE_FUNCTION(AActor,321,execLoadTextureFromBMP);
+AUTOGENERATE_FUNCTION(AActor,334,execGetTexture);
+AUTOGENERATE_FUNCTION(AActor,313,execSetTexture);
 AUTOGENERATE_FUNCTION(AActor,3971,execAutonomousPhysics);
 AUTOGENERATE_FUNCTION(AActor,3969,execMoveSmooth);
 AUTOGENERATE_FUNCTION(AActor,299,execSetRotation);
@@ -3284,7 +4116,63 @@ AUTOGENERATE_FUNCTION(AActor,283,execSetCollisionSize);
 AUTOGENERATE_FUNCTION(AActor,262,execSetCollision);
 AUTOGENERATE_FUNCTION(AActor,256,execSleep);
 AUTOGENERATE_FUNCTION(AActor,233,execError);
+AUTOGENERATE_FUNCTION(AActor,2032,execGetSaveGameList);
+AUTOGENERATE_FUNCTION(AActor,2006,execGetSaveGameSize);
+AUTOGENERATE_FUNCTION(AActor,2005,execLoadGame);
+AUTOGENERATE_FUNCTION(AActor,2004,execSaveGame);
+AUTOGENERATE_FUNCTION(AActor,2003,execLoadGameFromMemoryCard);
+AUTOGENERATE_FUNCTION(AActor,2002,execSaveGameToMemoryCard);
 AUTOGENERATE_FUNCTION(AActor,-1,execConsoleCommand);
+AUTOGENERATE_FUNCTION(APlayerPawn,2034,execGUIExit);
+AUTOGENERATE_FUNCTION(APlayerPawn,2033,execGUIEnter);
+AUTOGENERATE_FUNCTION(APlayerPawn,2012,execRunActuator);
+AUTOGENERATE_FUNCTION(APlayerPawn,2011,execActivateActuator);
+AUTOGENERATE_FUNCTION(APlayerPawn,2010,execGetNoActuators);
+AUTOGENERATE_FUNCTION(APlayerPawn,2009,execResetAct);
+AUTOGENERATE_FUNCTION(APlayerPawn,2008,execInitAct);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execPasteFromClipboard);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execCopyToClipboard);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execConsoleCommand);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetPlayerNetworkAddress);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetEntryLevel);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execGetDefaultURL);
+AUTOGENERATE_FUNCTION(APlayerPawn,546,execUpdateURL);
+AUTOGENERATE_FUNCTION(APlayerPawn,544,execResetKeyboard);
+AUTOGENERATE_FUNCTION(APlayerPawn,-1,execClientTravel);
+AUTOGENERATE_FUNCTION(APawn,-1,execClientHearSound);
+AUTOGENERATE_FUNCTION(APawn,-1,execStopWaiting);
+AUTOGENERATE_FUNCTION(APawn,537,execPlaySound_P);
+AUTOGENERATE_FUNCTION(APawn,404,execPlayFootSound);
+AUTOGENERATE_FUNCTION(APawn,534,execPickAnyTarget);
+AUTOGENERATE_FUNCTION(APawn,531,execPickTarget);
+AUTOGENERATE_FUNCTION(APawn,530,execRemovePawn);
+AUTOGENERATE_FUNCTION(APawn,529,execAddPawn);
+AUTOGENERATE_FUNCTION(APawn,540,execFindBestInventoryPath);
+AUTOGENERATE_FUNCTION(APawn,527,execWaitForLanding);
+AUTOGENERATE_FUNCTION(APawn,524,execFindStairRotation);
+AUTOGENERATE_FUNCTION(APawn,526,execPickWallAdjust);
+AUTOGENERATE_FUNCTION(APawn,520,execactorReachable);
+AUTOGENERATE_FUNCTION(APawn,521,execpointReachable);
+AUTOGENERATE_FUNCTION(APawn,523,execEAdjustJump);
+AUTOGENERATE_FUNCTION(APawn,522,execClearPaths);
+AUTOGENERATE_FUNCTION(APawn,525,execFindRandomDest);
+AUTOGENERATE_FUNCTION(APawn,517,execFindPathToward);
+AUTOGENERATE_FUNCTION(APawn,518,execFindPathTo);
+AUTOGENERATE_FUNCTION(APawn,516,execPopRouteCache);
+AUTOGENERATE_FUNCTION(APawn,533,execCanSee);
+AUTOGENERATE_FUNCTION(APawn,514,execLineOfSightTo);
+AUTOGENERATE_FUNCTION(APawn,513,execRotateToView);
+AUTOGENERATE_FUNCTION(APawn,510,execTurnToward);
+AUTOGENERATE_FUNCTION(APawn,508,execTurnTo);
+AUTOGENERATE_FUNCTION(APawn,506,execStrafeFacing);
+AUTOGENERATE_FUNCTION(APawn,504,execStrafeTo);
+AUTOGENERATE_FUNCTION(APawn,502,execMoveToward);
+AUTOGENERATE_FUNCTION(APawn,500,execMoveTo);
+AUTOGENERATE_FUNCTION(AParticleFX,435,execRecomputeDeltas);
+AUTOGENERATE_FUNCTION(AParticleFX,434,execSetParticleParams);
+AUTOGENERATE_FUNCTION(AParticleFX,433,execGetParticleParams);
+AUTOGENERATE_FUNCTION(AParticleFX,432,execAddParticle);
+AUTOGENERATE_FUNCTION(AParticleFX,431,execNumParticles);
 AUTOGENERATE_FUNCTION(ADecal,-1,execDetachDecal);
 AUTOGENERATE_FUNCTION(ADecal,-1,execAttachDecal);
 AUTOGENERATE_FUNCTION(AStatLogFile,-1,execFileLog);
@@ -3311,6 +4199,8 @@ AUTOGENERATE_FUNCTION(AGameInfo,-1,execParseKillMessage);
 AUTOGENERATE_FUNCTION(AGameInfo,-1,execGetNetworkNumber);
 AUTOGENERATE_FUNCTION(ALevelInfo,-1,execGetAddressURL);
 AUTOGENERATE_FUNCTION(ALevelInfo,-1,execGetLocalURL);
+AUTOGENERATE_FUNCTION(ALevelInfo,2001,execGetTotalWind);
+AUTOGENERATE_FUNCTION(ALevelInfo,2000,execGetZone);
 
 #ifndef NAMES_ONLY
 #undef AUTOGENERATE_NAME

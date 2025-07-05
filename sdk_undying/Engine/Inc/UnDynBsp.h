@@ -22,7 +22,7 @@ public:
 	// Public operations:
 	virtual void Update( AActor* Actor )=0;
 	virtual void Flush( AActor* Actor )=0;
-	virtual UBOOL SurfIsDynamic( INT iSurf )=0;
+	inline UBOOL SurfIsDynamic(INT iSurf) { return false; }; // TODO: Figure this shit out
 	virtual void CountBytes( FArchive& Ar )=0;
 };
 ENGINE_API FMovingBrushTrackerBase* GNewBrushTracker( ULevel* Level );

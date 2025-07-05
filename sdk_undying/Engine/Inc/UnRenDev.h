@@ -63,8 +63,9 @@ class ENGINE_API URenderDevice : public USubsystem
 	void StaticConstructor();
 
 	// URenderDevice low-level functions that drivers must implement.
-	virtual void Placeholder() {}
+	virtual void Placeholder() {};
 	virtual UBOOL Init( UViewport* InViewport, INT NewX, INT NewY, INT NewColorBytes, UBOOL Fullscreen )=0;
+	virtual UBOOL ReInit();
 	virtual UBOOL SetRes( INT NewX, INT NewY, INT NewColorBytes, UBOOL Fullscreen )=0;
 	virtual void Exit()=0;
 	virtual void Flush( UBOOL AllowPrecache )=0;
@@ -87,6 +88,12 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void DrawStats( FSceneNode* Frame ) {}
 	virtual void SetSceneNode( FSceneNode* Frame ) {}
 	virtual void PrecacheTexture( FTextureInfo& Info, DWORD PolyFlags ) {}
+	virtual INT NumShadowTextures();
+	virtual FLOAT ShadowDetail(int32_t);
+	virtual void DrawShadowTris(int32_t, uint16_t*, int32_t, int32_t, class FVector*, int32_t, float, float, float, float);
+	virtual void DrawShadowedSurfs(int32_t, struct FSceneNode*, struct FBspDrawList**, int32_t, class FCoords&, float, float, float, float, float, float);
+	virtual void ResetShadows();
+
 
 	// Padding.
 	virtual void vtblPad0() {}

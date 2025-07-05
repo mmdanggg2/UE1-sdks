@@ -287,7 +287,7 @@ inline UBOOL appIsAlnum( TCHAR c )
 
 CORE_API const ANSICHAR* appToAnsi( const TCHAR* Str );
 CORE_API const UNICHAR* appToUnicode( const TCHAR* Str );
-CORE_API const TCHAR* appFromAnsi( const ANSICHAR* Str );
+static inline const TCHAR* appFromAnsi(const ANSICHAR* Str) { return Str; };
 CORE_API const TCHAR* appFromUnicode( const UNICHAR* Str );
 CORE_API UBOOL appIsPureAnsi( const TCHAR* Str );
 
@@ -385,7 +385,7 @@ CORE_API DOUBLE appFmod( DOUBLE A, DOUBLE B );
 CORE_API DOUBLE appSin( DOUBLE Value );
 CORE_API DOUBLE appCos( DOUBLE Value );
 CORE_API DOUBLE appAcos( DOUBLE Value );
-CORE_API DOUBLE appTan( DOUBLE Value );
+CORE_API FLOAT appTan( FLOAT Value );
 CORE_API DOUBLE appAtan( DOUBLE Value );
 CORE_API DOUBLE appAtan2( DOUBLE Y, DOUBLE X );
 CORE_API DOUBLE appSqrt( DOUBLE Value );

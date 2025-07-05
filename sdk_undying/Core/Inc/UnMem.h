@@ -27,7 +27,7 @@ class CORE_API FMemStack
 {
 public:
 	// Get bytes.
-	BYTE* PushBytes( INT AllocSize, INT Align )
+	BYTE* PushBytes(INT AllocSize, INT Align);/*
 	{
 		// Debug checks.
 		guardSlow(FMemStack::PushBytes);
@@ -54,10 +54,10 @@ public:
 		}
 		return Result;
 		unguardSlow;
-	}
+	}*/
 
 	// Main functions.
-	void Init( INT DefaultChunkSize );
+	void Init(BYTE * unk, INT DefaultChunkSize);
 	void Exit();
 	void Tick();
 	INT GetByteCount();
@@ -81,10 +81,10 @@ private:
 	enum {MAX_CHUNKS=1024};
 
 	// Variables.
-	BYTE*			Top;				// Top of current chunk (Top<=End).
-	BYTE*			End;				// End of current chunk.
-	INT				DefaultChunkSize;	// Maximum chunk size to allocate.
-	FTaggedMemory*	TopChunk;			// Only chunks 0..ActiveChunks-1 are valid.
+	BYTE* Base;
+	BYTE* Current;
+	BYTE* MaxCurrent;
+	BYTE* Top;
 
 	// Static.
 	static FTaggedMemory* UnusedChunks;
@@ -169,17 +169,17 @@ public:
 	// Constructors.
 	FMemMark()
 	{}
-	FMemMark( FMemStack& InMem )
+	FMemMark(FMemStack& InMem);/*
 	{
 		guardSlow(FMemMark::FMemMark);
 		Mem          = &InMem;
 		Top          = Mem->Top;
 		SavedChunk   = Mem->TopChunk;
 		unguardSlow;
-	}
+	}*/
 
 	// FMemMark interface.
-	void Pop()
+	void Pop();/*
 	{
 		// Check state.
 		guardSlow(FMemMark::Pop);
@@ -191,13 +191,12 @@ public:
 		// Restore the memory stack's state.
 		Mem->Top = Top;
 		unguardSlow;
-	}
+	}*/
 
 private:
 	// Implementation variables.
+	BYTE* SavedTop;
 	FMemStack* Mem;
-	BYTE* Top;
-	FMemStack::FTaggedMemory* SavedChunk;
 };
 
 /*-----------------------------------------------------------------------------

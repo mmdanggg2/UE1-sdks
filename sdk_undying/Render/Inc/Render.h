@@ -118,6 +118,7 @@ struct FDynamicItem
 {
 	// Variables.
 	FDynamicItem*	FilterNext;
+	uint32_t unk0;
 	FLOAT			Z;
 
 	// Functions.
@@ -133,6 +134,7 @@ struct FDynamicSprite : public FDynamicItem
 	FSpanBuffer*	SpanBuffer;
 	FDynamicSprite*	RenderNext;
 	FTransform		ProxyVerts[4];
+	uint32_t unk1[9];
 	AActor*			Actor;
 	INT				X1, Y1;
 	INT				X2, Y2;
@@ -446,16 +448,19 @@ class RENDER_API URender : public URenderBase
 	void GetVisibleSurfs( UViewport* Viewport, TArray<INT>& iSurfs );
 	void OccludeBsp( FSceneNode* Frame );
 	void SetupDynamics( FSceneNode* Frame, AActor* Exclude );
-	UBOOL BoundVisible( FSceneNode* Frame, FBox* Bound, FSpanBuffer* SpanBuffer, FScreenBounds& Results );
+	UBOOL BoundVisible( FSceneNode* Frame, FBox* Bound, FSpanBuffer* SpanBuffer, class FCoverageBuffer* coverage, FScreenBounds& Results );
 	void GlobalLighting( UBOOL Realtime, AActor* Owner, FLOAT& Brightness, FPlane& Color );
-	FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds );
-	FSceneNode* CreateChildFrame( FSceneNode* Frame, FSpanBuffer* Span, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds );
-	void FinishMasterFrame();
-	void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, UBOOL bScaleRadiusByZoom = 0 );
-	void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max );
-	void DrawCylinder( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, FLOAT Height );
-	void DrawSphere(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Location, FLOAT r, INT n);
 	void Precache( UViewport* Viewport );
+	FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds );
+	FSceneNode* CreateChildFrame(FSceneNode* Parent, FSpanBuffer* Span, class FCoverageMask* coverage, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds);
+	void FinishMasterFrame();
+	void DrawCircle(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius);
+	void Draw3DCircle(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, const FVector& Radii);
+	void Draw3DEllipse(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, const FVector& Radii, const FVector& Radii2);
+	void DrawBox(FSceneNode* Frame, FPlane Color, DWORD LineFlags, const FBox& Box, const FCoords& Coords);
+	void DrawBox(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max);
+	void DrawCylinder(FSceneNode* Frame, FPlane Color, DWORD LineFlags, const class FCylinder& Cylinder, const FCoords&);
+	void DrawCoords(FSceneNode* Frame, FLOAT, DWORD LineFlags, const FCoords&, FLOAT);
 
 	// Dynamics cache.
 	void SetMaxNodeCount(INT MaxNodes);
@@ -535,7 +540,7 @@ class RENDER_API URender : public URenderBase
 	UBOOL HardwareStats;
 	UBOOL EARIStats;
 	UBOOL EARIDetails;
-	UBOOL Extra8Stats;
+	//UBOOL Extra8Stats;
 	//UBOOL AnimStats;
 
 	// Stat line counter.
@@ -549,9 +554,6 @@ class RENDER_API URender : public URenderBase
 	UBOOL StatDrawOutline;  // if true, draws a black outline around stats to improve font visibility
 	UBOOL StatScaleFont;   // if true, the stat font will scale up on larger displays
 	FLOAT StatScaleFactor; // -1 = scale dynamically, >1.0 = multiply font height by statscalefactor
-
-	// Unlit behavior.
-	UBOOL OldUnlitColors;		
 
 	// OccludeBsp dynamics.
 	
@@ -571,7 +573,6 @@ class RENDER_API URender : public URenderBase
 		FTransform* Point;
 		DWORD		Stamp;
 	}* PointCache;
-	static FMemStack VectorMem;
 	static DWORD Stamp;
 	
 

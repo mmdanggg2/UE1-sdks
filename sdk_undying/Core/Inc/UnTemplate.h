@@ -187,7 +187,7 @@ template <class T> class TAllocator
 //
 // Base dynamic array.
 //
-class CORE_API FArray
+class FArray
 {
 public:
 	void* GetData()

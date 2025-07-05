@@ -267,6 +267,10 @@ class ENGINE_API UTexture : public UBitmap
 	UTexture*	DetailTexture;		// Detail texture to apply.
 	UTexture*	MacroTexture;		// Macrotexture to apply, not currently used.
 
+	int unk1;
+	int unk2;
+	int unk3;
+
 	// Surface properties.
 	FLOAT		Diffuse;			// Diffuse lighting coefficient (0.f-1.f).
 	FLOAT		Specular;			// Specular lighting coefficient (0.f-1.f).

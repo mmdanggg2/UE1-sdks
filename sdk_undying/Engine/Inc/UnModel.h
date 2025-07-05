@@ -27,7 +27,9 @@ class ENGINE_API UModel : public UPrimitive
 	UPolys*					Polys;
 	TTransArray<FBspNode>	Nodes;
 	TTransArray<FVert>      Verts;
+	TTransArray<uint64_t>		unk1;
 	TTransArray<FVector>	Vectors;
+	TTransArray<FVector>	unk2;
 	TTransArray<FVector>	Points;
 	TTransArray<FBspSurf>	Surfs;
 	TArray<FLightMapIndex>	LightMap;
@@ -53,6 +55,7 @@ class ENGINE_API UModel : public UPrimitive
 	, Points( this )
 	, Verts( this )
 	, Nodes( this )
+		,unk1(this),unk2(this)
 	{
 		EmptyModel( 1, 0 );
 	}
@@ -209,7 +212,7 @@ class ENGINE_API UVerts : public UObject
 	DECLARE_CLASS(UVerts,UObject,CLASS_RuntimeStatic,Engine)
 	TArray<FVert> Element;
 	INT NumSharedSides;
-	void Serialize( FArchive& Ar )
+	void Serialize(FArchive& Ar);/*
 	{
 		guard(UVerts::Serialize);
 		Super::Serialize( Ar );
@@ -225,7 +228,7 @@ class ENGINE_API UVerts : public UObject
 		}
 		Ar << AR_INDEX(NumSharedSides);
 		unguardobj;
-	}
+	}*/
 };
 
 /*----------------------------------------------------------------------------

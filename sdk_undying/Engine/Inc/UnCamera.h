@@ -181,6 +181,10 @@ enum EViewportShowFlags
 	SHOW_Paths          = 0x00001000,   // Show paths.
 	SHOW_NoButtons		= 0x00002000,	// No menu/view buttons.
 	SHOW_RealTime		= 0x00004000,	// Update window in realtime.
+	SHOW_Bones			= 0x00008000,
+	SHOW_Bounds			= 0x00010000,
+	SHOW_Inner			= 0x00020000,
+	SHOW_Wire			= 0x00040000,
 };
 
 // Mouse buttons and commands.
@@ -356,6 +360,7 @@ class ENGINE_API UClient : public UObject
 	// Variables.
 	UEngine*			Engine;
 	TArray<UViewport*>	Viewports;
+	void* unk;
 	INT					DrawCycles;
 
 	// Configurable.

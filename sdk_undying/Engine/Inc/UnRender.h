@@ -50,7 +50,7 @@ struct FSavedPoly;
 class FSpanBuffer;
 struct FBspDrawList;
 struct FDynamicSprite;
-struct ENGINE_API FSceneNode
+struct FSceneNode
 {
 	// Variables.
 	UViewport*		Viewport;		// Viewport the scene frame is attached to.
@@ -67,6 +67,7 @@ struct ENGINE_API FSceneNode
 	FCoords			Uncoords;		// Inverse coordinate system.
 	FSpanBuffer*	Span;			// Initial span buffer for the scene.
 	FBspDrawList*	Draw[3];		// Draw lists (portals, occluding, non-occluding).
+	uint32_t unk;
 	FDynamicSprite* Sprite;			// Sprites to draw.
 	INT				X, Y;			// Frame size.
 	INT				XB, YB;			// Offset of top left active viewport.
@@ -84,9 +85,11 @@ struct ENGINE_API FSceneNode
 	FPlane			ViewPlanes[4];	// 4 planes indicating view frustrum extent planes.
 
 	// Functions.
-	BYTE* Screen( INT X, INT Y ) {return Viewport->ScreenPointer + (X+XB+(Y+YB)*Viewport->Stride)*Viewport->ColorBytes;}
-	void ComputeRenderSize();
-	void ComputeRenderCoords( FVector& Location, FRotator& Rotation );
+	ENGINE_API FSceneNode() = default;
+	inline FSceneNode(const FSceneNode& other) { *this = other; };
+	ENGINE_API BYTE* Screen( INT X, INT Y ) {return Viewport->ScreenPointer + (X+XB+(Y+YB)*Viewport->Stride)*Viewport->ColorBytes;}
+	ENGINE_API void ComputeRenderSize();
+	ENGINE_API void ComputeRenderCoords( FVector& Location, FRotator& Rotation );
 };
 
 /*------------------------------------------------------------------------------------
@@ -455,7 +458,7 @@ class ENGINE_API URenderBase : public USubsystem
 
 	// Scene frame management.
 	virtual FSceneNode* CreateMasterFrame( UViewport* Viewport, FVector Location, FRotator Rotation, FScreenBounds* Bounds )=0;
-	virtual FSceneNode* CreateChildFrame( FSceneNode* Parent, FSpanBuffer* Span, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds )=0;
+	virtual FSceneNode* CreateChildFrame( FSceneNode* Parent, FSpanBuffer* Span, class FCoverageMask* coverage, ULevel* Level, INT iSurf, INT iZone, FLOAT Mirror, const FPlane& NearClip, const FCoords& Coords, FScreenBounds* Bounds )=0;
 	virtual void FinishMasterFrame()=0;
 
 	// Major rendering functions.
@@ -465,15 +468,19 @@ class ENGINE_API URenderBase : public USubsystem
 	// Other functions.
 	virtual UBOOL Project( FSceneNode* Frame, const FVector &V, FLOAT &ScreenX, FLOAT &ScreenY, FLOAT* Scale )=0;
 	virtual UBOOL Deproject( FSceneNode* Frame, INT ScreenX, INT ScreenY, FVector& V )=0;
-	virtual UBOOL BoundVisible( FSceneNode* Frame, FBox* Bound, FSpanBuffer* SpanBuffer, FScreenBounds& Results )=0;
+	virtual UBOOL BoundVisible( FSceneNode* Frame, FBox* Bound, FSpanBuffer* SpanBuffer, class FCoverageBuffer* coverage, FScreenBounds& Results )=0;
 	virtual void GetVisibleSurfs( UViewport* Viewport, TArray<INT>& iSurfs )=0;
 	virtual void GlobalLighting( UBOOL Realtime, AActor* Owner, FLOAT& Brightness, FPlane& Color )=0;
 	virtual void Precache( UViewport* Viewport )=0;
 
 	// High level primitive drawing.
-	virtual void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, UBOOL bScaleRadiusByZoom = 0 )=0;
-	virtual void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max )=0;
-	virtual void DrawCylinder( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius, FLOAT Height )=0;
+	virtual void DrawCircle( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, FLOAT Radius )=0;
+	virtual void Draw3DCircle(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, const FVector& Radii) = 0;
+	virtual void Draw3DEllipse(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector& Location, const FVector& Radii, const FVector& Radii2) = 0;
+	virtual void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, const FBox& Box, const FCoords& Coords )=0;
+	virtual void DrawBox(FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max) = 0;
+	virtual void DrawCylinder( FSceneNode* Frame, FPlane Color, DWORD LineFlags, const class FCylinder& Cylinder, const FCoords& )=0;
+	virtual void DrawCoords(FSceneNode* Frame, FLOAT, DWORD LineFlags, const FCoords&, FLOAT) = 0;
 };
 
 /*-----------------------------------------------------------------------------

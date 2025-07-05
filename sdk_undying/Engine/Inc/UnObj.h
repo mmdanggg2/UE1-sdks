@@ -104,6 +104,7 @@ public:
 	FPlane			Plane;			// 16 Plane the node falls into (X, Y, Z, W).
 	QWORD			ZoneMask;		// 8  Bit mask for all zones at or below this node (up to 64).
 	INT				iVertPool;		// 4  Index of first vertex in vertex pool, =iTerrain if NumVertices==0 and NF_TerrainFront.
+	INT unk;
 	INT				iSurf;			// 4  Index to surface information.
 
 	// iBack:  4  Index to node in front (in direction of Normal).
@@ -212,6 +213,8 @@ public:
 	ABrush*		Actor;			// 4 Brush actor owning this Bsp surface.
 	TArray<FDecal>	Decals;		// 12 Array decals on this surface
 	TArray<INT>	Nodes;			// 12 Nodes which make up this surface
+	int unk1;
+	int unk2;
 
 	// Functions.
 	ENGINE_API friend FArchive& operator<<( FArchive& Ar, FBspSurf& Surf );
@@ -365,7 +368,7 @@ public:
 	INT			iBrushPoly;		// Index of editor solid's polygon this originated from.
 	SWORD		PanU,PanV;		// Texture panning values.
 	INT			SavePolyIndex;	// Used by multiple vertex editing to keep track of original PolyIndex into owner brush
-	UBOOL		bFaceDragSel;
+	//UBOOL		bFaceDragSel;
 
 	// Custom functions.
 	void  Init				();
@@ -443,7 +446,7 @@ class ENGINE_API UPolys : public UObject
 // into the level's FPoints table, and a unique number which is common to all
 // other sides in the level which are cospatial with this side.
 //
-class FVert
+/*class FVert
 {
 public:
 	// Variables.
@@ -457,6 +460,9 @@ public:
 		return Ar << AR_INDEX(Vert.pVertex) << AR_INDEX(Vert.iSide);
 		unguard;
 	}
+};*/
+struct FVert {
+	SHORT pVertex;
 };
 
 /*-----------------------------------------------------------------------------

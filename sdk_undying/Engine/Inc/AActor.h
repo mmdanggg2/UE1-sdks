@@ -8,11 +8,6 @@
 	void Destroy();
 
 	// UObject interface.
-	virtual INT* GetOptimizedRepList( BYTE* InDefault, FPropertyRetirement* Retire, INT* Ptr, UPackageMap* Map, INT NumReps );
-	virtual UBOOL ShouldDoScriptReplication() {return 1;}
-	virtual UBOOL NoVariablesToReplicate(AActor *OldVer) {return 0;};
-	virtual UBOOL CheckRecentChanges() {return 0;};
-	virtual FLOAT UpdateFrequency(AActor *Viewer, FVector &ViewDir, FVector &ViewPos);
 	void ProcessEvent( UFunction* Function, void* Parms, void* Result=NULL );
 	void ProcessState( FLOAT DeltaSeconds );
 	UBOOL ProcessRemoteFunction( UFunction* Function, void* Parms, FFrame* Stack );
@@ -32,8 +27,13 @@
 	UBOOL IsBlockedBy( const AActor* Other ) const;
 	UBOOL IsInZone( const AZoneInfo* Other ) const;
 	UBOOL IsBasedOn( const AActor *Other ) const;
+	virtual INT* GetOptimizedRepList( BYTE* InDefault, FPropertyRetirement* Retire, INT* Ptr, UPackageMap* Map, INT NumReps );
+	virtual UBOOL ShouldDoScriptReplication() {return 1;}
+	virtual UBOOL NoVariablesToReplicate(AActor *OldVer) {return 0;};
+	virtual UBOOL CheckRecentChanges() {return 0;};
+	virtual FLOAT UpdateFrequency(AActor *Viewer, FVector &ViewDir, FVector &ViewPos);
 	virtual FLOAT GetNetPriority( AActor* Sent, FLOAT Time, FLOAT Lag );
-	virtual FLOAT WorldLightRadius() const {return 25.f * ((INT)LightRadius+1);}
+	//virtual FLOAT WorldLightRadius() const {return 25.f * ((INT)LightRadius+1);}
 	virtual UBOOL Tick( FLOAT DeltaTime, enum ELevelTick TickType );
 	virtual void PostEditMove() {}
 	virtual void PreRaytrace() {}
@@ -41,8 +41,9 @@
 	virtual void Spawned() {}
 	virtual void PreNetReceive();
 	virtual void PostNetReceive();
-	virtual UTexture* GetSkin( INT Index );
-	virtual FMeshAnimSeq* GetAnim( FName SequenceName );
+	virtual void SetRenderBound(FLOAT);
+	//virtual UTexture* GetSkin( INT Index );
+	//virtual FMeshAnimSeq* GetAnim( FName SequenceName );
 	virtual FCoords ToLocal() const
 	{
 		return GMath.UnitCoords / Rotation / Location;
@@ -51,6 +52,7 @@
 	{
 		return GMath.UnitCoords * Location * Rotation;
 	}
+	virtual void AdjustScale();
 	FLOAT LifeFraction()
 	{
 		return Clamp( 1.f - LifeSpan / GetClass()->GetDefaultActor()->LifeSpan, 0.f, 1.f );
@@ -70,12 +72,12 @@
 	UBOOL IsBrush()       const;
 	UBOOL IsStaticBrush() const;
 	UBOOL IsMovingBrush() const;
-	UBOOL IsAnimating() const
-	{
-		return
-			(AnimSequence!=NAME_None)
-		&&	(AnimFrame>=0 ? AnimRate!=0.f : TweenRate!=0.f);
-	}
+	UBOOL IsAnimating() const;
+	//{
+	//	return
+	//		(AnimSequence!=NAME_None)
+	//	&&	(AnimFrame>=0 ? AnimRate!=0.f : TweenRate!=0.f);
+	//}
 	void SetCollision( UBOOL NewCollideActors, UBOOL NewBlockActors, UBOOL NewBlockPlayers);
 	void SetCollisionSize( FLOAT NewRadius, FLOAT NewHeight );
 	void SetBase(AActor *NewBase, int bNotifyActor=1);
@@ -128,6 +130,9 @@
 
 	// Special editor behavior
 	AActor* GetHitActor();
+
+	virtual bool IsDecal() const;
+	virtual INT CheckRecentChanges() const;
 
 	// Natives.
 	DECLARE_FUNCTION(execPollSleep)

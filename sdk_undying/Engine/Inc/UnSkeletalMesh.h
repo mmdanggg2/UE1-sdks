@@ -283,9 +283,9 @@ struct USkelImport
 
 
 // Skeletal mesh
-class ENGINE_API USkeletalMesh : public ULodMesh
+class ENGINE_API USkeletalMesh : public USkelMesh
 {
-	DECLARE_CLASS(USkeletalMesh,ULodMesh,0,Engine)
+	DECLARE_CLASS(USkeletalMesh,USkelMesh,0,Engine)
 
     // Special skeletal data structures: 
 	TArray<FMeshExtWedge>	ExtWedges;     // Extended wedges with floating point UV's      
@@ -302,7 +302,7 @@ class ENGINE_API USkeletalMesh : public ULodMesh
 	INT WeaponBoneIndex;   // -1 means it hasn't been assigned.
 	FCoords WeaponAdjust;  // Weapon adjustment coordinate system - identity by default.
 	INT SkeletalDepth;  // The max hierarchy depth.
-	UAnimation* DefaultAnimation; // Link this up when no other animation is available - for backwards compatibility.
+	class UAnimation* DefaultAnimation; // Link this up when no other animation is available - for backwards compatibility.
 
 	// For debugging only - not serialized.
 	TArray <FVector> DebugPivots;

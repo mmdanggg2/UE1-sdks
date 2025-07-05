@@ -210,13 +210,19 @@ public:
 class CORE_API FMalloc
 {
 public:
-	virtual void* Malloc( DWORD Count, const TCHAR* Tag )=0;
+	virtual void* Malloc( DWORD Count, const TCHAR* Tag, INT unk );
+	virtual void* MallocUntagged(DWORD Count) = 0;
 	virtual void* Realloc( void* Original, DWORD Count, const TCHAR* Tag )=0;
 	virtual void Free( void* Original )=0;
+	virtual INT AllocatedMem();
+	virtual DWORD SetStatVar(INT*);
 	virtual void DumpAllocs()=0;
 	virtual void HeapCheck()=0;
 	virtual void Init()=0;
 	virtual void Exit()=0;
+	virtual DWORD MemTag(void* Original);
+	virtual void GetTagPointer(void const*, void const*);
+	virtual void SetTagPointer(void const*, char const*);
 };
 
 // Configuration database cache.

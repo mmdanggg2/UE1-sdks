@@ -147,6 +147,8 @@ class ENGINE_API ULevel : public ULevelBase
 	FTime                   TimeSeconds;
 	TMap<FString,FString>	TravelInfo;
 
+	int unk1[13];
+
 	// Only valid in memory.
 	FCollisionHashBase* Hash;
 	class FMovingBrushTrackerBase* BrushTracker;
@@ -187,6 +189,7 @@ class ENGINE_API ULevel : public ULevelBase
 	virtual UBOOL DestroyActor( AActor* Actor, UBOOL bNetForce=0 );
 	virtual void CleanupDestroyed( UBOOL bForce );
 	virtual AActor* SpawnActor( UClass* Class, FName InName=NAME_None, AActor* Owner=NULL, class APawn* Instigator=NULL, FVector Location=FVector(0,0,0), FRotator Rotation=FRotator(0,0,0), AActor* Template=NULL, UBOOL bNoCollisionFail=0, UBOOL bRemoteOwned=0 );
+	virtual INT InsertActor(AActor*);
 	virtual ABrush*	SpawnBrush();
 	virtual void SpawnViewActor( UViewport* Viewport );
 	virtual APlayerPawn* SpawnPlayActor( UPlayer* Viewport, ENetRole RemoteRole, const FURL& URL, FString& Error );
@@ -210,6 +213,8 @@ class ENGINE_API ULevel : public ULevelBase
 	#else
 	virtual void WelcomePlayer( UNetConnection* Connection, char* Optional = "" );
 	#endif
+
+	virtual INT SetZone(const FVector&);
 
 	// FNetworkNotify interface.
 	EAcceptConnection NotifyAcceptingConnection();

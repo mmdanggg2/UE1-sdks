@@ -11,7 +11,7 @@
 #define ENGINE_MIN_NET_VERSION 400
 
 // Engine build number, for displaying to end users.
-#define ENGINE_VERSION 430
+#define ENGINE_VERSION 420
 
 // Base protocol version to negotiate in network play.
 #define ENGINE_NEGOTIATION_VERSION 400
@@ -39,7 +39,7 @@
 // backwards compatibility. Must be at least PACKAGE_FILE_VERSION.
 #define PACKAGE_MIN_VERSION 60
 // Defines for easier building of multi game projects. --han
-#define UNREAL_TOURNAMENT 1
+#define UNDYING 1
 
 /*-----------------------------------------------------------------------------
 	The End.
