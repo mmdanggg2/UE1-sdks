@@ -465,13 +465,13 @@ CORE_API void appMemzero( void* Dest, INT Count );
 __forceinline void* operator new( size_t Size, const TCHAR* Tag )
 {
 	guardSlow(new);
-	return appMalloc( Size, Tag );
+	return appMalloc( Size, Tag, 0 );
 	unguardSlow;
 }
 __forceinline void* operator new( size_t Size )
 {
 	guardSlow(new);
-	return appMalloc( Size, TEXT("new") );
+	return appMalloc( Size, TEXT("new"), 0);
 	unguardSlow;
 }
 __forceinline void operator delete( void* Ptr ) throw()
@@ -487,13 +487,13 @@ __forceinline void operator delete( void* Ptr ) throw()
 __forceinline void* operator new[]( size_t Size, const TCHAR* Tag )
 {
 	guardSlow(new);
-	return appMalloc( Size, Tag );
+	return appMalloc( Size, Tag, 0 );
 	unguardSlow;
 }
 __forceinline void* operator new[]( size_t Size )
 {
 	guardSlow(new);
-	return appMalloc( Size, TEXT("new") );
+	return appMalloc( Size, TEXT("new"), 0 );
 	unguardSlow;
 }
 __forceinline void operator delete[]( void* Ptr ) throw()

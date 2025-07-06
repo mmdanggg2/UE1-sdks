@@ -118,7 +118,7 @@ struct FDynamicItem
 {
 	// Variables.
 	FDynamicItem*	FilterNext;
-	uint32_t unk0;
+	DWORD unk0;
 	FLOAT			Z;
 
 	// Functions.
@@ -134,7 +134,7 @@ struct FDynamicSprite : public FDynamicItem
 	FSpanBuffer*	SpanBuffer;
 	FDynamicSprite*	RenderNext;
 	FTransform		ProxyVerts[4];
-	uint32_t unk1[9];
+	DWORD unk1[9];
 	AActor*			Actor;
 	INT				X1, Y1;
 	INT				X2, Y2;

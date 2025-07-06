@@ -27,7 +27,7 @@ class ENGINE_API UModel : public UPrimitive
 	UPolys*					Polys;
 	TTransArray<FBspNode>	Nodes;
 	TTransArray<FVert>      Verts;
-	TTransArray<uint64_t>		unk1;
+	TTransArray<QWORD>		unk1;
 	TTransArray<FVector>	Vectors;
 	TTransArray<FVector>	unk2;
 	TTransArray<FVector>	Points;

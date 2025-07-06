@@ -89,9 +89,9 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void SetSceneNode( FSceneNode* Frame ) {}
 	virtual void PrecacheTexture( FTextureInfo& Info, DWORD PolyFlags ) {}
 	virtual INT NumShadowTextures();
-	virtual FLOAT ShadowDetail(int32_t);
-	virtual void DrawShadowTris(int32_t, uint16_t*, int32_t, int32_t, class FVector*, int32_t, float, float, float, float);
-	virtual void DrawShadowedSurfs(int32_t, struct FSceneNode*, struct FBspDrawList**, int32_t, class FCoords&, float, float, float, float, float, float);
+	virtual FLOAT ShadowDetail(INT);
+	virtual void DrawShadowTris(INT, _WORD*, INT, INT, class FVector*, INT, float, float, float, float);
+	virtual void DrawShadowedSurfs(INT, struct FSceneNode*, struct FBspDrawList**, INT, class FCoords&, float, float, float, float, float, float);
 	virtual void ResetShadows();
 
 

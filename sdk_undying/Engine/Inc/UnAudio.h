@@ -43,8 +43,8 @@ class ENGINE_API UAudioSubsystem : public USubsystem
 	virtual void UnregisterSound( USound* Sound )=0;
 	virtual void UnregisterMusic( UMusic* Music )=0;
 	virtual UBOOL PlaySoundA( AActor* Actor, INT Id, USound* Sound, FVector Location, FLOAT Volume, FLOAT Radius, FLOAT Pitch )=0;
-	virtual int32_t SoundIDActive(int32_t) = 0;
-	virtual void StopSoundId(int32_t) = 0;
+	virtual INT SoundIDActive(INT) = 0;
+	virtual void StopSoundId(INT) = 0;
 	virtual void NoteDestroy( AActor* Actor )=0;
 	virtual UBOOL GetLowQualitySetting()=0;
 	virtual UViewport* GetViewport()=0;

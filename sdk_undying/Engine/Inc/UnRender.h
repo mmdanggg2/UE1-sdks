@@ -67,7 +67,7 @@ struct FSceneNode
 	FCoords			Uncoords;		// Inverse coordinate system.
 	FSpanBuffer*	Span;			// Initial span buffer for the scene.
 	FBspDrawList*	Draw[3];		// Draw lists (portals, occluding, non-occluding).
-	uint32_t unk;
+	DWORD unk;
 	FDynamicSprite* Sprite;			// Sprites to draw.
 	INT				X, Y;			// Frame size.
 	INT				XB, YB;			// Offset of top left active viewport.
