@@ -15,6 +15,7 @@
 //
 class FMovingBrushTrackerBase
 {
+	INT iSurfDynamicBase;
 public:
 	// Constructors/destructors.
 	virtual ~FMovingBrushTrackerBase() noexcept(false) {};
@@ -22,7 +23,7 @@ public:
 	// Public operations:
 	virtual void Update( AActor* Actor )=0;
 	virtual void Flush( AActor* Actor )=0;
-	inline UBOOL SurfIsDynamic(INT iSurf) { return false; }; // TODO: Figure this shit out
+	inline UBOOL SurfIsDynamic(INT iSurf) { return iSurf >= iSurfDynamicBase; };
 	virtual void CountBytes( FArchive& Ar )=0;
 };
 ENGINE_API FMovingBrushTrackerBase* GNewBrushTracker( ULevel* Level );
