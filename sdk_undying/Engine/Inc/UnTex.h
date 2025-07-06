@@ -118,6 +118,7 @@ class ENGINE_API UPalette : public UObject
 	DECLARE_CLASS(UPalette,UObject,CLASS_SafeReplace,Engine)
 
 	// Variables.
+	UBOOL HasAlphaChannel;
 	TArray<FColor> Colors;
 
 	// Constructors.
@@ -262,40 +263,63 @@ class ENGINE_API UTexture : public UBitmap
 {
 	DECLARE_CLASS(UTexture,UBitmap,CLASS_SafeReplace,Engine)
 
-	// Subtextures.
-	UTexture*	BumpMap;			// Bump map to illuminate this texture with.
-	UTexture*	DetailTexture;		// Detail texture to apply.
-	UTexture*	MacroTexture;		// Macrotexture to apply, not currently used.
+	// Thanks again to https://github.com/l0m-dev/undying-headers
 
-	int unk1;
-	int unk2;
-	int unk3;
+	// Subtextures.
+	UTexture* BumpMap;			// Bump map to illuminate this texture with.
+	UTexture* DetailTexture;		// Detail texture to apply.
+	UTexture* MacroTexture;		// Macrotexture to apply, not currently used.
+
+	struct FLighting						// Lighting properties for a material.
+	{
+		FColor	Constant;			// Constant (self-illumination) color.
+		FColor	Diffuse;			// Omni-directional reflectance (modulates texture).
+		FColor	SpecularShade;		// Directional reflectance, shading texture.
+		FColor	SpecularHilite;		// Directional reflectance, highlight texture.
+		BYTE	SpecularWidth;		// Sharpness: 0 = perfectly sharp, max = perfectly diffuse.
+		DWORD   TextureMask;		// Bitmask of textures this material applies to. -1 = all.
+	} Lighting;
 
 	// Surface properties.
-	FLOAT		Diffuse;			// Diffuse lighting coefficient (0.f-1.f).
-	FLOAT		Specular;			// Specular lighting coefficient (0.f-1.f).
-	FLOAT		Alpha;				// Reflectivity (0.f-0.1f).
-	FLOAT       Scale;              // Scaling relative to parent, 1.f=normal.
-	FLOAT		Friction;			// Surface friction coefficient, 1.f=none, 0.95f=some.
+	FLOAT       Scale;              // Scaling relative to parent, 1.0=normal.
+	FLOAT		Friction;			// Surface friction coefficient, 1.0=none, 0.95=some.
+	FLOAT		Climb;				// For ladders and climbing objects.
 	FLOAT		MipMult;			// Mipmap multiplier.
+	FLOAT		Dustiness;			// How dusty is this surface - used as a strength parameter for the effects created
+	FLOAT		JumpMultiplier;		// how does the player jump off of this surface?
+	FLOAT		Elasticity;			// how elastic is the surface - used for collision and ricochet behavior.
+	FLOAT		Flammability;		// how flammable is the surface?
+	AActor* EffectClass;		// what effect class do I create when something hits me?
 
 	// Sounds.
-	USound*		FootstepSound;		// Footstep sound.
-	USound*		HitSound;			// Sound when the texture is hit with a projectile.
+	USound* FootstepSound;		// Footstep sound.
+	USound* HitSound;			// Sound when the texture is hit with a projectile.
+
+	BYTE		ImpactID;
+
+	// Inserted here for packing.
+	BYTE		SkipPS2Mips;		// Number of mip levels to skip for the PS2.
+
+	USound* ImpactSound[3];		// Possible Impact sounds for this Texture
+	FLOAT		ImpactVolume;
+	FLOAT		ImpactVolumeVar;
+	FLOAT		ImpactPitch;
+	FLOAT		ImpactPitchVar;
 
 	// Flags.
 	DWORD		PolyFlags;			// Polygon flags to be applied to Bsp polys with texture (See PF_*).
-	BITFIELD	bHighColorQuality:1 GCC_PACK(4); // High color quality hint.
-	BITFIELD	bHighTextureQuality:1; // High color quality hint.
-	BITFIELD	bRealtime:1;        // Texture changes in realtime.
-	BITFIELD	bParametric:1;      // Texture data need not be stored.
-	BITFIELD	bRealtimeChanged:1; // Changed since last render.
-	BITFIELD    bHasComp:1;         // Compressed version included?
+	BITFIELD	bPermeable : 1 GCC_PACK(4); // Make the surface permeable to weapons.
+	BITFIELD	bHighColorQuality : 1; // High color quality hint.
+	BITFIELD	bHighTextureQuality : 1; // High color quality hint.
+	BITFIELD	bRealtime : 1;        // Texture changes in realtime.
+	BITFIELD	bParametric : 1;      // Texture data need not be stored.
+	BITFIELD	bRealtimeChanged : 1; // Changed since last render.
+	BITFIELD    bHasComp : 1;         // Compressed version included?
 	BYTE        LODSet GCC_PACK(4); // Level of detail type.
 
 	// Animation related.
-	UTexture*	AnimNext;			// Next texture in looped animation sequence.
-	UTexture*	AnimCur;			// Current animation frame.
+	UTexture* AnimNext;			// Next texture in looped animation sequence.
+	UTexture* AnimCur;			// Current animation frame.
 	BYTE		PrimeCount;			// Priming total for algorithmic textures.
 	BYTE		PrimeCurrent;		// Priming current for algorithmic textures.
 	FLOAT		MinFrameRate;		// Minimum animation rate in fps.
