@@ -211,6 +211,8 @@ class ENGINE_API UMesh : public UPrimitive
 	DWORD unk94;
 	DWORD flags;
 
+	class UAnimData* AnimData;
+
 	// UObject interface.
 	UMesh();
 	void Serialize( FArchive& Ar );
@@ -245,7 +247,7 @@ class ENGINE_API UMesh : public UPrimitive
 	virtual FMeshAnimSeq* GetAnimSeq(INT);
 	virtual FMeshAnimSeq* GetAnimSeq(FName SeqName);
 	virtual INT GetNumAnimSeqs();
-	virtual TArray<FMeshTri> GetTris(AActor*); // Really TRefArray which seems to not have ArrayMax
+	virtual TRefArray<FMeshTri> GetTris(AActor*);
 	virtual INT MemorySize();
 };
 
@@ -263,35 +265,15 @@ class ENGINE_API UMesh : public UPrimitive
 //
 class ENGINE_API USkelMesh : public UMesh
 {
-	DECLARE_CLASS(USkelMesh,UMesh,0,Engine)
+	DECLARE_CLASS(USkelMesh, UMesh, 0, Engine)
 
-	// LOD-specific objects.
-	// Make lazy arrays where useful.
-	TArray<_WORD>			CollapsePointThus;  // Lod-collapse single-linked list for points.
-	TArray<_WORD>           FaceLevel;          // Minimum lod-level indicator for each face.
-	TArray<FMeshFace>       Faces;              // Faces 
-	TArray<_WORD>			CollapseWedgeThus;  // Lod-collapse single-linked list for the wedges.
-	TArray<FMeshWedge>		Wedges;             // 'Hoppe-style' textured vertices.
-	TArray<FMeshMaterial>   Materials;          // Materials
-	TArray<FMeshFace>       SpecialFaces;       // Invisible special-coordinate faces.
-
-	// Misc Internal.
-	INT    ModelVerts;     // Number of 'visible' vertices.
-	INT	   SpecialVerts;   // Number of 'invisible' (special attachment) vertices.
-
-	// Max of x/y/z mesh scale for LOD gauging (works on top of drawscale).
-	FLOAT  MeshScaleMax;
-
-	// Script-settable LOD controlling parameters.
-	FLOAT  LODStrength;    // Scales the (not necessarily linear) falloff of vertices with distance.
-	INT    LODMinVerts;    // Minimum number of vertices with which to draw a model.
-	FLOAT  LODMorph;       // >0.0 = allow morphing ; 0.0-1.0 = range of vertices to morph.
-	FLOAT  LODZDisplace;   // Z displacement for LOD distance-dependency tweaking.
-	FLOAT  LODHysteresis;  // Controls LOD-level change delay and morphing.
-
-	// Remapping of animation vertices.
-	TArray<_WORD> RemapAnimVerts;
-	INT    OldFrameVerts;  // Possibly different old per-frame vertex count.
+	void* SkelProto;
+	TArray<int> Joints;
+	TArray<int> JointLocs;
+	TLazyArray<int> JointVerts;
+	TArray<int> Modifiers;
+	USkelMesh* ParentMesh;
+	FPlace Origin;
 	
 	//  UObject interface.
 	USkelMesh(){};
@@ -303,6 +285,8 @@ class ENGINE_API USkelMesh : public UMesh
 	
 	// GetFrame for LOD.
 	virtual void GetFrame( FVector* Verts, INT Size, FCoords Coords, AActor* Owner, INT& LODRequest );
+	
+	FPlace ToActor(const AActor* Owner) const;
 };
 
 /*----------------------------------------------------------------------------

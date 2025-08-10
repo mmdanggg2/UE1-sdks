@@ -586,6 +586,15 @@ public:
 	};
 };
 
+template<class T>
+class TRefArray {
+	T* data;
+	INT num;
+public:
+	inline INT Num() const { return num; };
+	inline T& operator()(INT i) { return data[i]; };
+};
+
 //
 // Array operator news.
 //

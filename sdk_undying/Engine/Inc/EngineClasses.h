@@ -3989,8 +3989,7 @@ public:
 };
 
 
-class ENGINE_API UAnimState : public UObject
-{
+class ENGINE_API UAnimState : public UObject, public DWI::AnimState {
 public:
     DECLARE_CLASS(UAnimState,UObject,0,Engine)
     NO_DEFAULT_CONSTRUCTOR(UAnimState)

@@ -139,6 +139,9 @@
 	DECLARE_FUNCTION(execPollFinishAnim)
 	DECLARE_FUNCTION(execPollFinishInterpolation)
 
+	bool GetAnimPlacement(FPlace*);
+	void ApplyAnim(bool bMoveActor);
+
 /*-----------------------------------------------------------------------------
 	The End.
 -----------------------------------------------------------------------------*/

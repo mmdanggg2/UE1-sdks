@@ -42,11 +42,108 @@ struct FActData
     int	effect;
 };
 
-struct FPlace
-{
-    FQuat Rot;
+#pragma comment(lib, "DWI")
+namespace DWI {
+class VRotate3{
+public:
+    float X, Y, Z;
+};
+class Rotate3 {
+public:
+    float X, Y, Z, W;
+};
+
+class Vector3 {
+public:
+    float X, Y, Z;
+};
+
+class Dir3 : public Vector3 {};
+class Matrix3 {
+public:
+    Vector3 Row0;
+    Vector3 Row1;
+    Vector3 Row2;
+};
+class Transform3 {
+public:
+    Matrix3 Matrix;
+    Vector3 Origin;
+};
+
+class Placement3 {
+public:
+    Rotate3 Rot;
     FVector	Pos;
 };
+
+template <class T>
+class array {
+    T* data;
+    int arrayNum;
+};
+class Cylinder
+{
+public:
+    float Bottom;
+    float Top;
+    float Radius;
+    Dir3 Dir;
+};
+
+class SkelProp {
+public:
+    int ID; // gets set to FName JointName
+    bool MoveNode;
+    float MaxVel;
+    Cylinder CylinderBound;
+    float BoundingRadius;
+    float CumulativeRadius;
+    VRotate3 RotLimits[2];
+};
+
+class SkelNode {
+public:
+    bool Visible;
+    bool Tangible;
+    SkelProp* const Prop;
+    SkelNode* Parent;
+    short NodeIndex;
+    short NodeDepth;
+    array<SkelNode*> Elements;
+    Placement3 RelPlace;
+};
+
+class AnimEnviron {
+public:
+    Vector3 gravity;
+    Vector3 wind;
+    void* WorldGeom; // array<DWI::Plane>? or list
+};
+
+class AnimState {
+public:
+    const TCHAR* MeshName;
+    SkelNode* pSkeleton; // used in GetFrame, set in ApplyAnim
+    SkelNode* JointSkel; // offset from pSkeleton (by 1)
+    SkelNode* pMeshSkeleton; // set in costructor, from Mesh->SkelProto (AnimData->SkelProto)
+    array<Vector3> AnimVerts;
+    array<struct JointVert> JointVerts;
+    class AnimCommandList* pCommands; // CPP_98: undying used std::list*
+    bool IsAnimating; // is animating? bNeedsUpdate?
+    bool bNeedsJointWorldTransUpdate; // set in ApplyAnim
+    float DrawScale;
+    AnimEnviron AnimEnv;
+    array<Transform3> JointWorldTrans;
+    UMesh* Mesh;
+    bool bNeedsSkelPlacementUpdate;
+    float AnimTimeSeconds;
+
+    Transform3 GetRootTrans() const;
+};
+}; // DWI::
+
+typedef DWI::Placement3 FPlace;
 
 struct FLighting				// Lighting properties for a material.
 {

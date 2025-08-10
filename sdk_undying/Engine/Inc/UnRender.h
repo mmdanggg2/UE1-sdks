@@ -66,8 +66,7 @@ struct FSceneNode
 	FCoords			Coords;			// Transform coordinate system.
 	FCoords			Uncoords;		// Inverse coordinate system.
 	FSpanBuffer*	Span;			// Initial span buffer for the scene.
-	FBspDrawList*	Draw[3];		// Draw lists (portals, occluding, non-occluding).
-	DWORD unk;
+	FBspDrawList*	Draw[4];		// Draw lists (portals, occluding, non-occluding, something else).
 	FDynamicSprite* Sprite;			// Sprites to draw.
 	INT				X, Y;			// Frame size.
 	INT				XB, YB;			// Offset of top left active viewport.
@@ -90,6 +89,7 @@ struct FSceneNode
 	ENGINE_API BYTE* Screen( INT X, INT Y ) {return Viewport->ScreenPointer + (X+XB+(Y+YB)*Viewport->Stride)*Viewport->ColorBytes;}
 	ENGINE_API void ComputeRenderSize();
 	ENGINE_API void ComputeRenderCoords( FVector& Location, FRotator& Rotation );
+	ENGINE_API float ActorScreenFraction(AActor*);
 };
 
 /*------------------------------------------------------------------------------------
