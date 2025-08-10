@@ -17,7 +17,8 @@
 	virtual INT GetViewZone( INT iViewZone, const UModel* Model );
 	virtual bool IsZoneVisible( INT iZone );
 	virtual bool IsSurfVisible( const FBspNode* Node, INT iZone, const FBspSurf* Poly );
-	virtual bool IsActorVisible( const AActor* Actor );
+	virtual float ScryeFraction(class AActor const *);
+	virtual float ScryeOpacity(class AActor const *);
 
 /*-----------------------------------------------------------------------------
 	The End.
