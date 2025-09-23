@@ -34,7 +34,8 @@
 	UBOOL IsBasedOn( const AActor *Other ) const;
 	virtual FLOAT GetNetPriority( AActor* Sent, FLOAT Time, FLOAT Lag );
 	virtual FLOAT WorldLightRadius() const {return 25.f * ((INT)LightRadius+1);}
-	virtual UBOOL Tick( FLOAT DeltaTime, enum ELevelTick TickType );
+	enum ELevelTick : int;
+	virtual UBOOL Tick( FLOAT DeltaTime, ELevelTick TickType );
 	virtual void PostEditMove() {}
 	virtual void PreRaytrace() {}
 	virtual void PostRaytrace() {}

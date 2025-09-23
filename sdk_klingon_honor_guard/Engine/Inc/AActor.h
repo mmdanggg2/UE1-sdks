@@ -28,6 +28,7 @@
 	UBOOL IsInZone( const AZoneInfo* Other ) const;
 	UBOOL IsBasedOn( const AActor *Other ) const;
 	virtual FLOAT WorldLightRadius() const {return 25.0 * ((int)LightRadius+1);}
+	enum ELevelTick : int;
 	virtual UBOOL Tick( FLOAT DeltaTime, enum ELevelTick TickType );
 	virtual void PostEditMove() {}
 	virtual void PreRaytrace() {}

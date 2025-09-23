@@ -977,15 +977,6 @@ template< class T, class U > T* CastChecked( U* Src )
 	return (T*)Src;
 }
 
-// Construct an object of a particular class.
-template< class T > T* ConstructObject( UClass* Class, UObject* Outer=(UObject*)-1, FName Name=NAME_None, DWORD SetFlags=0 )
-{
-	check(Class->IsChildOf(T::StaticClass()));
-	if( Outer==(UObject*)-1 )
-		Outer = UObject::GetTransientPackage();
-	return (T*)UObject::StaticConstructObject( Class, Outer, Name, SetFlags );
-}
-
 // Load an object.
 template< class T > T* LoadObject( UObject* Outer, const TCHAR* Name, const TCHAR* Filename, DWORD LoadFlags, UPackageMap* Sandbox )
 {

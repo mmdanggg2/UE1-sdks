@@ -206,7 +206,7 @@ class ENGINE_API ULevel : public ULevelBase
 	virtual void UpdateTime( ALevelInfo* Info );
 	// !! PSX2 has a problem with the TCHAR typedef.
 	#if _MSC_VER
-	virtual void WelcomePlayer( UNetConnection* Connection, TCHAR* Optional=TEXT("") );
+	virtual void WelcomePlayer( UNetConnection* Connection, const TCHAR* Optional=TEXT("") );
 	#else
 	virtual void WelcomePlayer( UNetConnection* Connection, char* Optional = "" );
 	#endif

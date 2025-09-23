@@ -275,6 +275,10 @@ static_assert( TBits<32>::CeilLogTwo      == 5,        "Error in TBits<32> #Ceil
 #if __cplusplus >= 201703L || _MSVC_LANG >= 201402L
 #define USES_TRAWDATA 1
 
+#ifndef USES_SSE_INTRINSICS
+#define USES_SSE_INTRINSICS 0
+#endif
+
 template< typename T > struct TRawData
 {
 public:

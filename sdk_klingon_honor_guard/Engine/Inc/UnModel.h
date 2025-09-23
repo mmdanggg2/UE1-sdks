@@ -10,6 +10,8 @@
 	UModel.
 -----------------------------------------------------------------------------*/
 
+#include <forward_list>
+
 // Just lets TTransArray syntax continue to work with the pointers
 template <class T>
 class MagicPtr {
