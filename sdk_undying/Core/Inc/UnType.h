@@ -50,6 +50,8 @@ class CORE_API UProperty : public UField
 	virtual void ExportCpp( FOutputDevice& Out, UBOOL IsLocal, UBOOL IsParm ) const;
 	virtual void ExportCppItem( FOutputDevice& Out ) const=0;
 	virtual void SerializeItem( FArchive& Ar, void* Value ) const=0;
+	virtual void SerializeSaveGameItem(class FArchive&, void*) const=0;
+	virtual void LinkSaveGame(void*) const;
 	virtual UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	virtual void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const=0;
 	virtual const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, INT PortFlags ) const=0;
@@ -100,12 +102,8 @@ class CORE_API UByteProperty : public UProperty
 	UEnum* Enum;
 
 	// Constructors.
-	UByteProperty()
-	{}
-	UByteProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UEnum* InEnum=NULL )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	,	Enum( InEnum )
-	{}
+	UByteProperty();
+	UByteProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UEnum* InEnum = NULL);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -114,6 +112,7 @@ class CORE_API UByteProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -134,16 +133,14 @@ class CORE_API UIntProperty : public UProperty
 	DECLARE_CLASS(UIntProperty,UProperty,0,Core)
 
 	// Constructors.
-	UIntProperty()
-	{}
-	UIntProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UIntProperty();
+	UIntProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UProperty interface.
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -167,12 +164,8 @@ class CORE_API UBoolProperty : public UProperty
 	BITFIELD BitMask;
 
 	// Constructors.
-	UBoolProperty()
-	{}
-	UBoolProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	,	BitMask( 1 )
-	{}
+	UBoolProperty();
+	UBoolProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -181,6 +174,7 @@ class CORE_API UBoolProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -200,16 +194,14 @@ class CORE_API UFloatProperty : public UProperty
 	DECLARE_CLASS(UFloatProperty,UProperty,0,Core)
 
 	// Constructors.
-	UFloatProperty()
-	{}
-	UFloatProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UFloatProperty();
+	UFloatProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UProperty interface.
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -234,12 +226,8 @@ class CORE_API UObjectProperty : public UProperty
 	UObjectProperty* NextReference;
 
 	// Constructors.
-	UObjectProperty()
-	{}
-	UObjectProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UClass* InClass )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	,	PropertyClass( InClass )
-	{}
+	UObjectProperty();
+	UObjectProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UClass* InClass);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -248,6 +236,7 @@ class CORE_API UObjectProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -271,12 +260,8 @@ class CORE_API UClassProperty : public UObjectProperty
 	class UClass* MetaClass;
 
 	// Constructors.
-	UClassProperty()
-	{}
-	UClassProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UClass* InMetaClass )
-	:	UObjectProperty( EC_CppProperty, InOffset, InCategory, InFlags, UClass::StaticClass() )
-	,	MetaClass( InMetaClass )
-	{}
+	UClassProperty();
+	UClassProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UClass* InMetaClass);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -301,16 +286,14 @@ class CORE_API UNameProperty : public UProperty
 	DECLARE_CLASS(UNameProperty,UProperty,0,Core)
 
 	// Constructors.
-	UNameProperty()
-	{}
-	UNameProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UNameProperty();
+	UNameProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UProperty interface.
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
 	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, INT PortFlags ) const;
@@ -330,11 +313,8 @@ class CORE_API UStrProperty : public UProperty
 	DECLARE_CLASS(UStrProperty,UProperty,0,Core)
 
 	// Constructors.
-	UStrProperty()
-	{}
-	UStrProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UStrProperty();
+	UStrProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -343,6 +323,7 @@ class CORE_API UStrProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
 	const TCHAR* ImportText( const TCHAR* Buffer, BYTE* Data, INT PortFlags ) const;
@@ -366,11 +347,8 @@ class CORE_API UFixedArrayProperty : public UProperty
 	INT Count;
 
 	// Constructors.
-	UFixedArrayProperty()
-	{}
-	UFixedArrayProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UFixedArrayProperty();
+	UFixedArrayProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -379,6 +357,7 @@ class CORE_API UFixedArrayProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -405,11 +384,8 @@ class CORE_API UArrayProperty : public UProperty
 	UProperty* Inner;
 
 	// Constructors.
-	UArrayProperty()
-	{}
-	UArrayProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UArrayProperty();
+	UArrayProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -418,6 +394,7 @@ class CORE_API UArrayProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -445,11 +422,8 @@ class CORE_API UMapProperty : public UProperty
 	UProperty* Value;
 
 	// Constructors.
-	UMapProperty()
-	{}
-	UMapProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	{}
+	UMapProperty();
+	UMapProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -458,6 +432,7 @@ class CORE_API UMapProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;
@@ -483,12 +458,8 @@ class CORE_API UStructProperty : public UProperty
 	UStructProperty* NextStruct;
 
 	// Constructors.
-	UStructProperty()
-	{}
-	UStructProperty( ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UStruct* InStruct )
-	:	UProperty( EC_CppProperty, InOffset, InCategory, InFlags )
-	,	Struct( InStruct )
-	{}
+	UStructProperty();
+	UStructProperty(ECppProperty, INT InOffset, const TCHAR* InCategory, DWORD InFlags, UStruct* InStruct);
 
 	// UObject interface.
 	void Serialize( FArchive& Ar );
@@ -497,6 +468,7 @@ class CORE_API UStructProperty : public UProperty
 	void Link( FArchive& Ar, UProperty* Prev );
 	UBOOL Identical( const void* A, const void* B ) const;
 	void SerializeItem( FArchive& Ar, void* Value ) const;
+	void SerializeSaveGameItem(class FArchive&, void*) const;
 	UBOOL NetSerializeItem( FArchive& Ar, UPackageMap* Map, void* Data ) const;
 	void ExportCppItem( FOutputDevice& Out ) const;
 	void ExportTextItem( TCHAR* ValueStr, BYTE* PropertyValue, BYTE* DefaultValue, INT PortFlags ) const;

@@ -421,6 +421,7 @@ class CORE_API UClass : public UState
 	FGuid				ClassGuid;
 	UClass*				ClassWithin;
 	FName				ClassConfigName;
+	DWORD 				ClassCRC;
 	TArray<FRepRecord>	ClassReps;
 	TArray<UField*>		NetFields;
 	TArray<FDependency> Dependencies;
