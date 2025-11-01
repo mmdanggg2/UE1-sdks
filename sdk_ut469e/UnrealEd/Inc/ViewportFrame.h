@@ -207,6 +207,12 @@ class WVFToolBar : public WWindow, public WViewportWindowContainer
 
 		unguard;
 	}
+	void OnLeftButtonUp()
+	{
+		guard(WVFToolBar::OnLeftButtonUp);
+		SendMessageW(OwnerWindow->hWnd, WM_COMMAND, WM_SETCURRENTVIEWPORT, (LPARAM)0);
+		unguard;
+	}
 	// Sets the bOn variable in the various buttons
 	void UpdateButtons()
 	{
@@ -738,6 +744,15 @@ class WViewportFrame : public WWindow, public WViewportWindowContainer
 				UpdateWindow();
 				pViewport->Repaint(1);
 				break;
+
+			case WM_SETCURRENTVIEWPORT:
+			{
+				// Send a notification message to the editor frame.  This of course relies on the 
+				// window hierarchy not changing ... if it does, update this!
+				const HWND hwndEditorFrame = GetParent(GetParent(GetParent(*this)));
+				SendMessageW(hwndEditorFrame, WM_COMMAND, WM_SETCURRENTVIEWPORT, (LPARAM)pViewport);
+				break;
+			}
 
 			case WM_VIEWPORT_UPDATEWINDOWFRAME:
 				UpdateWindow();

@@ -36,10 +36,11 @@
 #define _INFOSINK_INCLUDED_
 
 #include "../Include/Common.h"
-#include <filesystem>
 #include <cmath>
 
 namespace glslang {
+
+std::string filesystem_absolute(const std::string& path);
 
 //
 // TPrefixType is used to centralize how info log messages start.
@@ -101,11 +102,11 @@ public:
         snprintf(locText, maxSize, ":%d", loc.line);
 
         if(loc.getFilename() == nullptr && shaderFileName != nullptr && absolute) {
-            append(std::filesystem::absolute(shaderFileName).string());
+            append(filesystem_absolute(shaderFileName));
         } else {
             std::string location = loc.getStringNameOrNum(false);
             if (absolute) {
-                append(std::filesystem::absolute(location).string());
+                append(filesystem_absolute(location));
             } else {
                 append(location);
             }

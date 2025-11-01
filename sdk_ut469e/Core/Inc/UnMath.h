@@ -31,6 +31,13 @@ inline	INT Unfix	(INT A)			{return A>>16;};
 #define SMALL_NUMBER		(1.e-8f)
 #define KINDA_SMALL_NUMBER	(1.e-4f)
 
+// World dimenstions.
+#define WORLD_MAX 131072.0f	/* Maximum size of the world */
+#define WORLD_MAX_AXIS 65535
+#define WORLD_MAX_AXIS2 65536
+#define WORLD_MAX_AXISF 65535.0f
+#define WORLD_MAX_AXISF2 65536.0f
+
 // Magic numbers for numerical precision.
 #define DELTA			(0.00001f)
 #define SLERP_DELTA		(0.0001f)
@@ -405,7 +412,7 @@ public:
 	FVector UnsafeNormal() const;
 	CORE_API_IMPORT FVector GridSnap( const FVector& Grid );
 	CORE_API_IMPORT FVector BoundToCube( FLOAT Radius );
-	void AddBounded( const FVector& V, FLOAT Radius=MAXSWORD );
+	void AddBounded( const FVector& V, FLOAT Radius=WORLD_MAX_AXISF );
 	FLOAT& Component( INT Index );
 	const FLOAT& Component( INT Index ) const;
 

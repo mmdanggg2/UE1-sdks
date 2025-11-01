@@ -504,7 +504,7 @@ class WBrowserActor : public WBrowser
 					htiTravel = NewItem;
 					SendMessage(pTreeView->hWnd, TVM_EXPAND, TVE_EXPAND, (LPARAM)NewItem);
 				}
-				PathTo += *FObjectName(Find);
+				PathTo += FObjectName(Find);
 				PathTo += ' ';
 			}
 			OuterMost = Find;
@@ -793,7 +793,7 @@ class WBrowserActor : public WBrowser
 				if (Ref.HasReferences())
 				{
 					GEditor->CurrentClass = Obj;
-					FString RefStr = *FObjectFullName(Res(0));
+					FString RefStr = FObjectFullName(Res(0));
 					for (INT i = 1; i < Min<INT>(4, Res.Num()); i++)
 					{
 						RefStr += FString::Printf(TEXT(", %ls"), *FObjectFullName(Res(i)));
@@ -831,7 +831,7 @@ class WBrowserActor : public WBrowser
 					if (dlg.DoModal(*FObjectName(Cls)))
 					{
 						Cls->Rename(*dlg.NewName);
-						GCodeFrame->RefreshScripts();
+						GCodeFrame->RefreshScripts(TRUE);
 					}
 					GBrowserMaster->RefreshAll();
 					RefreshActorList();
@@ -1415,7 +1415,7 @@ class WBrowserActor : public WBrowser
 		if (TestClass != Class) // Duplicate class with same name found, append package name!
 		{
 			DisplayName += TEXT(" (");
-			DisplayName += *FObjectName(Class->GetOuter());
+			DisplayName += FObjectName(Class->GetOuter());
 			DisplayName += ')';
 		}
 		

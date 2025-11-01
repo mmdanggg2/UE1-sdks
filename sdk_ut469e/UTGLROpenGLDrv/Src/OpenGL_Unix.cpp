@@ -101,8 +101,7 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 	guard(FOpenGLBase::MakeCurrent);
 
 	// Unreal Editor may run different OpenGL render devices, get actual current context.
-	if ( GIsEditor )
-		CurrentContext = SDL_GL_GetCurrentContext();
+	CurrentContext = SDL_GL_GetCurrentContext();
 
 	if ( !OnWindow )
 	{
@@ -119,14 +118,13 @@ bool FOpenGLBase::MakeCurrent( void* OnWindow)
 		if ( Context && (Context != CurrentContext || OnWindow != CurrentWindow) )
 		{
 			Window = OnWindow;
-			INT Result = SDL_GL_MakeCurrent((SDL_Window*)Window, (SDL_GLContext)Context);
-#if SDL3BUILD
-			if ( Result == 0 )
-#else
-			if ( Result != 0 )
-#endif
+			SDL_GL_MakeCurrent((SDL_Window*)Window, (SDL_GLContext)Context);
+
+			// SDL_GL_MakeCurrent behaviour across SDL releases is not consistent,
+			// ensure the call succeeded by actually checking if the contexts match.
+			if ( SDL_GL_GetCurrentContext() != (SDL_GLContext)Context )
 			{
-				debugf(TEXT("SDL_GL_MakeCurrent error %i - %ls"), Result, appFromAnsi(SDL_GetError()));
+				warnf(TEXT("SDL_GL_MakeCurrent error - %ls"), appFromAnsi(SDL_GetError()));
 				if ( CurrentContext || CurrentWindow )
 				{
 					CurrentWindow = nullptr;

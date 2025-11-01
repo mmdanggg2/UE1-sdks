@@ -374,7 +374,7 @@ function string GetRules()
 	
 	// Admin's Email
 	if( Level.Game.GameReplicationInfo.AdminEmail != "" )
-		ResultSet $= "\\AdminEMail\\"$Level.Game.GameReplicationInfo.AdminEmail;
+		ResultSet $= "\\AdminEMail\\"$StrReplace(Level.Game.GameReplicationInfo.AdminEmail, "\\", "");
 
   //utpg: mutators are only added on the first query (bug in GameInfo.uc)
   if(Level.Game.EnabledMutators != "" && (InStr(ResultSet,"mutators") == -1))
@@ -463,7 +463,7 @@ function string GetLevelProperty( string Prop )
 {
 	local string ResultSet;
 	
-	ResultSet = "\\"$Prop$"\\"$Level.GetPropertyText(Prop);
+	ResultSet = "\\"$Prop$"\\"$StrReplace(Level.GetPropertyText(Prop), "\\", "");
 	
 	return ResultSet;
 }
@@ -473,7 +473,7 @@ function string GetGameProperty( string Prop )
 {
 	local string ResultSet;
 
-	ResultSet = "\\"$Prop$"\\"$Level.Game.GetPropertyText(Prop);
+	ResultSet = "\\"$Prop$"\\"$StrReplace(Level.Game.GetPropertyText(Prop), "\\", "");
 	
 	return ResultSet;
 }
@@ -487,7 +487,7 @@ function string GetPlayerProperty( string Prop )
 
 	foreach AllActors(class'PlayerPawn', P) {
 		i++;
-		ResultSet $= "\\"$Prop$"_"$i$"\\"$P.GetPropertyText(Prop);
+		ResultSet $= "\\"$Prop$"_"$i$"\\"$StrReplace(P.GetPropertyText(Prop), "\\", "");
 	}
 	
 	return ResultSet;

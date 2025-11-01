@@ -129,6 +129,7 @@ public:
 	}
 };
 
+const INT ThreadStackSize = 64*1024;
 const INT RealBufferSize = 0x40000;
 
 class FCodecBWT : public FCodec
@@ -176,7 +177,7 @@ public:
 
 				Runnables[t] = new ::BWTRunnable();
 				Runnables[t]->Data = &Data[t];
-				RunThreads[t] = GThreadFactory->CreateThread(Runnables[t], FALSE, TRUE);
+				RunThreads[t] = GThreadFactory->CreateThread(Runnables[t], FALSE, TRUE, ThreadStackSize);
 				if (!RunThreads[t])
 				{
 					INT Error = appGetSystemErrorCode();
@@ -272,7 +273,7 @@ public:
 
 				Runnables[t] = new ::BWTRunnable();
 				Runnables[t]->Data = &Data[t];
-				RunThreads[t] = GThreadFactory->CreateThread(Runnables[t], FALSE, TRUE);
+				RunThreads[t] = GThreadFactory->CreateThread(Runnables[t], FALSE, TRUE, ThreadStackSize);
 				if (!RunThreads[t])
 				{
 					INT Error = appGetSystemErrorCode();
@@ -710,8 +711,11 @@ private:
 			GWarn->Logf(TEXT("stage %d: %lf secs"), i, EndTime );
 			if( i<CodecsNum-1 )
 			{
-				InData = OutData;
-				OutData.Empty();
+				ExchangeArray(InData, OutData);
+				if (i < CodecsNum - 2)
+					OutData.EmptyNoRealloc();
+				else
+					OutData.Empty();
 			}
 		}
 		GWarn->Logf(TEXT("Total: %f secs"), TotalTime );

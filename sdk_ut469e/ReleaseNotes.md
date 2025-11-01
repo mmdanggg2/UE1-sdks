@@ -13,6 +13,87 @@
 * [UT99.org - Unreal Tournament Community](https://ut99.org)
 * [OldUnreal](https://www.oldunreal.com)
 
+## Well-hidden features you might have missed
+
+1. **Networked movers now match local behavior.** (469e+)
+
+   Server owners can set the `Engine.GameEngine.UseNetMovingBrushTracker` option to `true` to ensure networked matches behave exactly like local games.
+
+   * AI-controlled actors (Bots, Monsters, and ScriptedPawns) will no longer ignore moving brushes.
+   * Splash damage can no longer penetrate moving brushes.
+   
+2. **We added a shader-based gamma correction mode to D3D9Drv.** (469e+)
+
+	This new mode can reliably apply gamma correction to the game, even when it is running in windowed/borderless mode. You can enable shader-based gamma correction by changing the UseShaderGamma option in the [D3D9Drv.D3D9RenderDevice] section of the game ini. If set to 0, D3D9Drv will use its old (and extremely unreliable) gamma correction method. If set to 1, D3D9Drv will use the new method in windowed mode and the old method in fullscreen mode. If set to 2, D3D9Drv will always use the new method.
+
+	You can also enable this mode from the Advanced Video Settings in Preferences.
+
+	Don't forget to enable FragmentProgram as well, or this feature won't work.
+	
+3. **Keep the realtime preview viewport option enabled after launching a map from the editor.** (469e+)
+
+	Just set the KeepRealtimePreviewOnPlay option in the [Options] section of UnrealEd.ini for that.
+	
+4. **Implemented a "ReloadConfig <x>" console command.** (469d+)
+
+	That allows you to reload the configuration file of the specified object or class. If you do not specify any object or class, reloadconfig will reload the configuration of all known objects and classes.
+
+	Use this command to apply changes from INI files without rebooting the game server.
+	
+5. **The "EDITACTOR" console command can now be run from the log window.** (469e+)
+
+	This means you can run it on a dedicated server too, as long as you start the server on Windows with the system-tray icon.
+
+	Very useful for inspecting actor properties directly on a dedicated server.
+	
+6. **The Windows client now supports borderless game windows.** (469e+)
+
+	You can switch to a borderless window either using the in-game menu, by setting WinDrv.WindowsClient.StartupBorderless to TRUE, or by executing the "SETSCREENMODE BORDERLESS" console command.
+	
+7. **We added a "TRYRENDERDEVICE" console command.** (469e+)
+
+	That allows you to switch to a different renderer without restarting the game. 
+
+	Good for comparing different renders.
+	
+8. **We added a "SPEC", "PLAY", "RED", "BLUE", "GREEN" and "GOLD" console commands.** (469e+)
+
+	You can now use the "SPEC" or "PLAY" console commands to reconnect to the server as a spectator or player respectively. In addition, you can use the "RED", "BLUE", "GREEN", or "GOLD" console commands to change to the respective teams
+
+9. **Added a "BACKTRACE" console command** (469e+)
+
+	That returns a dump of the current UnrealScript call stack.
+	
+10. **Added a "UTRACE" console command.** (469e+)
+
+	That turn the UnrealScript tracer (originally added by UTPG) on and off.
+	
+11. **Added an UnrealScript profiler** (469e+)
+
+	That outputs JSON-compatible profiling information in the game log. You can use the "UPROFILE" console command to to turn profiling on and off.
+	
+12. **Added a "RUNAWAYCOUNTER" console command** (469e+)
+
+	That returns the current value of the runaway counter.
+	
+13. **The "SOCKETS" console command now shows detailed traffic statistics for individual channels** (469e+)
+
+14. **We added a "DEVNETTRAFFICLOGS" console command** (469e+) 
+
+	That enables logging of replication traffic.
+	
+15. **Added clipboard paste support to the quick console.** (469a+)
+
+16. **Added mouse select + copy support to the console window.** (469c+)
+
+17. **Added text editing support for the in-game quick console.** (469d+)
+
+18. **Added a "UTRACK ObjectName PropertyName" console command** (469e+)
+
+	That can monitor changes to properties. 
+	
+	UTRACK only works when UTRACE is enabled.
+
 ## Unreal Tournament Version 469e Release Notes [ Release Candidates are now available! ]
 
 Version 469e is completely network compatible with all previous public releases of UT (down to 432).
@@ -46,10 +127,14 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * Fixed a bug that could make Unreal Editor crash after deleting actors ([#1069](../../issues/1069))
 * We fixed several bugs that crashed UCC while importing meshes on Linux and macOS ([#1507](../../issues/1507))
 * We fixed a bug that crashed Unreal Editor when tapping the delete key in an empty group browser window
+* We fixed several bugs that could crash Unreal Editor during path building operations
+* We fixed a bug that could make Unreal Editor crash after deleting sounds or music
 
 #### UnrealScript
 
 * We fixed a bug that could make the game crash due to a runaway loop in Botpack.Bot.TakeHit
+* We fixed a bug that could crash the game while reloading packages
+* We fixed a bug that made the game crash when you attempted to play a demo using the exec command line parameter ([#1774](../../issues/1774))
 
 #### Audio and 3D Rendering
 
@@ -58,7 +143,11 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * Fixed a bug that could make the game or editor crash when enabling bFilterByVolume on certain actors ([#699](../../issues/699))
 * Fixed a bug that made the game freeze and eventually crash when rendering an incorrectly linked portal ([#522](../../issues/522))
 * We fixed a bug that could make the game crash when rendering a mover with an origin point in an invalid zone ([#1670](../../issues/1670))
-* We fixed a bug that made OpenGLDrv crash on certain older GPU drivers
+* We fixed several bugs that made OpenGLDrv crash on Linux platforms or with certain older GPU drivers
+* We fixed several bugs that made SoftDrv crash at high screen resolutions
+* We fixed a bug that made ALAudio crash the game on startup on certain systems ([#1766](../../issues/1766))
+* We fixed a bug that made OpenGLDrv crash the game on Linux systems that use the SDL2-on-SDL3 compatibility layer ([#1838](../../issues/1838))
+* We fixed a bug that could make XOpenGLDrv crash the game due to an invalid memory allocation ([#1792](../../issues/1792))
 
 #### Networking and Netcode
 
@@ -73,6 +162,7 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 
 * Fixed a bug that could make the game crash when a bot tried to move around on a map with invalid paths ([#1097](../../issues/1097))
 * We fixed a bug that could crash the game in the APawn::TraverseFrom function
+* We fixed a bug that could crash the moving brush tracker when it processed invalid brushes
 
 #### Input and Windowing
 
@@ -91,6 +181,7 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * The IpDrv.UdpLink.ReceivedBinary() and IpDrv.TcpLink.ReceivedBinary() events should now reliably receive all incoming data
 * We fixed a thread synchronization problem in the hostname resolution code that could make address lookups fail unexpectedly
 * We fixed a resource leak in IpDrv. Over time, this resource leak could break the in-game server browser
+* We fixed an input handling issue in IpServer.UdpServerQuery that could make clients render invalid properties in the server browser
 
 #### Unreal Editor
 
@@ -153,6 +244,12 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * We fixed a bug that could make Unreal Editor destroy brushes whose points/planes collapsed while vertex editing
 * We fixed a bug that made it impossible to select music and sound objects in groups
 * We fixed a bug that broke bezier line segments after using the rotate function in the 2D shape editor
+* We fixed a bug that made the CTRL+ALT+RMB/LMB shortcuts copy unwanted surface flags ([#1487](../../issues/1487))
+* We fixed a bug that made it impossible to assign music objects to variables such as LevelInfo.Song ([#1763](../../issues/1763))
+* We fixed a bug that could break texture alignment after pressing one of the alignment buttons while multiple surfaces are selected ([#1760](../../issues/1760))
+* The texture browser menu should now update correctly after changing the texture display size
+* We fixed a bug that made Unreal Editor calculate the texture scale incorrectly when aligning certain surface textures ([#1777](../../issues/1777))
+* We fixed a bug that made Unreal Editor apply mover scales incorrectly while rendering ([#1785](../../issues/1785))
 
 #### UnrealScript
 
@@ -173,6 +270,10 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * We fixed a bug that made pressure zones and vacuum zones reset your FOV to the default value
 * Selecting partial lines across line breaks should now work as expected in DynamicTextAreas
 * We fixed an issue that made text in certain types of UWindow windows render with a small offset after selecting it
+* We fixed a bug that made the web admin freeze the server when there were too many maps or mutators on the server
+* We fixed a demo manager bug that made demos not record in certain cases
+* We fixed a demo manager bug that made it record the entry/intro level in certain cases
+* We fixed a bug that made demo manager stop playing/recording the current demo when you closed its main window
 
 #### Physics and Player Movement
 
@@ -197,6 +298,10 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * Fixed a texture corruption issue in SoftDrv ([clip](https://www.youtube.com/watch?v=0xmejgUDrEk))
 * We fixed a bug that made ALAudio unable to play certain mp3 files
 * We fixed a bug that could make OpenGLDrv render dynamic textures as plain black textures
+* All audio drivers can now play music from the Unreal Editor music browser even if their in-game music volume is set to 0 ([#1091](../../issues/1091))
+* Weapon muzzle flashes should now render at 30 FPS even if the game itself runs at a much higher frame rate. This change should fix the screen tearing that previously appeared with weapons such as the minigun ([#1741](../../issues/1741))
+* We fixed a bug that made weapons render incorrectly when using OpenGLDrv with certain versions of the Mesa drivers ([#1574](../../issues/1574))
+* We fixed a bug that made D3D9Drv render lines incorrectly when shader-based gamma correction is enabled
 
 #### Input and Windowing
 
@@ -206,10 +311,12 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * Fixed a bug that could get the game stuck in a window resizing loop on Linux and macOS ([#1158](../../issues/1158))
 * Fixed a bug that made it impossible to relaunch the game after changing video settings on Linux and macOS
 * We fixed a bug that made you switch weapons when ALT+TAB'ing in and out of the game ([#1701](../../issues/1701))
+* We fixed a bug that made you spawn looking up to the ceiling when using DirectInput ([#713](../../issues/713))
 
 #### Localization
 
 * Fixed a bug that made it impossible to localize the names of certain skins displayed in the in-game player setup menu
+* We fixed several bugs that made characters in various locales render incorrectly due to encoding issues in the localization files
 
 #### Game Client
 
@@ -330,6 +437,9 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * D3DDrv now appears as "Direct3D7" in the renderer selection menus
 * The editor will no longer warn you about broken movers or compatibility problems when it autosaves a map ([#1673](../../issues/1673))
 * We added VulkanDrv to the editor viewport dropdown menu
+* You can now import meshes from the mesh browser
+* Mover selections now persist through map saving and loading
+* Clicking on an editor viewport title bar will now activate that viewport ([#1769](../../issues/1769))
 
 #### UnrealScript
 
@@ -365,6 +475,7 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * The server browser will now remember and restore the heights of its sub-windows ([#1362](../../issues/1362))
 * The "RELOADCONFIG" command will now reload the configuration of all instances of the specified class
 * The FOV textbox in the in-game video settings menu now supports floating-point values ([#1704](../../issues/1704))
+* Added a "UTRACK ObjectName PropertyName" console command that can monitor changes to properties. UTRACK only works when UTRACE is enabled
 
 #### Physics and Player Movement
 
@@ -378,6 +489,8 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * Light actors that use the LT_Flicker LightType will now update approximately 30 times per second ([#1216](../../issues/1216))
 * We added a "TRYRENDERDEVICE" console command that allows you to switch to a different renderer without restarting the game ([#1319](../../issues/1319), [clip](https://www.youtube.com/watch?v=OAL933bs35Y))
 * We added a shader-based gamma correction mode to D3D9Drv. This new mode can reliably apply gamma correction to the game, even when it is running in windowed mode. You can enable shader-based gamma correction by changing the UseShaderGamma option in the [D3D9Drv.D3D9RenderDevice] section of the game ini. If set to 0, D3D9Drv will use its old (and extremely unreliable) gamma correction method. If set to 1, D3D9Drv will use the new method in windowed mode and the old method in fullscreen mode. If set to 2, D3D9Drv will always use the new method ([#491](../../issues/491))
+* Galaxy will no longer flood the game log with useless debug messages during music transitions ([#1340](../../issues/1340))
+* Galaxy now supports the 96 kHz and 192 kHz output rates ([#1651](../../issues/1651))
 
 #### Input and Windowing
 
@@ -386,7 +499,7 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * The game will now remove the window borders when you use windowed mode with a resolution equal to or larger than the screen resolution ([#1364](../../issues/1364))
 * The Linux and macOS clients will now use SDL2's fullscreen desktop window option when they open a fullscreen window with the same resolution as your desktop. As a result, you should now be able to use Cmd+Tab and media hotkeys on Mac systems
 * The Windows client now supports borderless game windows. You can switch to a borderless window either using the in-game menu, by setting WinDrv.WindowsClient.StartupBorderless to TRUE, or by executing the "SETSCREENMODE BORDERLESS" console command 
-* The editactor console command can now be run from the log window ([clip](https://www.youtube.com/watch?v=AvIPXvREiGo))
+* The "EDITACTOR" console command can now be run from the log window ([clip](https://www.youtube.com/watch?v=AvIPXvREiGo))
 
 #### Miscellaneous
 
@@ -396,6 +509,7 @@ Please note that we couldn't call this renderer MetalDrv because that name is st
 * The game will now decompress the entry map on-the-fly if it finds Entry.unr.uz but cannot find Entry.unr. This change will allow players who skip the map decompression step of the game installation to play the game ([#497](../../issues/497), [#1339](../../issues/1339), [#1505](../../issues/1505), [#1665](../../issues/1665))
 * The Windows executables will now log additional debugging information into the log file when the game/server/editor crashes
 * Cache purging is now disabled by default ([#1706](../../issues/1706))
+* The game will now always set the FirstRun ini setting regardless of how it was launched. Consequently, the ucc server commandlet will no longer perform one-time ini upgrades every time it launches
 
 ## Unreal Tournament Version 469d Release Notes
 

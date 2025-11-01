@@ -1127,7 +1127,7 @@ class WBrowserMesh : public WBrowser, public WViewportWindowContainer
 						if (WithGroup.Left(PackageWithDot.Len()).Caps() == PackageWithDot)
 							WithGroup = WithGroup.Mid(PackageWithDot.Len());
 						else
-							WithGroup = *FObjectName(*It);
+							WithGroup = FObjectName(*It);
 
 						FString Filename = OutDir * WithGroup + TEXT(".") + TEXT("psk");
 						Expected++;

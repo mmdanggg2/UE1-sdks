@@ -67,7 +67,6 @@ Revision history:
 #include "UWebNative.h"
 
 #include "udemoprivate.h"
-#include "udemoNative.h"
 
 #else
 
@@ -158,48 +157,45 @@ appPlatformPreInit();
 		Warn.Logf(TEXT("Could not chdir into the System folder!"));
 	
 #if __STATIC_LINK
-		// Clean lookups.
+	// Clean lookups.
 	for (INT k=0; k<ARRAY_COUNT(GNativeLookupFuncs); k++)
 	{
 		GNativeLookupFuncs[k] = NULL;
 	}
 
-	INT k = 0;
-	GNativeLookupFuncs[k++] = &FindCoreUObjectNative;
-	GNativeLookupFuncs[k++] = &FindCoreUCommandletNative;
-	GNativeLookupFuncs[k++] = &FindCoreURegistryNative;
+	INT Lookup = 0;
+	GNativeLookupFuncs[Lookup++] = &FindCoreUObjectNative;
+	GNativeLookupFuncs[Lookup++] = &FindCoreUCommandletNative;
+	GNativeLookupFuncs[Lookup++] = &FindCoreURegistryNative;
 
 	// Engine lookups.
-	GNativeLookupFuncs[k++] = &FindEngineAActorNative;
-	GNativeLookupFuncs[k++] = &FindEngineAPawnNative;
-	GNativeLookupFuncs[k++] = &FindEngineAPlayerPawnNative;
-	GNativeLookupFuncs[k++] = &FindEngineADecalNative;
-	GNativeLookupFuncs[k++] = &FindEngineAStatLogNative;
-	GNativeLookupFuncs[k++] = &FindEngineAStatLogFileNative;
-	GNativeLookupFuncs[k++] = &FindEngineAZoneInfoNative;
-	GNativeLookupFuncs[k++] = &FindEngineAWarpZoneInfoNative;
-	GNativeLookupFuncs[k++] = &FindEngineALevelInfoNative;
-	GNativeLookupFuncs[k++] = &FindEngineAGameInfoNative;
-	GNativeLookupFuncs[k++] = &FindEngineANavigationPointNative;
-	GNativeLookupFuncs[k++] = &FindEngineUCanvasNative;
-	GNativeLookupFuncs[k++] = &FindEngineUConsoleNative;
-	GNativeLookupFuncs[k++] = &FindEngineUScriptedTextureNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAActorNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAPawnNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAPlayerPawnNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineADecalNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAStatLogNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAStatLogFileNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAZoneInfoNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAWarpZoneInfoNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineALevelInfoNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineAGameInfoNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineANavigationPointNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineUCanvasNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineUConsoleNative;
+	GNativeLookupFuncs[Lookup++] = &FindEngineUScriptedTextureNative;
 
-	GNativeLookupFuncs[k++] = &FindIpDrvAInternetLinkNative;
-	GNativeLookupFuncs[k++] = &FindIpDrvAUdpLinkNative;
-	GNativeLookupFuncs[k++] = &FindIpDrvATcpLinkNative;
+	GNativeLookupFuncs[Lookup++] = &FindIpDrvAInternetLinkNative;
+	GNativeLookupFuncs[Lookup++] = &FindIpDrvAUdpLinkNative;
+	GNativeLookupFuncs[Lookup++] = &FindIpDrvATcpLinkNative;
 
 	// UWeb lookups.
-	GNativeLookupFuncs[k++] = &FindUWebUWebResponseNative;
-	GNativeLookupFuncs[k++] = &FindUWebUWebRequestNative;
+	GNativeLookupFuncs[Lookup++] = &FindUWebUWebResponseNative;
+	GNativeLookupFuncs[Lookup++] = &FindUWebUWebRequestNative;
 
-	// UDemo lookups.
-	GNativeLookupFuncs[k++] = &FindudemoUUZHandlerNative;
-	GNativeLookupFuncs[k++] = &FindudemoUudnativeNative;
-	GNativeLookupFuncs[k++] = &FindudemoUDemoInterfaceNative;
+	AUTO_INITIALIZE_REGISTRANTS_UDEMO;
 
 	// Editor lookups.
-	GNativeLookupFuncs[k++] = &FindEditorUBrushBuilderNative;
+	GNativeLookupFuncs[Lookup++] = &FindEditorUBrushBuilderNative;
 #endif
 
 	INT ErrorLevel = 0;
@@ -282,7 +278,7 @@ appPlatformPreInit();
 						FString HelpCmd = Default->HelpCmd;
 						if (HelpCmd == TEXT(""))
 						{
-							HelpCmd = *FObjectFullName(Default);
+							HelpCmd = FObjectFullName(Default);
 							HelpCmd = HelpCmd.Left(HelpCmd.InStr(TEXT("Commandlet")));
 						}
 						new(Items)FString( FString(TEXT("   ucc ")) + RightPad(HelpCmd,21) + TEXT(" ") + Default->HelpOneLiner );

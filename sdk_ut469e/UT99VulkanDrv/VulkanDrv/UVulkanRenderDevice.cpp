@@ -857,7 +857,8 @@ void UVulkanRenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo& Su
 
 	DWORD PolyFlags = ApplyPrecedenceRules(Surface.PolyFlags);
 
-	CachedTexture* tex = Textures->GetTexture(Surface.Texture, !!(PolyFlags & PF_Masked));
+	CachedTexture* tex = Textures->GetTexture(Surface.Texture, (PolyFlags & PF_Masked) || 
+		(Surface.Texture->Texture && (Surface.Texture->Texture->PolyFlags & PF_Masked)));
 	CachedTexture* lightmap = Textures->GetTexture(Surface.LightMap, false);
 	CachedTexture* macrotex = Textures->GetTexture(Surface.MacroTexture, false);
 	CachedTexture* detailtex = Textures->GetTexture(Surface.DetailTexture, false);
@@ -1172,7 +1173,7 @@ void UVulkanRenderDevice::DrawGouraudTriangles(const FSceneNode* Frame, const FT
 			::EnviroMap(Frame, Pts[i], UScale, VScale);
 	}
 
-	auto alloc = ReserveVertices(NumPts, (NumPts - 2) * 3);
+	auto alloc = ReserveVertices(NumPts, ((NumPts - 2)/3) * 3);
 	if (alloc.vptr)
 	{
 		SceneVertex* vptr = alloc.vptr;
@@ -1293,7 +1294,8 @@ void UVulkanRenderDevice::DrawTile(FSceneNode* Frame, FTextureInfo& Info, FLOAT 
 
 	PolyFlags = ApplyPrecedenceRules(PolyFlags);
 
-	CachedTexture* tex = Textures->GetTexture(&Info, !!(PolyFlags & PF_Masked));
+	CachedTexture* tex = Textures->GetTexture(&Info, (PolyFlags & PF_Masked) || 
+		(Info.Texture && (Info.Texture->PolyFlags & PF_Masked)));
 	float UMult = tex ? GetUMult(Info) : 0.0f;
 	float VMult = tex ? GetVMult(Info) : 0.0f;
 	float u0 = U * UMult;
@@ -1772,7 +1774,7 @@ void UVulkanRenderDevice::SetSceneNode(FSceneNode* Frame)
 	commands->setViewport(0, 1, &viewportdesc);
 
 	pushconstants.objectToProjection = mat4::frustum(-RProjZ, RProjZ, -Aspect * RProjZ, Aspect * RProjZ, 1.0f, 32768.0f, handedness::left, clipzrange::zero_positive_w);
-	pushconstants.nearClip = vec4(Frame->NearClip.X, Frame->NearClip.Y, Frame->NearClip.Z, Frame->NearClip.W);
+	pushconstants.nearClip = vec4(Frame->NearClip.X, Frame->NearClip.Y, Frame->NearClip.Z, -Frame->NearClip.W);
 
 	unguardSlow;
 }

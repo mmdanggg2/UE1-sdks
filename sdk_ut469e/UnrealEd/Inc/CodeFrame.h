@@ -1956,11 +1956,11 @@ class WCodeFrame : public WWindow
 
 		unguard;
 	}
-	void RefreshScripts(void)
+	void RefreshScripts(UBOOL Force = FALSE)
 	{
 		guard(WCodeFrame::RefreshScripts);
 
-		if (ClassesCount == m_Classes.Num() && m_Classes.Num() == FilesList.GetCount())
+		if (!Force && ClassesCount == m_Classes.Num() && m_Classes.Num() == FilesList.GetCount())
 			return;
 		ClassesCount = m_Classes.Num();
 		
@@ -2051,7 +2051,8 @@ class WCodeFrame : public WWindow
 
 		Edit.SetReadOnly( FALSE );
 
-		pCurrentClass = NewClass->Cls;
+		if (NewClass)
+			pCurrentClass = NewClass->Cls;
 
 		// Override whatever is in the class if we need to.
 		//

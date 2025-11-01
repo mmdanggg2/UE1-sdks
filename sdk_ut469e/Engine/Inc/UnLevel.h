@@ -167,7 +167,7 @@ class ENGINE_API ULevel : public ULevelBase
 	FCollisionHashBase* Hash;
 	class FMovingBrushTrackerBase* BrushTracker;
 	AActor* FirstDeleted;
-	struct FActorLink* NewlySpawned;
+	struct FActorLink* NewlySpawned{};
 	UBOOL InTick, Ticked;
 	INT iFirstDynamicActor, iFirstNetRelevantActor, NetTag;
 	BYTE ZoneDist[64][64];  

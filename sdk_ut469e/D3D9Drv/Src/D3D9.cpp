@@ -4161,6 +4161,10 @@ void UD3D9RenderDevice::Unlock(UBOOL Blit) {
 		hResult = m_d3dDevice->SetTexture(0, pRenderTargetTexture);
 		if (FAILED(hResult))
 			debugf(TEXT("UseShaderGamma SetTexture failed: %ls"), *ExplainResult(hResult));
+
+		// Reset current texture ids to hopefully unused values
+		TexInfo[0].CurrentCacheID = TEX_CACHE_ID_UNUSED;
+		TexInfo[0].pBind = NULL;
 		
 		// Use the gamma correction shader and set vertex format
 		SetStreamState(NULL, NULL, m_fpGammaShader);
@@ -8139,8 +8143,7 @@ bool UD3D9RenderDevice::InitializeFragmentPrograms(void) {
 	}
 
 	//Gamma shader
-	UTGLR_PS_CONDITIONAL_LOAD(m_fpGammaShader, g_fpGammaShader,
-		TEXT("Gamma shader"));
+	UTGLR_PS_CONDITIONAL_LOAD(m_fpGammaShader, g_fpGammaShader, TEXT("Gamma shader"));
 
 	#undef UTGLR_PS_CONDITIONAL_LOAD
 

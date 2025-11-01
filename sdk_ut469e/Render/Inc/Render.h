@@ -578,6 +578,7 @@ class RENDER_API URender : public URenderBase
 	{
 		FDynamicItem* Dynamics[2];
 	}* DynamicsCache;
+	static INT DynamicsCacheSize;
 
 	// stijn: Render uses this "PostDynamics" cache to remember the iNode numbers we used while rendering
 	// the current frame. At the end of the frame, Render uses the PostDynamics list to NULL out the head of

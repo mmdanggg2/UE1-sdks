@@ -7,7 +7,7 @@
 =============================================================================*/
 
 #define MAX_ActorsPerNode 3
-#define MAX_GeometrySize 32768
+#define MAX_GeometrySize WORLD_MAX_AXIS2
 #define MAX_NumLeafs 8 // Maximum detail level of leafs
 #define MAX_StoreDepth 4
 

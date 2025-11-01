@@ -834,7 +834,7 @@ class WDlgImportCompMips : public WDialog
 		SupportedFormats.AddItem( FSupportedFormat(TEXT("BC2/DXT3 (S3TC)")    , TEXT("BC2")) );
 		SupportedFormats.AddItem( FSupportedFormat(TEXT("BC3/DXT5 (S3TC)")    , TEXT("BC3")) );
 		SupportedFormats.AddItem( FSupportedFormat(TEXT("BC7/DXT5 (BPTC)")    , TEXT("BC7")) );
-		TextureName = *FObjectPathName(InContext);
+		TextureName = FObjectPathName(InContext);
 	}
 
 	// WDialog interface.
@@ -1423,11 +1423,11 @@ DECLARE_WINDOWCLASS(WBrowserTexture,WBrowser,Window)
 				if (Idx != INDEX_NONE)
 					ForcedTexList(Idx) = Tex;
 				GEditor->CurrentTexture = Tex;
-				FString RefStr = *FObjectFullName(Res(0));
+				FString RefStr = FObjectFullName(Res(0));
 				for (INT i = 1; i < Min<INT>(4, Res.Num()); i++)
 				{
 					RefStr += TEXT(", ");
-					RefStr += *FObjectFullName(Res(i));
+					RefStr += FObjectFullName(Res(i));
 					if (i == 3 && Res.Num() > 4)
 						RefStr += TEXT(", etc...");
 				}
@@ -1541,7 +1541,7 @@ DECLARE_WINDOWCLASS(WBrowserTexture,WBrowser,Window)
 
 		case IDMN_TB_REMIP_TEXTURE:
 		{
-			FString Texture = *FObjectPathName(GEditor->CurrentTexture);
+			FString Texture = FObjectPathName(GEditor->CurrentTexture);
 			FString Cmd = FString::Printf(TEXT("TEXTURE REMIP NAME=%ls"), *Texture);
 			GEditor->Exec( *Cmd );
 			FlushRepaintViewport();

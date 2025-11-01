@@ -8,7 +8,7 @@
 
 #ifdef USE_SSE2
 // Unfortunately this code is slower than what the compiler generates on its own ;(
-#undef USE_SSE2
+//#undef USE_SSE2
 #endif
 
 IMPLEMENT_CLASS(UD3D11RenderDevice);
@@ -2139,7 +2139,8 @@ void UD3D11RenderDevice::DrawComplexSurface(FSceneNode* Frame, FSurfaceInfo& Sur
 
 	ComplexSurfaceInfo info;
 	info.facet = &Facet;
-	info.tex = Textures->GetTexture(Surface.Texture, !!(PolyFlags & PF_Masked));
+	info.tex = Textures->GetTexture(Surface.Texture, (PolyFlags & PF_Masked) || 
+		(Surface.Texture->Texture && (Surface.Texture->Texture->PolyFlags & PF_Masked)));
 	info.lightmap = Textures->GetTexture(Surface.LightMap, false);
 	info.macrotex = Textures->GetTexture(Surface.MacroTexture, false);
 	info.detailtex = Textures->GetTexture(Surface.DetailTexture, false);
@@ -2553,9 +2554,20 @@ static void EnviroMap(const FSceneNode* Frame, FTransTexture& P, FLOAT UScale, F
 	P.V = (T.Y + 1.0f) * 0.5f * 256.0f * VScale;
 }
 
-void UD3D11RenderDevice::DrawGouraudTriangles(const FSceneNode* Frame, const FTextureInfo& Info, FTransTexture* const Pts, INT NumPts, DWORD PolyFlags, DWORD DataFlags, FSpanBuffer* Span)
+void UD3D11RenderDevice::DrawGouraudTriangles(const FSceneNode* Frame, const FTextureInfo& Info, FTransTexture* const InPts, INT NumPts, DWORD PolyFlags, DWORD DataFlags, FSpanBuffer* Span)
 {
 	guardSlow(UD3D11RenderDevice::DrawGouraudTriangles);
+
+	FTransTexture* Pts = InPts;
+	constexpr INT SceneLimit = (SceneIndexBufferSize/3)*3 + 2;
+	constexpr INT PtsMax = SceneVertexBufferSize < SceneLimit ? SceneVertexBufferSize : SceneLimit;
+	constexpr INT PtsLimit = (PtsMax/3)*3; // Ensure we not split triangle by partial draw!
+	while (NumPts > PtsLimit)
+	{
+		DrawGouraudTriangles(Frame, Info, Pts, PtsLimit, PolyFlags, DataFlags, Span);
+		NumPts -= PtsLimit;
+		Pts += PtsLimit;
+	}
 
 	if (NumPts < 3) return; // This can apparently happen!!
 
@@ -2588,7 +2600,7 @@ void UD3D11RenderDevice::DrawGouraudTriangles(const FSceneNode* Frame, const FTe
 	__m128 maskClearW = _mm_castsi128_ps(_mm_setr_epi32(0xffffffff, 0xffffffff, 0xffffffff, 0));
 #endif
 
-	auto alloc = ReserveVertices(NumPts, (NumPts - 2) * 3);
+	auto alloc = ReserveVertices(NumPts, ((NumPts - 2)/3)*3);
 	if (alloc.vptr)
 	{
 		SceneVertex* vptr = alloc.vptr;
@@ -2762,7 +2774,8 @@ void UD3D11RenderDevice::DrawTileList(const FSceneNode* Frame, const FTextureInf
 
 	PolyFlags = ApplyPrecedenceRules(PolyFlags);
 
-	CachedTexture* tex = Textures->GetTexture(const_cast<FTextureInfo*>(&Info), !!(PolyFlags & PF_Masked));
+	CachedTexture* tex = Textures->GetTexture(const_cast<FTextureInfo*>(&Info), (PolyFlags & PF_Masked) || 
+		(Info.Texture && (Info.Texture->PolyFlags & PF_Masked)));
 	float UMult = tex->UMult;
 	float VMult = tex->VMult;
 	int curclampmode = -1;
@@ -2938,7 +2951,8 @@ void UD3D11RenderDevice::DrawTile(FSceneNode* Frame, FTextureInfo& Info, FLOAT X
 
 	PolyFlags = ApplyPrecedenceRules(PolyFlags);
 
-	CachedTexture* tex = Textures->GetTexture(&Info, !!(PolyFlags & PF_Masked));
+	CachedTexture* tex = Textures->GetTexture(&Info, (PolyFlags & PF_Masked) || 
+		(Info.Texture && (Info.Texture->PolyFlags & PF_Masked)));
 	float UMult = tex->UMult;
 	float VMult = tex->VMult;
 	float u0 = U * UMult;
@@ -3418,7 +3432,7 @@ void UD3D11RenderDevice::SetSceneNode(FSceneNode* Frame)
 	Context->RSSetViewports(1, &SceneViewport);
 
 	SceneConstants.ObjectToProjection = mat4::frustum(-RProjZ, RProjZ, -Aspect * RProjZ, Aspect * RProjZ, 1.0f, 32768.0f, handedness::left, clipzrange::zero_positive_w);
-	SceneConstants.NearClip = vec4(Frame->NearClip.X, Frame->NearClip.Y, Frame->NearClip.Z, Frame->NearClip.W);
+	SceneConstants.NearClip = vec4(Frame->NearClip.X, Frame->NearClip.Y, Frame->NearClip.Z, -Frame->NearClip.W);
 
 	Context->UpdateSubresource(ScenePass.ConstantBuffer, 0, nullptr, &SceneConstants, 0, 0);
 

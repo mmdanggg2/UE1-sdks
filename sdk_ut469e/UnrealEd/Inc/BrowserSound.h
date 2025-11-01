@@ -458,17 +458,17 @@ class WBrowserSound : public WBrowser
 					if (A->IsIn(Pck))
 					{
 						UPackage* G = FindOuter<UPackage>(A);
-						const TCHAR* GroupDir = *FObjectName(A->GetOuter());
+						FString GroupDir = FObjectName(A->GetOuter());
 						FString OutName, Name = FObjectName(A);
 						if (G != Pck)
 						{
-							GFileManager->MakeDirectory(GroupDir, 0);
+							GFileManager->MakeDirectory(*GroupDir, 0);
 							OutName = GroupDir;
 							OutName += PATH_SEPARATOR;
 						}
-						OutName += *Name;
+						OutName += Name;
 						OutName += '.';
-						OutName += *FString(*A->FileType).Locs();
+						OutName += FString(*A->FileType).Locs();
 
 						debugf(TEXT("Exporting: %ls"), *OutName);
 						Exported += GEditor->Exec(*FString::Printf(TEXT("OBJ EXPORT TYPE=SOUND NAME=\"%ls\" FILE=\"%ls\""), *FObjectPathName(A), *OutName));

@@ -192,9 +192,9 @@ class WDlgScaleMap : public WDialogTool
 					Actor->Location.X *= X;
 					Actor->Location.Y *= Y;
 					Actor->Location.Z = (Actor->Location.Z + OffsetZ)*Z - OffsetZ;
-					if (Abs(Actor->Location.X) > 32767.0f || 
-						Abs(Actor->Location.Y) > 32767.0f ||
-						Abs(Actor->Location.Z) > 32767.0f)
+					if (Abs(Actor->Location.X) > WORLD_MAX_AXISF || 
+						Abs(Actor->Location.Y) > WORLD_MAX_AXISF ||
+						Abs(Actor->Location.Z) > WORLD_MAX_AXISF)
 						OutOfMap++;
 					if (bNotZeroOldRotation && !Actor->IsStaticBrush())
 						Actor->Rotation = (GMath.UnitCoords / OldRotation * FScale(FVector(X, Y, Z))).OrthoRotation();

@@ -344,7 +344,7 @@ class WBrowserMusic : public WBrowser
 				UMusic* M = GetMusic();
 				if (!M)
 					break;
-				FString Name = *FObjectName(M);
+				FString Name = FObjectName(M);
 				FString CurrentPackage = pComboPackage->GetString(pComboPackage->GetCurrent());
 				WDlgRename dlg( NULL, this );
 				if( dlg.DoModal( Name ) )
@@ -398,18 +398,18 @@ class WBrowserMusic : public WBrowser
 					if (A->IsIn(Pck))
 					{
 						UPackage* G = FindOuter<UPackage>(A);
-						const TCHAR* GroupDir = *FObjectName(A->GetOuter());
+						FString GroupDir = FObjectName(A->GetOuter());
 						FString OutName, Name = FObjectName(A);
 						A->Data.Load();
 						bool IsOgg = IsOggFormat(&A->Data(0), A->Data.Num());
 						const TCHAR* Ext = IsOgg ? TEXT(".ogg") : TEXT(".s3m");
 						if (G != Pck)
 						{
-							GFileManager->MakeDirectory(GroupDir, 0);
+							GFileManager->MakeDirectory(*GroupDir, 0);
 							OutName = GroupDir;
 							OutName += PATH_SEPARATOR;
 						}
-						OutName += *Name;
+						OutName += Name;
 						OutName += '.';
 						OutName += Ext;
 						A->Data.Unload();

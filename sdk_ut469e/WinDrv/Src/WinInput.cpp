@@ -164,15 +164,18 @@ void FWindowsMouseInputHandler::ProcessInputUpdates(UWindowsViewport* Viewport)
 	if (WheelMoved)
 	{
 		const LONG WheelDelta = NewWheelPos - OldWheelPos;
-		const UBOOL WheelDown = WheelDelta < 0;
-		Viewport->CauseInputEvent(IK_MouseW, IST_Axis, WheelDelta);
-		Viewport->CauseInputEvent(WheelDown ? IK_MouseWheelDown : IK_MouseWheelUp, IST_Press);
-		Viewport->CauseInputEvent(WheelDown ? IK_MouseWheelDown : IK_MouseWheelUp, IST_Release);
-
-		if (GIsEditor)
+		if (WheelDelta != 0)
 		{
-			PostMessageW(Viewport->ParentWindow, WM_VSCROLL, MAKEWPARAM((WheelDown ? SB_LINEDOWN : SB_LINEUP), 0), WM_MOUSEWHEEL); // Hack to make the scroll bar work in the Texture Browser.
-			Viewport->GetOuterUWindowsClient()->Engine->MouseDelta(Viewport, WheelDown ? MOUSE_WheelDown : MOUSE_WheelUp, 0, 0); // in ortho viewports, we use MouseDelta to zoom
+			const UBOOL WheelDown = WheelDelta < 0;
+			Viewport->CauseInputEvent(IK_MouseW, IST_Axis, WheelDelta);
+			Viewport->CauseInputEvent(WheelDown ? IK_MouseWheelDown : IK_MouseWheelUp, IST_Press);
+			Viewport->CauseInputEvent(WheelDown ? IK_MouseWheelDown : IK_MouseWheelUp, IST_Release);
+
+			if (GIsEditor)
+			{
+				PostMessageW(Viewport->ParentWindow, WM_VSCROLL, MAKEWPARAM((WheelDown ? SB_LINEDOWN : SB_LINEUP), 0), WM_MOUSEWHEEL); // Hack to make the scroll bar work in the Texture Browser.
+				Viewport->GetOuterUWindowsClient()->Engine->MouseDelta(Viewport, WheelDown ? MOUSE_WheelDown : MOUSE_WheelUp, 0, 0); // in ortho viewports, we use MouseDelta to zoom
+			}
 		}
 
 		if (RelativeMouseMotion)
@@ -1109,17 +1112,6 @@ LRESULT FWindowsRawInputHandler::ProcessInputEvent(UWindowsViewport* Viewport, U
 		return 0;
 	}
 
-	// Buggie: D3D9 render can post WM_INPUT event which lead to produce mouse scroll event.
-	// See https://github.com/OldUnreal/UnrealTournamentPatches/issues/1701
-	if (RawData->header.hDevice == NULL)
-	{
-		debugf(NAME_DevInput, TEXT("WM_INPUT ignored (hDevice == NULL): %x %x, %x %x %p %x, %x %x %x %x, %x %d %d %x"), wParam, lParam,
-			RawData->header.dwType, RawData->header.dwSize, RawData->header.hDevice, RawData->header.wParam,
-			RawData->data.mouse.usFlags, RawData->data.mouse.ulButtons, RawData->data.mouse.usButtonFlags, RawData->data.mouse.usButtonData,
-			RawData->data.mouse.ulRawButtons, RawData->data.mouse.lLastX, RawData->data.mouse.lLastY, RawData->data.mouse.ulExtraInformation);
-		return 0;
-	}
-
 	MouseButtons = RawData->data.mouse.ulButtons;
 	MouseButtonData = RawData->data.mouse.usButtonData;
 	NewCursorPos.x += RawData->data.mouse.lLastX;
@@ -1159,7 +1151,7 @@ LRESULT FWindowsRawInputHandler::ProcessInputEvent(UWindowsViewport* Viewport, U
 	}
 
 	// Process buffered mouse wheel status
-	if (MouseButtons & RI_MOUSE_WHEEL)
+	if ((MouseButtons & RI_MOUSE_WHEEL) && MouseButtonData != 0)
 	{
 		NewWheelPos = MouseButtonData;
 		WheelMoved = TRUE;

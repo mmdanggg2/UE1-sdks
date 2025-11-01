@@ -224,6 +224,12 @@ DWORD FillSingleSoundBuffer(OggVorbis_File *OggStream, char OggBufferData[SOUND_
 	return size;
 }
 
+static inline const ALCchar* alcGetStringSafe(ALCdevice *device, ALCenum param)
+{
+	const ALCchar* Ret = alcGetString(device, param);
+	return Ret ? Ret : "";
+}
+
 // Prints aligned HelpLine assuming 25 chars is enough.
 void PrintAlignedHelpLine(FOutputDevice& Ar, const TCHAR* Cmd, const TCHAR* Help = TEXT(""))
 {
@@ -398,7 +404,7 @@ public:
 		
 		while (!RunnableCancelled)
 		{
-			const char* DeviceName = alcGetString(NULL, DeviceSpecifier);
+			const char* DeviceName = alcGetStringSafe(NULL, DeviceSpecifier);
 
 			if (!PreviousDeviceName || strcmp(PreviousDeviceName, DeviceName) != 0)
 			{
@@ -745,9 +751,9 @@ UBOOL UALAudioSubsystem::Init()
 	try
 	{
 		if (alcIsExtensionPresent(NULL, "ALC_ENUMERATE_ALL_EXT") == AL_TRUE)
-			deviceList = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER); // No idea why it fails specifically here is using a library with invalid instruction set, but better catching it to show at least a proper error message.
+			deviceList = alcGetStringSafe(NULL, ALC_ALL_DEVICES_SPECIFIER); // No idea why it fails specifically here is using a library with invalid instruction set, but better catching it to show at least a proper error message.
 		else
-			deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+			deviceList = alcGetStringSafe(NULL, ALC_DEVICE_SPECIFIER);
 	}
 	catch (...)
 	{
@@ -850,8 +856,8 @@ UBOOL UALAudioSubsystem::Init()
 		return false;
 	}
 
-	AudioLog(NAME_Init, TEXT("ALAudio: We are using OpenAL device: %s (%s)"), appFromAnsi(alcGetString(Device, ALC_DEVICE_SPECIFIER)), appFromAnsi(alcGetString(Device, ALC_ALL_DEVICES_SPECIFIER)));	
-	AudioLog(NAME_Init, TEXT("ALAudio: Supported extensions: %s"), appFromAnsi(alcGetString(Device, ALC_EXTENSIONS)));
+	AudioLog(NAME_Init, TEXT("ALAudio: We are using OpenAL device: %s (%s)"), appFromAnsi(alcGetStringSafe(Device, ALC_DEVICE_SPECIFIER)), appFromAnsi(alcGetStringSafe(Device, ALC_ALL_DEVICES_SPECIFIER)));	
+	AudioLog(NAME_Init, TEXT("ALAudio: Supported extensions: %s"), appFromAnsi(alcGetStringSafe(Device, ALC_EXTENSIONS)));
 	AudioLog(NAME_Init, TEXT("ALAudio: OutputRateNum %i(%i Hz) SampleRateNum %i (%i Hz)"), OutputRateNum, OutputRate, SampleRateNum, SampleRate);
 
 	context_id = alcCreateContext(Device, AttrList);
@@ -3068,7 +3074,7 @@ void UALAudioSubsystem::Update( ELevelTick TickType, FLOAT DeltaTime, FPointRegi
 						GWarn->Logf(TEXT("ALAudio: reset (after reopen) error: %s"), appFromAnsi(alGetString(alcGetError(Device))));
 					else*/
 					{
-						AudioLog(NAME_Init, TEXT("ALAudio: We are using OpenAL device:  %s (%s)"), appFromAnsi(alcGetString(Device, ALC_DEVICE_SPECIFIER)), appFromAnsi(alcGetString(Device, ALC_ALL_DEVICES_SPECIFIER)));
+						AudioLog(NAME_Init, TEXT("ALAudio: We are using OpenAL device:  %s (%s)"), appFromAnsi(alcGetStringSafe(Device, ALC_DEVICE_SPECIFIER)), appFromAnsi(alcGetStringSafe(Device, ALC_ALL_DEVICES_SPECIFIER)));
 
 						// restart music if any
 						if (Viewport->Actor->Song)

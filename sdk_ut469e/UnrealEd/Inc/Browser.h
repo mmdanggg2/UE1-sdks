@@ -47,9 +47,9 @@ void Query( ULevel* Level, const TCHAR* Item, FString* pOutput, UPackage* InPkg 
 			// Add to result string.
 			if( i>0 ) Work += ',';
 			Work += Children ? 'C' : '_';
-			Work += *FObjectName(Results[i]->GetOuterUPackage());
+			Work += FObjectName(Results[i]->GetOuterUPackage());
 			Work += '.';
-			Work += *FObjectName(Results[i]);
+			Work += FObjectName(Results[i]);
 		}
 
 		*pOutput = Work;
@@ -72,9 +72,9 @@ void Query( ULevel* Level, const TCHAR* Item, FString* pOutput, UPackage* InPkg 
 		for( int i=0; i<NumResults; i++ )
 		{
 			if( i>0 ) Work += ',';
-			Work += *FObjectName(Results[i]->GetOuterUPackage());
+			Work += FObjectName(Results[i]->GetOuterUPackage());
 			Work += '.';
-			Work += *FObjectName(Results[i]);
+			Work += FObjectName(Results[i]);
 		}
 
 		*pOutput = Work;

@@ -389,11 +389,7 @@ else()
 endif()
 
 if(LINUX)
-  # Don't use -rpath (at least, not the silly one CMake forces).
-  set(CMAKE_SKIP_RPATH
-    ON
-      CACHE BOOL "Skip RPATH" FORCE
-  )
+  set(CMAKE_INSTALL_RPATH "$ORIGIN")
   add_compile_definitions(UNICODE=1)
   add_compile_definitions(_UNICODE=1)
   add_compile_definitions(_REENTRANT=1)
@@ -542,8 +538,9 @@ macro(oldunreal_set_package_properties _PACKAGE)
     # definition
     set_target_properties(
       ${_PACKAGE}
-      PROPERTIES COMPILE_DEFINITIONS "GPackage=LocalPackageName${_PACKAGE}"
-                 PREFIX "" LINK_FLAGS "-Wl,-rpath,$ORIGIN"
+      PROPERTIES
+	  COMPILE_DEFINITIONS "GPackage=LocalPackageName${_PACKAGE}"
+      PREFIX ""	  
     )
   endif()
 

@@ -82,7 +82,7 @@ command:
 
 After configuring the CMake build folder, you can build as follows:
 ```
-cmake --build . --config Release -j 8 --target install -- /p:CL_MPCount=8
+cmake --build . --config Release --parallel 8 --target install
 ```
 
 #### Linux
