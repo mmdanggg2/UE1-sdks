@@ -243,9 +243,9 @@ enum EPolyFlags
 	PF_Flat				= 0x00004000,	// Flat surface.
 	PF_LowShadowDetail	= 0x00008000,	// Low detaul shadows.
 	PF_NoMerge			= 0x00010000,	// Don't merge poly's nodes before lighting when rendering.
-	PF_CloudWavy		= 0x00020000,	// Polygon appears wavy like clouds.
+	PF_NoPass			= 0x00020000,	// Push player away from sloped surface.
 	PF_DirtyShadows		= 0x00040000,	// Dirty shadows.
-	PF_BrightCorners	= 0x00080000,	// Brighten convex corners.
+	PF_DarkCorners		= 0x00080000,	// Darken convex corners.
 	PF_SpecialLit		= 0x00100000,	// Only speciallit lights apply to this poly.
 	PF_Gouraud			= 0x00200000,	// Gouraud shaded.
 	PF_NoBoundRejection = 0x00200000,	// Disable bound rejection in OccludeBSP (reuse Gourard flag)
