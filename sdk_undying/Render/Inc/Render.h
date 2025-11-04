@@ -624,6 +624,8 @@ class RENDER_API URender : public URenderBase
 	void DrawStats( FSceneNode* Frame );
 	INT ClipDecal( FSceneNode* Frame, FDecal *Decal, UModel* Model, FBspSurf* Surf, FSavedPoly* Poly, FTransTexture**& DecalPoints, INT& NumPts, UBOOL DoFog );
 
+	void DrawActorSpriteParticles(FSceneNode* Frame, FDynamicSprite* Sprite);
+
 private:
 	void ShowStatInternal(FSceneNode* Frame, UBOOL Center, const TCHAR* Str);
 	FLOAT GetStatFontScale(UCanvas* Canvas);
