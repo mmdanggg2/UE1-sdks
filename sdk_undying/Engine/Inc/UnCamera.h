@@ -360,7 +360,6 @@ class ENGINE_API UClient : public UObject
 	// Variables.
 	UEngine*			Engine;
 	TArray<UViewport*>	Viewports;
-	void* unk;
 	INT					DrawCycles;
 
 	// Configurable.
@@ -371,6 +370,7 @@ class ENGINE_API UClient : public UObject
 	BITFIELD	Decals;
 	BITFIELD	NoDynamicLights;
 	BITFIELD    NoFractalAnim;
+	BITFIELD    ActorShadows;
 	INT			WindowedViewportX;
 	INT			WindowedViewportY;
 	INT			WindowedColorBits;
