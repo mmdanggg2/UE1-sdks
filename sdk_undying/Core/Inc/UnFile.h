@@ -379,18 +379,18 @@ CORE_API UBOOL ParseParam( const TCHAR* Stream, const TCHAR* Param );
 	Math functions.
 -----------------------------------------------------------------------------*/
 
-CORE_API DOUBLE appExp( DOUBLE Value );
-CORE_API DOUBLE appLoge( DOUBLE Value );
-CORE_API DOUBLE appFmod( DOUBLE A, DOUBLE B );
-CORE_API DOUBLE appSin( DOUBLE Value );
-CORE_API DOUBLE appCos( DOUBLE Value );
-CORE_API DOUBLE appAcos( DOUBLE Value );
+CORE_API FLOAT appExp( FLOAT Value );
+CORE_API FLOAT appLoge( FLOAT Value );
+CORE_API FLOAT appFmod( FLOAT A, FLOAT B );
+CORE_API FLOAT appSin( FLOAT Value );
+CORE_API FLOAT appCos( FLOAT Value );
+CORE_API FLOAT appAcos( FLOAT Value );
 CORE_API FLOAT appTan( FLOAT Value );
-CORE_API DOUBLE appAtan( DOUBLE Value );
-CORE_API DOUBLE appAtan2( DOUBLE Y, DOUBLE X );
-CORE_API DOUBLE appSqrt( DOUBLE Value );
-CORE_API DOUBLE appPow( DOUBLE A, DOUBLE B );
-CORE_API UBOOL appIsNan( DOUBLE Value );
+CORE_API FLOAT appAtan( FLOAT Value );
+CORE_API FLOAT appAtan2( FLOAT Y, FLOAT X );
+CORE_API FLOAT appSqrt( FLOAT Value );
+CORE_API FLOAT appPow( FLOAT A, FLOAT B );
+CORE_API UBOOL appIsNan( FLOAT Value );
 CORE_API INT appRand();
 CORE_API FLOAT appFrand();
 #if 1 //Fix added by Legend on 4/12/2000
