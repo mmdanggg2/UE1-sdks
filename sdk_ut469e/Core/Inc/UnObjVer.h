@@ -28,7 +28,7 @@
 #define ENGINE_REVISION TEXT("e")
 
 // Set to 1 for snapshots, 0 for releases
-#define ENGINE_BUILD_SNAPSHOT 1
+#define ENGINE_BUILD_SNAPSHOT 0
 
 // Base protocol version to negotiate in network play.
 #define ENGINE_NEGOTIATION_VERSION 400
