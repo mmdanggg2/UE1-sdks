@@ -1,0 +1,22 @@
+
+These are Headers / Libs for Nerf Arena Blast, to enabled native coding for this Game.
+They headers are based on the unrealpubsrc224v, UnrealGoldPubSrc, DeusExSDK1112fm,
+ut432pubsrc and RunePubSrc107. The Libs were created with dumpbin / lib.
+
+Contents:
+Core			Headers/Libs for Core.dll
+Engine			Headers/Libs for Engine.dll
+Window			Headers/Libs for Window.dll
+Editor			Headers/Libs for Editor.dll
+Render			Headers/Libs for Render.dll
+DirectX7		Headers/Libs needed for D3DDrv
+D3DDrv			D3DDrv out of ut432pubsrc with minor changes
+OpenGLDrv		OpenGLDrv based on ut436-opengldrv-src-090602
+SamplePackage		Sample for packages out of ut432pubsrc
+SampleNativePackage	Sample for Native packages out of ut432pubsrc
+Launch			Launcher for Nerf based on unrealpubsrc224v
+UCC			UCC out of UnrealGoldPubSrc
+
+05/2015 by Sebastian 'han' Kaufel
+
+Visit http://coding.hanfling.de/launch/
