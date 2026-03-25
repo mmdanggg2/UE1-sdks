@@ -481,6 +481,12 @@ public:
 	virtual void Register();
 	virtual void LanguageChange();
 
+	virtual void __cdecl debugs(int, char const*, ...);
+	virtual class FName GetStateName();
+	virtual void IncrementWarnings();
+	virtual void IncrementLogs();
+
+
 	// Systemwide functions.
 	static UObject* StaticFindObject( UClass* Class, UObject* InOuter, const TCHAR* Name, UBOOL ExactClass=0 );
 	static UObject* StaticFindObjectChecked( UClass* Class, UObject* InOuter, const TCHAR* Name, UBOOL ExactClass=0 );

@@ -55,6 +55,7 @@ class ENGINE_API URenderDevice : public USubsystem
 	BITFIELD		PrecacheOnFlip;
 	BITFIELD		SupportsLazyTextures;
 	BITFIELD		PrefersDeferredLoad;
+	BITFIELD		DetailTextures;
 	BITFIELD		Pad1[8];
 	DWORD			Pad0[8];
 
@@ -62,11 +63,12 @@ class ENGINE_API URenderDevice : public USubsystem
 	void StaticConstructor();
 
 	// URenderDevice low-level functions that drivers must implement.
+	virtual void Placeholder() {}
 	virtual UBOOL Init( UViewport* InViewport, INT NewX, INT NewY, INT NewColorBytes, UBOOL Fullscreen )=0;
 	virtual UBOOL SetRes( INT NewX, INT NewY, INT NewColorBytes, UBOOL Fullscreen )=0;
 	virtual void Exit()=0;
 	virtual void Flush()=0;
-	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar )=0;
+	virtual UBOOL Exec( const TCHAR* Cmd, FOutputDevice& Ar );
 	virtual void Lock( FPlane FlashScale, FPlane FlashFog, FPlane ScreenClear, DWORD RenderLockFlags, BYTE* HitData, INT* HitSize )=0;
 	virtual void Unlock( UBOOL Blit )=0;
 	virtual void DrawComplexSurface( FSceneNode* Frame, FSurfaceInfo& Surface, FSurfaceFacet& Facet )=0;

@@ -442,6 +442,11 @@ class RENDER_API URender : public URenderBase
 	void DrawBox( FSceneNode* Frame, FPlane Color, DWORD LineFlags, FVector Min, FVector Max );
 	void Precache( UViewport* Viewport );
 
+	void SetDistanceClipping(FSceneNode* Frame);
+	void SetDistanceFogging(FSceneNode* Frame);
+	class AZoneInfo* GetFogZone(class ULevel*, INT);
+	void DrawPaths(FSceneNode* Frame);
+
 	// Dynamics cache.
 	FVolActorLink* FirstVolumetric;
 
@@ -502,6 +507,8 @@ class RENDER_API URender : public URenderBase
 	UBOOL Extra6Stats;
 	UBOOL Extra7Stats;
 	UBOOL Extra8Stats;
+
+	INT Unk[2];
 
 	// OccludeBsp dynamics.
 	static struct FDynamicsCache

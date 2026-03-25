@@ -462,6 +462,11 @@ class ENGINE_API URenderBase : public USubsystem
 	virtual void DrawWorld( FSceneNode* Frame )=0;
 	virtual void DrawActor( FSceneNode* Frame, AActor* Actor )=0;
 
+	virtual void SetDistanceClipping( FSceneNode* Frame )=0;
+	virtual void SetDistanceFogging( FSceneNode* Frame )=0;
+	virtual class AZoneInfo* GetFogZone( class ULevel*, INT )=0;
+	virtual void DrawPaths( FSceneNode* Frame )=0;
+
 	// Other functions.
 	virtual UBOOL Project( FSceneNode* Frame, const FVector &V, FLOAT &ScreenX, FLOAT &ScreenY, FLOAT* Scale )=0;
 	virtual UBOOL Deproject( FSceneNode* Frame, INT ScreenX, INT ScreenY, FVector& V )=0;
