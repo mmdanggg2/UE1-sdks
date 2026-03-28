@@ -210,8 +210,9 @@ public:
 	SWORD		PanU;			// 2 U-Panning value.
 	SWORD		PanV;			// 2 V-Panning value.
 	ABrush*		Actor;			// 4 Brush actor owning this Bsp surface.
+	INT Unk[4];
 	//TArray<FDecal>	Decals;		// 12 Array decals on this surface
-	//TArray<INT>	Nodes;			// 12 Nodes which make up this surface
+	TArray<INT>	Nodes;			// 12 Nodes which make up this surface
 
 	// Functions.
 	ENGINE_API friend FArchive& operator<<( FArchive& Ar, FBspSurf& Surf );

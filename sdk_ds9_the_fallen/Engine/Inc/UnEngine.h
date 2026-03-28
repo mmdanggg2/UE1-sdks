@@ -29,6 +29,7 @@ class ENGINE_API UEngine : public USubsystem
 	INT						TickCycles, GameCycles, ClientCycles;
 	INT						CacheSizeMegs;
 	BITFIELD				UseSound;
+	INT Unk1[3];
 
 	// Constructors.
 	UEngine();

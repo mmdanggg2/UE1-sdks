@@ -83,6 +83,9 @@ struct ENGINE_API FSceneNode
 	FVector			ViewSides [4];	// 4 unit vectors indicating view frustrum extent lines.
 	FPlane			ViewPlanes[4];	// 4 planes indicating view frustrum extent planes.
 
+	FPlane Unk1;
+	FVector Unk2[4];
+
 	// Functions.
 	BYTE* Screen( INT X, INT Y ) {return Viewport->ScreenPointer + (X+XB+(Y+YB)*Viewport->Stride)*Viewport->ColorBytes;}
 	void ComputeRenderSize();

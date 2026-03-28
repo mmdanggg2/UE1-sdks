@@ -147,13 +147,18 @@ class ENGINE_API ULevel : public ULevelBase
 	DOUBLE                  TimeSeconds;
 	TMap<FString,FString>	TravelInfo;
 
+	INT Unk1;
+	INT Unk2;
+	TArray<INT> Unk3;
+	INT Unk4[119];
+
 	// Only valid in memory.
 	FCollisionHashBase* Hash;
 	class FMovingBrushTrackerBase* BrushTracker;
 	AActor* FirstDeleted;
 	struct FActorLink* NewlySpawned;
 	UBOOL InTick, Ticked;
-	INT iFirstDynamicActor, iFirstNetRelevantActor, NetTag;
+	INT iFirstDynamicActor, iFirstNetRelevantActor;// , NetTag;
 	BYTE ZoneDist[64][64];
 
 	// Temporary stats.

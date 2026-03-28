@@ -224,6 +224,9 @@ class ENGINE_API UMesh : public UPrimitive
 	TArray<UTexture*>				Textures;
 	TArray<FLOAT>					TextureLOD;
 
+	INT Unk1;
+	void* Unk2;
+
 	// Counts.
 	INT						FrameVerts;
 	INT						AnimFrames;
