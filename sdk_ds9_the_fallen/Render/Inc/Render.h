@@ -126,6 +126,9 @@ struct FDynamicSprite : public FDynamicItem
 	FLOAT			Persp;
 	FActorLink*		Volumetrics;
 	FVolActorLink*	LeafLights;
+	INT unk1[9];
+	void* unk2;
+	UCTVE_MultiMesh* multiMesh = nullptr;
 
 	// Functions.
 	FDynamicSprite( FSceneNode* Frame, INT iNode, AActor* Actor );

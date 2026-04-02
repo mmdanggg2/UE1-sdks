@@ -83,7 +83,15 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void PopHit( INT Count, UBOOL bForce )=0;
 	virtual void GetStats( TCHAR* Result )=0;
 	virtual void ReadPixels( FColor* Pixels )=0;
-	virtual void EndFlash() {}
+	virtual void EndFlash() {};
+
+	virtual void SetFogActive( INT, INT)=0;
+	virtual int SetFogDistance( FLOAT, class FColor)=0;
+	virtual int SetBlendRatio( FLOAT )=0;
+	virtual int SetDepthBias( FLOAT )=0;
+	enum EZBufferTest : int;
+	virtual int SetZBufferTest(enum EZBufferTest)=0;
+
 	virtual void DrawStats( FSceneNode* Frame ) {}
 	virtual void SetSceneNode( FSceneNode* Frame ) {}
 	virtual void PrecacheTexture( FTextureInfo& Info, DWORD PolyFlags ) {}
