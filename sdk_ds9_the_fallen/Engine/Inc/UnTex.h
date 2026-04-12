@@ -256,12 +256,34 @@ class ENGINE_API UBitmap : public UObject
 	virtual FMipmapBase* GetMip( INT i )=0;
 };
 
+enum ETexInfo : BYTE {
+	TT_Normal,                      // 0
+	TT_Ladder,                      // 1
+	TT_Lattice                      // 2
+};
+
+enum ETexMaterial : BYTE {
+	TM_Normal,                      // 0
+	TM_Water,                       // 1
+	TM_Metal,                       // 2
+	TM_Wood,                        // 3
+	TM_Snow,                        // 4
+	TM_Mud,                         // 5
+	TM_Rock,                        // 6
+	TM_Grass,                       // 7
+	TM_Gravel,                      // 8
+	TM_Carpet                       // 9
+};
+
 //
 // A complex material texture.
 //
 class ENGINE_API UTexture : public UBitmap
 {
 	DECLARE_CLASS(UTexture,UBitmap,CLASS_SafeReplace)
+
+	ETexInfo TexTag;
+	ETexMaterial TexMaterial;
 
 	// Subtextures.
 	UTexture*	BumpMap;			// Bump map to illuminate this texture with.
@@ -288,6 +310,8 @@ class ENGINE_API UTexture : public UBitmap
 	BITFIELD	bParametric:1;      // Texture data need not be stored.
 	BITFIELD	bRealtimeChanged:1; // Changed since last render.
 	BITFIELD    bHasComp:1;         // Compressed version included?
+	BITFIELD    bWasRunTimeReduced:1;
+	BITFIELD    bIsLoaded:1;
 	BYTE        LODSet GCC_PACK(4); // Level of detail type.
 
 	// Animation related.

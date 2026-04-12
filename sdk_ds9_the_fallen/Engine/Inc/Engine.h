@@ -59,6 +59,7 @@ ENGINE_API extern class FMemCache	GCache;
 #include "UnScrTex.h"			// Scripted textures.
 #include "UnRenderIterator.h"	// Enhanced Actor Render Interface
 #include "UnRenderIteratorSupport.h"
+#include "C3DEngine.h"
 
 /*-----------------------------------------------------------------------------
 	The End.

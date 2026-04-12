@@ -147,9 +147,8 @@ class ENGINE_API ULevel : public ULevelBase
 	DOUBLE                  TimeSeconds;
 	TMap<FString,FString>	TravelInfo;
 
-	INT Unk1;
-	INT Unk2;
-	TArray<INT> Unk3;
+	DOUBLE timeSeconds2;
+	TArray<AActor*> Unk3;
 	INT Unk4[119];
 
 	// Only valid in memory.

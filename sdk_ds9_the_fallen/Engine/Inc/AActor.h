@@ -125,6 +125,8 @@
 	void CheckNoiseHearing(FLOAT Loudness);
 	int TestCanSeeMe(APlayerPawn *Viewer);
 
+	void C3DGetActorAnimState();
+
 	// Natives.
 	DECLARE_FUNCTION(execPollSleep)
 	DECLARE_FUNCTION(execPollFinishAnim)

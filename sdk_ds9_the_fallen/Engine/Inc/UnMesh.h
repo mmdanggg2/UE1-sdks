@@ -225,7 +225,7 @@ class ENGINE_API UMesh : public UPrimitive
 	TArray<FLOAT>					TextureLOD;
 
 	INT Unk1;
-	void* Unk2;
+	struct C3DMESH* c3dMesh;
 
 	// Counts.
 	INT						FrameVerts;
