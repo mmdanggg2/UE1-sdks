@@ -391,6 +391,7 @@ struct FSurfaceInfo
 struct FSavedPoly
 {
 	FSavedPoly* Next;
+	INT			iNode;
 	void*       User;
 	INT         NumPts;
 	FTransform* Pts[ZEROARRAY];
