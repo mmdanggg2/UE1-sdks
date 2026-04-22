@@ -5651,7 +5651,15 @@ class ENGINE_API UC3DMESHSTATE : public UObject
 public:
     DECLARE_CLASS(UC3DMESHSTATE,UObject,0)
     NO_DEFAULT_CONSTRUCTOR(UC3DMESHSTATE)
-    INT unk[106];
+    INT unk1[83];
+    INT childStateCount;
+    INT childStateMax;
+    INT childStateMax2;
+    struct C3DMeshStateThing* childStateContainerPtr;
+    INT unk3[14];
+    DOUBLE stateTime;
+    INT unk4[3];
+    AActor* parent;
 };
 
 #endif
