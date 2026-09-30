@@ -11,11 +11,9 @@ class ENGINE_API URenderIterator : public UObject
     INT MaxItems;
     INT Index;
     APlayerPawn* Observer;
-    FSceneNode* Frame;
 
 	// URenderIterator interface
-	virtual void Init( FSceneNode* Camera );	//override to initialize subclass data (call Super required)
-	virtual void UnInit();						//must be called before Camera goes out of scope.
+	virtual void Init( APlayerPawn* Camera );	//override to initialize subclass data (call Super required)
 	virtual void First();
 	virtual void Next();
 	virtual bool IsDone();						//override to adjust iteration termination criteria (call Super recommended)

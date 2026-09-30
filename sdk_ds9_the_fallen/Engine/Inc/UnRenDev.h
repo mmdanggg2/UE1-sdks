@@ -82,7 +82,7 @@ class ENGINE_API URenderDevice : public USubsystem
 	virtual void PushHit( const BYTE* Data, INT Count )=0;
 	virtual void PopHit( INT Count, UBOOL bForce )=0;
 	virtual void GetStats( TCHAR* Result )=0;
-	virtual void ReadPixels( FColor* Pixels )=0;
+	virtual void ReadPixels( FColor* Pixels, INT ColorBits )=0; // ColorBits: UViewport::DumpScreen passes 16 or 32.
 	virtual void EndFlash() {};
 
 	virtual void SetFogActive( INT, INT)=0;
